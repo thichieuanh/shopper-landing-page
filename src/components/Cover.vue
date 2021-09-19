@@ -40,12 +40,8 @@
 </template>
 
 <script>
-// import Cover from '../components/Cover';
-
 export default {
-  name: 'Home',
-
-  components: {},
+  name: 'Cover',
 
   data: () => ({
     coverTitles: ['Women', 'Men', 'Kids'],

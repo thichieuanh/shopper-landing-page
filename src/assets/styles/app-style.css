@@ -1,0 +1,36 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+address,
+blockquote,
+pre,
+div,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+th,
+td,
+form,
+fieldset,
+input,
+textarea {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  --main-font: 'Jost', sans-serif;
+  font-family: var(--main-font) !important;
+}
+
+.v-application {
+  font-family: var(--main-font) !important;
+  color: black;
+  font-size: 14px;
+}
