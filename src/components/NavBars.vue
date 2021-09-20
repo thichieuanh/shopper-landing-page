@@ -145,6 +145,7 @@
           </v-toolbar>
         </div>
 
+        <!-- FUNCTIONAL ICONS -->
         <div>
           <v-btn
             v-for="(icon, functionalIconsIdx) in functionalIcons"

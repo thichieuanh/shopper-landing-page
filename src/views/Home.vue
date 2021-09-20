@@ -1,18 +1,20 @@
 <template>
   <v-main>
     <cover></cover>
-    <best-picks class="pt-12"></best-picks>
+    <best-picks class="py-16"></best-picks>
+    <top-sellers class="py-16"></top-sellers>
   </v-main>
 </template>
 
 <script>
 import Cover from '@/components/HomePage/Cover';
-import BestPicks from '../components/HomePage/BestPicks.vue';
+import BestPicks from '@/components/HomePage/BestPicks.vue';
+import TopSellers from '@/components/HomePage/TopSellers.vue';
 
 export default {
   name: 'Home',
 
-  components: { Cover, BestPicks },
+  components: { Cover, BestPicks, TopSellers },
 
   data: () => ({}),
 };
