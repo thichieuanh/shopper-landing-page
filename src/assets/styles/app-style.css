@@ -49,6 +49,6 @@ a {
 }
 
 :root {
-  --animate-delay: 0.06s;
-  --animate-duration: 0.2s;
+  --animate-delay: 0.08s;
+  --animate-duration: 0.3s;
 }

@@ -1,7 +1,15 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card tile flat class="mx-auto" max-width="344">
-      <v-img :src="hover ? imgUrl : imgOnHoverUrl" aspect-ratio="0.85">
+      <div class="image-wrapper">
+        <v-img :src="imgUrl" aspect-ratio="0.85"></v-img>
+
+        <v-img
+          :src="imgOnHoverUrl"
+          aspect-ratio="0.85"
+          class="image-hover"
+        ></v-img>
+
         <div class="product-button-group d-flex justify-center ma-0">
           <div
             v-for="(icon, functionalIconsIdx) in functionalIcons"
@@ -21,7 +29,8 @@
             />
           </div>
         </div>
-      </v-img>
+      </div>
+
       <v-card-subtitle class="pa-0 mt-4 mb-0">
         <a href="#" class="grey--text text--darken-2">{{ category }}</a>
       </v-card-subtitle>
@@ -94,5 +103,22 @@ export default {
     background: #ff8a80;
     color: white;
   }
+}
+
+.image-wrapper {
+  position: relative;
+}
+.image-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.image-hover:hover {
+  opacity: 1;
 }
 </style>
