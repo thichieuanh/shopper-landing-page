@@ -1,6 +1,5 @@
 function getImg(idx) {
   const path = `@/assets/img/products/product${idx}.jpeg'`
-  console.log('path', path);
   return path;
 }
 getImg(2);
