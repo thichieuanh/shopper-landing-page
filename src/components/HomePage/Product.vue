@@ -3,32 +3,26 @@
     <v-card tile flat class="mx-auto" max-width="344">
       <div class="image-wrapper">
         <v-img :src="imgUrl" aspect-ratio="0.85"></v-img>
-
-        <v-img
-          :src="imgOnHoverUrl"
-          aspect-ratio="0.85"
-          class="image-hover"
+        <v-img :src="imgOnHoverUrl" aspect-ratio="0.85" class="image-hover">
+          <div class="product-button-group d-flex justify-center ma-0">
+            <div
+              v-for="(icon, functionalIconsIdx) in functionalIcons"
+              :key="functionalIconsIdx"
+              :class="
+                'product-button d-flex justify-center align-center mx-1' +
+                (hover
+                  ? ' animate__animated animate__fadeInUp animate__faster' +
+                    ` animate__delay-${functionalIconsIdx}s`
+                  : ' animate__animated animate__fadeOutDown animate__faster' +
+                    ` animate__delay-${functionalIconsIdx}s`)
+              "
+            >
+              <font-awesome-icon
+                :icon="icon.spec"
+                :key="'icon' + functionalIconsIdx"
+              />
+            </div></div
         ></v-img>
-
-        <div class="product-button-group d-flex justify-center ma-0">
-          <div
-            v-for="(icon, functionalIconsIdx) in functionalIcons"
-            :key="functionalIconsIdx"
-            :class="
-              'product-button d-flex justify-center align-center mx-1' +
-              (hover
-                ? ' animate__animated animate__fadeInUp animate__faster' +
-                  ` animate__delay-${functionalIconsIdx}s`
-                : ' animate__animated animate__fadeOutDown animate__faster' +
-                  ` animate__delay-${functionalIconsIdx}s`)
-            "
-          >
-            <font-awesome-icon
-              :icon="icon.spec"
-              :key="'icon' + functionalIconsIdx"
-            />
-          </div>
-        </div>
       </div>
 
       <v-card-subtitle class="pa-0 mt-4 mb-0">
