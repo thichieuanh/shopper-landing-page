@@ -1,46 +1,47 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card tile flat class="mx-auto" max-width="344">
-      <v-img
-        src="@/assets/img/products/productFirst/product1.jpeg"
-        aspect-ratio="0.85"
-      >
-        <transition name="slide-fade">
+      <v-img :src="hover ? imgUrl : imgOnHoverUrl" aspect-ratio="0.85">
+        <div class="product-button-group d-flex justify-center ma-0">
           <div
-            class="product-button-group d-flex justify-center ma-0"
-            v-if="hover"
+            v-for="(icon, functionalIconsIdx) in functionalIcons"
+            :key="functionalIconsIdx"
+            :class="
+              'product-button d-flex justify-center align-center mx-1' +
+              (hover
+                ? ' animate__animated animate__fadeInUp animate__faster' +
+                  ` animate__delay-${functionalIconsIdx}s`
+                : ' animate__animated animate__fadeOutDown animate__faster' +
+                  ` animate__delay-${functionalIconsIdx}s`)
+            "
           >
-            <div
-              v-for="(icon, functionalIconsIdx) in functionalIcons"
-              :key="functionalIconsIdx"
-              class="product-button d-flex justify-center align-center mx-1"
-            >
-              <font-awesome-icon
-                :icon="icon.spec"
-                :key="'icon' + functionalIconsIdx"
-              />
-            </div>
+            <font-awesome-icon
+              :icon="icon.spec"
+              :key="'icon' + functionalIconsIdx"
+            />
           </div>
-        </transition>
+        </div>
       </v-img>
-
       <v-card-subtitle class="pa-0 mt-4 mb-0">
-        <a href="#" class="grey--text text--darken-2">Shoes</a>
+        <a href="#" class="grey--text text--darken-2">{{ category }}</a>
       </v-card-subtitle>
       <v-card-title class="pa-0 mt-1 mb-0">
-        <a href="#">Leather mid-heel Sandals</a>
+        <a href="#" style="font-size: 1.2rem; word-break: break-word">
+          {{ productName }}
+        </a>
       </v-card-title>
       <v-card-subtitle
         class="pa-0 mt-1 mb-0 font-weight-medium"
         style="font-size: 1.2rem"
       >
-        $129.00
+        {{ price }}
       </v-card-subtitle>
     </v-card>
   </v-hover>
 </template>
 
 <script>
+import 'animate.css';
 export default {
   data: () => ({
     functionalIcons: [
@@ -71,6 +72,7 @@ export default {
       },
     ],
   }),
+  props: ['imgUrl', 'imgOnHoverUrl', 'productName', 'category', 'price'],
 };
 </script>
 
@@ -78,7 +80,7 @@ export default {
 .product-button-group {
   width: 100%;
   position: absolute;
-  bottom: 1em;
+  bottom: 0.5em;
 }
 
 .product-button {
@@ -86,23 +88,11 @@ export default {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
+  cursor: pointer;
 
   &:hover {
     background: #ff8a80;
     color: white;
   }
-}
-
-/* Enter and leave animations can use different */
-/* durations and timing functions.              */
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: transform 0.3s linear;
-}
-
-.slide-fade-enter,
-.slide-fade-leave-to {
-  transform: translatey(50%);
-  opacity: 0;
 }
 </style>

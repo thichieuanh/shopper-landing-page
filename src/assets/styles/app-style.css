@@ -47,3 +47,8 @@ a {
   text-decoration: none;
   color: black !important;
 }
+
+:root {
+  --animate-delay: 0.06s;
+  --animate-duration: 0.2s;
+}

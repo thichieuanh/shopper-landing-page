@@ -87,7 +87,6 @@ export default {
 
   methods: {
     textColor(idx) {
-      console.log('test');
       return idx === 1 || idx === 3 ? 'white--text' : 'black--text';
     },
   },

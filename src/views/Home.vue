@@ -2,7 +2,7 @@
   <v-main>
     <cover></cover>
     <best-picks class="py-16"></best-picks>
-    <top-sellers class="py-16"></top-sellers>
+    <top-sellers class="py-16 pa-0"></top-sellers>
   </v-main>
 </template>
 
@@ -21,31 +21,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-card {
-  transition: opacity 0.4s ease-in-out;
-}
-
-.v-card:not(.on-hover) {
-  opacity: 0.8;
-}
-
-.row {
-  margin: 0;
-}
-
-.shop-buttons-group {
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  margin: auto;
-}
-
-.shop-button > .shop-icon {
-  transition: transform 0.3s ease-out;
-}
-
-.shop-button:hover .shop-icon {
-  transform: translatex(0.2em);
-}
 </style>
