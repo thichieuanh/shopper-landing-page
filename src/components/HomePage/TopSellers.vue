@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid id="top-sellers">
+  <v-container fluid id="top-sellers" class="py-16 pa-0">
     <!-- HEADING -->
     <v-row class="flex-column align-center justify-center">
       <h2 class="mb-4">Top month Sellers</h2>

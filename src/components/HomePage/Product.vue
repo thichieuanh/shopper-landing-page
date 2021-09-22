@@ -74,7 +74,7 @@ export default {
     price: String,
     discountedPrice: String,
     isNew: Boolean,
-    isSale: Function,
+    isSale: Boolean,
     badgeText: String,
   },
 };

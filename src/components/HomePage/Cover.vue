@@ -27,11 +27,7 @@
                         width="200"
                       >
                         Shop {{ coverTitles[n - 1] }}
-                        <v-slide-y-transition>
-                          <v-icon class="shop-icon ml-5"
-                            >mdi-arrow-right</v-icon
-                          >
-                        </v-slide-y-transition>
+                        <v-icon class="shop-icon ml-5">mdi-arrow-right</v-icon>
                       </v-btn>
                     </v-card-actions>
                   </v-row>

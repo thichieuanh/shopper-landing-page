@@ -105,7 +105,7 @@
 
     <section class="navbar-breadcrumbs">
       <v-toolbar flat class="px-15" height="100">
-        <span class="brand">Shopper.</span>
+        <span class="brand">Pineapple.</span>
         <div class="main-breadcrumbs">
           <v-toolbar dense flat>
             <v-toolbar-items

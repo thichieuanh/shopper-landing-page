@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid class="py-16">
     <!-- HEADING -->
     <v-row class="flex-column align-center justify-center">
       <h6 class="grey--text mb-3">NEW COLLECTION</h6>
