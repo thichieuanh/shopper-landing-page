@@ -10,7 +10,12 @@
       <v-tab v-for="item in items" :key="item">
         {{ item }}
       </v-tab>
-      <v-tab-item v-for="n in 3" :key="n" class="my-16">
+      <v-tab-item
+        v-for="n in 3"
+        :key="n"
+        class="my-16"
+        transition="fade-transition"
+      >
         <v-container fluid class="pa-0">
           <v-row>
             <v-col
