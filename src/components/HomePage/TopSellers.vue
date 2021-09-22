@@ -10,7 +10,7 @@
       <v-tab v-for="item in items" :key="item">
         {{ item }}
       </v-tab>
-      <v-tab-item v-for="n in 3" :key="n" class="mt-16">
+      <v-tab-item v-for="n in 3" :key="n" class="my-16">
         <v-container fluid class="pa-0">
           <v-row>
             <v-col
@@ -18,7 +18,7 @@
               :key="index"
               cols="12"
               md="3"
-              class="px-4"
+              class="px-4 py-10"
             >
               <product
                 :imgUrl="womenProducts[index].img"
@@ -26,12 +26,28 @@
                 :category="womenProducts[index].category"
                 :productName="womenProducts[index].name"
                 :price="womenProducts[index].price"
+                :discountedPrice="womenProducts[index].discountedPrice"
+                :isNew="womenProducts[index].isNew"
+                :isSale="isSale(womenProducts, index)"
+                :badgeText="
+                  womenProducts[index].isNew
+                    ? 'NEW'
+                    : isSale(womenProducts, index)
+                    ? 'SALE'
+                    : ''
+                "
               ></product>
             </v-col>
           </v-row>
         </v-container>
       </v-tab-item>
     </v-tabs>
+
+    <!-- DISCOVER MORE -->
+    <div class="text-center underline-wrapper mt-16">
+      <a class="link-underline" href="#!">Discover more</a>
+      <div class="line"></div>
+    </div>
   </v-container>
 </template>
 
@@ -52,6 +68,15 @@ export default {
 
   computed: {
     ...mapState(['womenProducts']),
+  },
+
+  methods: {
+    isSale(arrray, idx) {
+      if (arrray[idx].discountedPrice) return true;
+    },
+    isNew(arrray, idx) {
+      if (arrray[idx].isNew) return true;
+    },
   },
 };
 </script>
@@ -87,5 +112,32 @@ export default {
   position: absolute;
   top: 1.2rem;
   right: 1.2rem;
+}
+
+.underline-wrapper {
+  position: relative;
+  width: 25%;
+  text-align: center;
+  margin: auto;
+
+  .link-underline {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .line {
+    position: absolute;
+    top: calc(100% + 5px);
+    height: 1px;
+    width: 100%;
+    background: black;
+    margin: 0 auto;
+    transition: all 0.15s cubic-bezier(0.29, 0.18, 0.26, 0.83);
+  }
+
+  &:hover > .line {
+    right: 0;
+    width: 0%;
+  }
 }
 </style>

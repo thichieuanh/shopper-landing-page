@@ -14,6 +14,7 @@ export default [
     name: 'Leather mid-heel Sandals',
     price: '$129.00',
     discountedPrice: null,
+    isNew: true
   },
   {
     img: require('@/assets/img/products/product2a.jpeg'),
@@ -22,6 +23,7 @@ export default [
     name: 'Cotton floral print Dress',
     price: '$40.00',
     discountedPrice: null,
+    isNew: false
   },
   {
     img: require('@/assets/img/products/product3a.jpeg'),
@@ -30,6 +32,7 @@ export default [
     name: 'Leather Sneakers',
     price: '$85.00',
     discountedPrice: '$80.00',
+    isNew: false
   },
   {
     img: require('@/assets/img/products/product4a.jpeg'),
@@ -38,6 +41,7 @@ export default [
     name: 'Cropped cotton Top',
     price: '$29.00',
     discountedPrice: null,
+    isNew: false
   },
   {
     img: require('@/assets/img/products/product5a.jpeg'),
@@ -46,6 +50,7 @@ export default [
     name: 'Floral print midi Dress',
     price: '$50.00',
     discountedPrice: null,
+    isNew: false
   },
   {
     img: require('@/assets/img/products/product6a.jpeg'),
@@ -54,6 +59,7 @@ export default [
     name: 'Suede cross body Bag',
     price: '$79.00',
     discountedPrice: '$49.00',
+    isNew: false
   },
   {
     img: require('@/assets/img/products/product7a.jpeg'),
@@ -62,6 +68,7 @@ export default [
     name: 'Floral print midi Dress',
     price: '$50.00',
     discountedPrice: null,
+    isNew: false
   },
   {
     img: require('@/assets/img/products/product8a.jpeg'),
@@ -70,5 +77,6 @@ export default [
     name: 'Printed A-line Skirt',
     price: '$79.00',
     discountedPrice: null,
+    isNew: true
   }
 ]

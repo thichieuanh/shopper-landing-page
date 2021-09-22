@@ -23,6 +23,9 @@
               />
             </div></div
         ></v-img>
+        <div :class="[{ new: isNew }, { sale: isSale }, 'product-badge']">
+          {{ badgeText }}
+        </div>
       </div>
 
       <v-card-subtitle class="pa-0 mt-4 mb-0">
@@ -37,7 +40,8 @@
         class="pa-0 mt-1 mb-0 font-weight-medium"
         style="font-size: 1.2rem"
       >
-        {{ price }}
+        <span :class="{ 'old-price': isSale }"> {{ price }}</span>
+        <span class="red--text red-accent-2"> {{ discountedPrice }}</span>
       </v-card-subtitle>
     </v-card>
   </v-hover>
@@ -61,21 +65,18 @@ export default {
         spec: ['far', 'heart'],
       },
     ],
-    add: function () {
-      this.items.push({
-        id: Math.random(),
-      });
-    },
-    items: [
-      {
-        id: 1,
-      },
-      {
-        id: 2,
-      },
-    ],
   }),
-  props: ['imgUrl', 'imgOnHoverUrl', 'productName', 'category', 'price'],
+  props: {
+    imgUrl: String,
+    imgOnHoverUrl: String,
+    productName: String,
+    category: String,
+    price: String,
+    discountedPrice: String,
+    isNew: Boolean,
+    isSale: Function,
+    badgeText: String,
+  },
 };
 </script>
 
@@ -101,6 +102,8 @@ export default {
 
 .image-wrapper {
   position: relative;
+  width: 100%;
+  height: 100%;
 }
 .image-hover {
   position: absolute;
@@ -114,5 +117,29 @@ export default {
 
 .image-hover:hover {
   opacity: 1;
+}
+
+.product-badge {
+  position: absolute;
+  top: 5%;
+  left: 0;
+  width: 30%;
+  text-align: center;
+  font-weight: 500;
+}
+
+.new {
+  background: white;
+}
+
+.sale {
+  background: black;
+  color: white;
+}
+
+.old-price {
+  text-decoration: line-through;
+  font-size: 1rem;
+  color: #a6a6a6 !important;
 }
 </style>

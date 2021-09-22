@@ -92,7 +92,7 @@
               icon
               plain
               color="grey"
-              :href="icon.href"
+              href="#"
               target="_blank"
             >
               <font-awesome-icon :icon="icon.spec" size="lg" />
@@ -159,6 +159,12 @@
             target="_blank"
           >
             <font-awesome-icon :icon="icon.spec" size="lg" />
+          </v-btn>
+
+          <v-btn small text icon plain color="grey" href="#" target="_blank">
+            <v-badge color="red accent-2" content="6">
+              <font-awesome-icon :icon="['fas', 'shopping-cart']" size="lg"
+            /></v-badge>
           </v-btn>
         </div>
       </v-toolbar>
@@ -240,10 +246,6 @@ export default {
       {
         href: '#',
         spec: ['far', 'heart'],
-      },
-      {
-        href: '#',
-        spec: ['fas', 'shopping-cart'],
       },
     ],
     breadcrumbs: {
