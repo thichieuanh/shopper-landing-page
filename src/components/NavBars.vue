@@ -1,19 +1,18 @@
 <template>
   <div>
-    <section class="top-navbar" style="height: 48px">
-      <v-app-bar color="grey lighten-4" absolute dense flat app class="px-15">
-        <div class="d-flex align-center">
+    <nav class="top-navbar d-flex">
+      <div class="container d-flex align-center">
+        <section>
           <v-icon color="black" small class="mr-2"> mdi-truck-outline</v-icon>
           <span class="nav-heading">FREE SHIPPING WORLDWIDE</span>
-        </div>
+        </section>
 
-        <v-toolbar class="hidden-sm-and-down" color="grey lighten-4" dense flat>
-          <!-- DROPDOWN -->
-          <v-toolbar color="grey lighten-4" dense flat>
-            <v-toolbar-items
+        <section>
+          <div class="dropdown">
+            <div
+              class="mx-2"
               v-for="(dropdownVal, dropdownKey) in dropdownOptions"
               :key="dropdownKey"
-              class="mx-2"
             >
               <v-menu
                 transition="scroll-y-reverse-transition"
@@ -33,7 +32,6 @@
                       alt="usa flag"
                       class="ma-2"
                     />
-                    <!-- fix here to show selected opt from dropdown -->
                     {{ dropdownVal[0].title }}
                     <v-icon color="black">mdi-chevron-down</v-icon>
                   </a>
@@ -68,40 +66,11 @@
                 class="mx-1"
                 v-if="dropdownKey !== 'languagues'"
               ></v-divider>
-            </v-toolbar-items>
-            <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
-            <!-- for collasped, update later -->
-          </v-toolbar>
-          <!-- DROPDOWN ENDS -->
-
-          <!-- INFO -->
-          <v-breadcrumbs
-            :items="info"
-            divider=""
-            class="font-weight-medium mr-10"
-          ></v-breadcrumbs>
-          <!-- INFO ENDS -->
-
-          <!-- CONTACT -->
-          <div>
-            <v-btn
-              v-for="(icon, socialIconsIdx) in socialIcons"
-              :key="socialIconsIdx"
-              small
-              text
-              icon
-              plain
-              color="grey"
-              href="#"
-              target="_blank"
-            >
-              <font-awesome-icon :icon="icon.spec" size="lg" />
-            </v-btn>
+            </div>
           </div>
-          <!-- CONTACT ENDS-->
-        </v-toolbar>
-      </v-app-bar>
-    </section>
+        </section>
+      </div>
+    </nav>
 
     <section class="navbar-breadcrumbs">
       <v-toolbar flat class="px-15" height="100">
@@ -266,12 +235,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.nav-heading {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+.top-navbar {
+  width: 100%;
+  height: 48px;
+  background: var(--main-grey);
 }
 
+.dropdown {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
 .v-menu__content {
   box-shadow: none !important;
   border-radius: 0 !important;

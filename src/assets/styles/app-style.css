@@ -25,14 +25,16 @@ textarea {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  --main-font: 'Jost', sans-serif;
   font-family: var(--main-font) !important;
+  --main-font: 'Jost', sans-serif;
+  --main-grey: #F5F5F5
 }
 
 .v-application {
   font-family: var(--main-font) !important;
   color: black;
   font-size: 16px;
+  margin: auto;
 }
 
 h6 {
@@ -51,4 +53,9 @@ a {
 :root {
   --animate-delay: 0.08s;
   --animate-duration: 0.3s;
+}
+
+.container {
+  max-width: 1140px;  
+  height: 100%
 }
