@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <section id="cover">
     <!-- COVER -->
-    <section class="cover">
+    <article>
       <v-container fluid pa-0>
         <v-row no-gutters>
           <v-col v-for="n in 3" :key="n" cols="4">
@@ -37,11 +37,11 @@
           </v-col>
         </v-row>
       </v-container>
-    </section>
+    </article>
 
     <!-- FEATURES -->
-    <section>
-      <v-container class="mx-auto py-7 px-0">
+    <article>
+      <v-container class="mx-auto py-7 px-0 container-control">
         <v-row class="feature-row pb-7">
           <v-col v-for="(item, index) in features" :key="index" cols="3">
             <v-card class="feature-cards" tile flat>
@@ -61,8 +61,8 @@
           </v-col>
         </v-row>
       </v-container>
-    </section>
-  </div>
+    </article>
+  </section>
 </template>
 
 <script>

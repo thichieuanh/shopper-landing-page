@@ -55,7 +55,20 @@ a {
   --animate-duration: 0.3s;
 }
 
-.container {
-  max-width: 1140px;  
-  height: 100%
+.container-control {
+  height: 100%;
+  margin: auto;
+  width: 1140px
+}
+
+@media (min-width: 992px) {
+  .container-control {
+    max-width: 996px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-control {
+    max-width: 1140px;
+  }
 }

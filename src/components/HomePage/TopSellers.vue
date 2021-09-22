@@ -1,22 +1,22 @@
 <template>
-  <v-container fluid id="top-sellers" class="py-16 pa-0">
-    <!-- HEADING -->
-    <v-row class="flex-column align-center justify-center">
-      <h2 class="mb-4">Top month Sellers</h2>
-    </v-row>
+  <section id="top-sellers">
+    <div class="container-control my-16">
+      <!-- HEADING -->
+      <v-row class="flex-column align-center justify-center">
+        <h2 class="mb-4">Top month Sellers</h2>
+      </v-row>
 
-    <!-- TABS -->
-    <v-tabs centered color="red accent-2">
-      <v-tab v-for="item in items" :key="item">
-        {{ item }}
-      </v-tab>
-      <v-tab-item
-        v-for="n in 3"
-        :key="n"
-        class="my-16"
-        transition="fade-transition"
-      >
-        <v-container fluid class="pa-0">
+      <!-- TABS -->
+      <v-tabs centered color="red accent-2">
+        <v-tab v-for="item in items" :key="item">
+          {{ item }}
+        </v-tab>
+        <v-tab-item
+          v-for="n in 3"
+          :key="n"
+          class="my-16"
+          transition="fade-transition"
+        >
           <v-row>
             <v-col
               v-for="(item, index) in womenProducts"
@@ -44,16 +44,16 @@
               ></product>
             </v-col>
           </v-row>
-        </v-container>
-      </v-tab-item>
-    </v-tabs>
+        </v-tab-item>
+      </v-tabs>
 
-    <!-- DISCOVER MORE -->
-    <div class="text-center underline-wrapper mt-16">
-      <a class="link-underline" href="#!">Discover more</a>
-      <div class="line"></div>
+      <!-- DISCOVER MORE -->
+      <div class="text-center underline-wrapper mt-16">
+        <a class="link-underline" href="#!">Discover more</a>
+        <div class="line"></div>
+      </div>
     </div>
-  </v-container>
+  </section>
 </template>
 
 <script>
@@ -87,16 +87,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#top-sellers {
-  width: 75%;
-}
-
-@media (max-width: 1300px) {
-  #top-sellers {
-    width: 90%;
-  }
-}
-
 .v-card {
   transition: transform 0.3s ease-out;
   &:hover .v-image {

@@ -1,142 +1,174 @@
 <template>
   <div>
-    <nav class="top-navbar d-flex">
-      <div class="container d-flex align-center">
-        <section>
+    <!-- MAIN NAV -->
+    <nav class="top-navbar d-flex justify-center">
+      <div class="container-control d-flex align-center">
+        <!-- PROMO -->
+        <section class="promo">
           <v-icon color="black" small class="mr-2"> mdi-truck-outline</v-icon>
           <span class="nav-heading">FREE SHIPPING WORLDWIDE</span>
         </section>
 
-        <section>
-          <div class="dropdown">
-            <div
-              class="mx-2"
-              v-for="(dropdownVal, dropdownKey) in dropdownOptions"
-              :key="dropdownKey"
-            >
-              <v-menu
-                transition="scroll-y-reverse-transition"
-                offset-y
-                open-on-hover
+        <div class="collasped d-flex align-center justify-space-between">
+          <!-- DROPDOWN -->
+          <section style="width: 50%">
+            <ul class="dropdown">
+              <li
+                class="mx-2"
+                v-for="(dropdownVal, dropdownKey) in dropdownOptions"
+                :key="dropdownKey"
               >
-                <template v-slot:activator="{ on, attrs }" elevation="0">
-                  <a
-                    href="#"
-                    class="nav-link d-flex align-center font-weight-medium"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    <img
-                      v-if="dropdownKey === 'countries'"
-                      src="@/assets/img/flags/usa.svg"
-                      alt="usa flag"
-                      class="ma-2"
-                    />
-                    {{ dropdownVal[0].title }}
-                    <v-icon color="black">mdi-chevron-down</v-icon>
-                  </a>
-                </template>
-
-                <v-list class="pa-0">
-                  <template v-for="(country, countryIdx) in dropdownVal">
-                    <v-list-item :key="countryIdx" link>
-                      <a
-                        href="#"
-                        class="nav-link d-flex align-center font-weight-regular"
-                      >
-                        <img
-                          v-if="dropdownKey === 'countries'"
-                          :src="country.imgUrl"
-                          alt="flag image"
-                          class="ma-2"
-                        />
-                        {{ country.title }}
-                      </a>
-                    </v-list-item>
-                    <v-divider
-                      :key="'div' + countryIdx"
-                      v-if="countryIdx < dropdownKey.length"
-                    ></v-divider>
+                <v-menu
+                  transition="scroll-y-reverse-transition"
+                  offset-y
+                  open-on-hover
+                >
+                  <template v-slot:activator="{ on, attrs }" elevation="0">
+                    <a
+                      href="#"
+                      class="nav-link d-flex align-center font-weight-medium"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <img
+                        v-if="dropdownKey === 'countries'"
+                        src="@/assets/img/flags/usa.svg"
+                        alt="usa flag"
+                        class="ma-2"
+                      />
+                      {{ dropdownVal[0].title }}
+                      <v-icon color="black">mdi-chevron-down</v-icon>
+                    </a>
                   </template>
-                </v-list>
-              </v-menu>
-              <v-divider
-                inset
-                vertical
-                class="mx-1"
-                v-if="dropdownKey !== 'languagues'"
-              ></v-divider>
-            </div>
-          </div>
-        </section>
+
+                  <v-list class="pa-0">
+                    <template v-for="(country, countryIdx) in dropdownVal">
+                      <v-list-item :key="countryIdx" link>
+                        <a
+                          href="#"
+                          class="
+                            nav-link
+                            d-flex
+                            align-center
+                            font-weight-regular
+                          "
+                        >
+                          <img
+                            v-if="dropdownKey === 'countries'"
+                            :src="country.imgUrl"
+                            alt="flag image"
+                            class="ma-2"
+                          />
+                          {{ country.title }}
+                        </a>
+                      </v-list-item>
+                    </template>
+                  </v-list>
+                </v-menu>
+              </li>
+            </ul>
+          </section>
+
+          <!-- INFO -->
+          <v-breadcrumbs
+            :items="info"
+            divider=""
+            class="font-weight-medium mr-10"
+          ></v-breadcrumbs>
+
+          <!-- CONTACT -->
+          <section>
+            <v-btn
+              v-for="(icon, socialIconsIdx) in socialIcons"
+              :key="socialIconsIdx"
+              small
+              text
+              icon
+              plain
+              color="grey"
+              href="#"
+              target="_blank"
+            >
+              <font-awesome-icon :icon="icon.spec" size="lg" />
+            </v-btn>
+          </section>
+        </div>
       </div>
     </nav>
 
-    <section class="navbar-breadcrumbs">
-      <v-toolbar flat class="px-15" height="100">
-        <span class="brand">Pineapple.</span>
-        <div class="main-breadcrumbs">
-          <v-toolbar dense flat>
-            <v-toolbar-items
-              v-for="(breadcrumbVal, breadcrumbKey) in breadcrumbs"
-              :key="breadcrumbKey"
-              class="mx-2"
-            >
-              <v-menu transition="scroll-y-transition" offset-y open-on-hover>
-                <template v-slot:activator="{ on, attrs }" elevation="0">
-                  <v-btn
-                    depressed
-                    plain
-                    text
-                    color="black"
-                    class="nav-link d-flex align-center font-weight-medium"
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    {{ breadcrumbKey }}
-                  </v-btn>
-                </template>
-
-                <v-list class="pa-0">
-                  <template v-for="(item, breadcrumbValIdx) in breadcrumbVal">
-                    <v-list-item :key="breadcrumbValIdx">
-                      <a
-                        href="#"
-                        class="nav-link d-flex align-center font-weight-regular"
-                      >
-                        {{ item }}
-                      </a>
-                    </v-list-item>
+    <!-- BREADCUMS -->
+    <section class="navbar-breadcrumbs d-flex justify-center">
+      <div class="container-control">
+        <v-toolbar flat height="100">
+          <span class="brand">Pineapple.</span>
+          <div class="main-breadcrumbs">
+            <v-toolbar dense flat>
+              <v-toolbar-items
+                v-for="(breadcrumbVal, breadcrumbKey) in breadcrumbs"
+                :key="breadcrumbKey"
+                class="mx-2"
+              >
+                <v-menu transition="scroll-y-transition" offset-y open-on-hover>
+                  <template v-slot:activator="{ on, attrs }" elevation="0">
+                    <v-btn
+                      depressed
+                      plain
+                      text
+                      color="black"
+                      class="nav-link d-flex align-center font-weight-medium"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      {{ breadcrumbKey }}
+                    </v-btn>
                   </template>
-                </v-list>
-              </v-menu>
-            </v-toolbar-items>
-          </v-toolbar>
-        </div>
 
-        <!-- FUNCTIONAL ICONS -->
-        <div>
-          <v-btn
-            v-for="(icon, functionalIconsIdx) in functionalIcons"
-            :key="functionalIconsIdx"
-            small
-            text
-            icon
-            plain
-            color="grey"
-            :href="icon.href"
-            target="_blank"
-          >
-            <font-awesome-icon :icon="icon.spec" size="lg" />
-          </v-btn>
+                  <v-list class="pa-0">
+                    <template v-for="(item, breadcrumbValIdx) in breadcrumbVal">
+                      <v-list-item :key="breadcrumbValIdx">
+                        <a
+                          href="#"
+                          class="
+                            nav-link
+                            d-flex
+                            align-center
+                            font-weight-regular
+                          "
+                        >
+                          {{ item }}
+                        </a>
+                      </v-list-item>
+                    </template>
+                  </v-list>
+                </v-menu>
+              </v-toolbar-items>
+            </v-toolbar>
+          </div>
 
-          <v-btn small text icon plain color="grey" href="#" target="_blank">
-            <v-badge color="red accent-2" content="6">
-              <font-awesome-icon :icon="['fas', 'shopping-cart']" size="lg"
-            /></v-badge>
-          </v-btn>
-        </div>
-      </v-toolbar>
+          <!-- FUNCTIONAL ICONS -->
+          <div>
+            <v-btn
+              v-for="(icon, functionalIconsIdx) in functionalIcons"
+              :key="functionalIconsIdx"
+              small
+              text
+              icon
+              plain
+              color="grey"
+              :href="icon.href"
+              target="_blank"
+            >
+              <font-awesome-icon :icon="icon.spec" size="lg" />
+            </v-btn>
+
+            <v-btn small text icon plain color="grey" href="#" target="_blank">
+              <v-badge color="red accent-2" content="6">
+                <font-awesome-icon :icon="['fas', 'shopping-cart']" size="lg"
+              /></v-badge>
+            </v-btn>
+          </div>
+        </v-toolbar>
+      </div>
     </section>
 
     <section class="happy-deal-banner">
@@ -247,6 +279,15 @@ export default {
   align-items: center;
   justify-items: center;
 }
+
+.promo {
+  width: 30%;
+}
+
+.collasped {
+  height: 100%;
+  width: 100%;
+}
 .v-menu__content {
   box-shadow: none !important;
   border-radius: 0 !important;
@@ -262,13 +303,13 @@ export default {
   color: black !important;
 }
 
-.navbar-breadcrumbs {
-  border-bottom: 1px rgb(229, 229, 229) solid !important;
-  .v-toolbar__content {
-    display: flex;
-    justify-content: space-between;
-  }
-}
+// .navbar-breadcrumbs {
+//   border-bottom: 1px rgb(229, 229, 229) solid !important;
+//   .v-toolbar__content {
+//     display: flex;
+//     justify-content: space-between;
+//   }
+// }
 
 .brand {
   font-size: 1.75rem;
@@ -280,5 +321,9 @@ export default {
   .v-banner__wrapper {
     height: 100%;
   }
+}
+
+.divider {
+  height: 100%;
 }
 </style>
