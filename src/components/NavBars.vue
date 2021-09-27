@@ -6,13 +6,13 @@
         <!-- PROMO -->
         <section class="promo">
           <v-icon color="black" small class="mr-2"> mdi-truck-outline</v-icon>
-          <span class="nav-heading">FREE SHIPPING WORLDWIDE</span>
+          <span class="nav-heading heading-xxxs">FREE SHIPPING WORLDWIDE</span>
         </section>
 
         <div class="collasped d-flex align-center justify-space-between">
           <!-- DROPDOWN -->
           <section style="width: 50%">
-            <ul class="dropdown">
+            <ul class="dropdown px-0">
               <li
                 class="mx-2"
                 v-for="(dropdownVal, dropdownKey) in dropdownOptions"
@@ -97,7 +97,7 @@
     </nav>
 
     <!-- BREADCUMS -->
-    <section class="navbar-breadcrumbs d-flex justify-center">
+    <div class="navbar-breadcrumbs d-flex justify-center">
       <div class="container-control">
         <v-toolbar flat height="100">
           <span class="brand">Pineapple.</span>
@@ -169,9 +169,9 @@
           </div>
         </v-toolbar>
       </div>
-    </section>
+    </div>
 
-    <section class="happy-deal-banner">
+    <div class="happy-deal-banner">
       <v-banner
         single-line
         @click:icon="alert"
@@ -181,7 +181,7 @@
       >
         ⚡️ HAPPY HOLIDAY DEALS ON EVERYTHING ⚡️
       </v-banner>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -271,6 +271,7 @@ export default {
   width: 100%;
   height: 48px;
   background: var(--main-grey);
+  font-size: 0.875rem;
 }
 
 .dropdown {
@@ -281,7 +282,7 @@ export default {
 }
 
 .promo {
-  width: 30%;
+  width: 25%;
 }
 
 .collasped {

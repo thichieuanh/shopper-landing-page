@@ -21,19 +21,27 @@ td,
 form,
 fieldset,
 input,
-textarea {
+textarea {  
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: var(--main-font) !important;
   --main-font: 'Jost', sans-serif;
   --main-grey: #F5F5F5
+  
+}
+
+body {
+  font-family: var(--main-font);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: black;
+  box-sizing: border-box;
 }
 
 .v-application {
   font-family: var(--main-font) !important;
-  color: black;
-  font-size: 16px;
   margin: auto;
 }
 
@@ -48,6 +56,8 @@ h2 {
 a {
   text-decoration: none;
   color: black !important;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 :root {
@@ -72,3 +82,26 @@ a {
     max-width: 1140px;
   }
 }
+section + section {
+  margin: 8rem 0;
+  padding: 0;
+}
+
+.row {
+  margin: 0 !important;
+}
+
+.font-size-xxs {
+  font-size: .8125rem !important;
+}
+
+.heading-xxxs {
+  font-size: .6875rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+/* .v-application .text-h5  {
+  font-family: var(--main-font) !important;
+} */

@@ -1,5 +1,5 @@
 <template>
-  <div id="count-down" class="mt-16 pl-15 d-flex flex-column justify-start">
+  <section id="count-down" class="pl-15 d-flex flex-column justify-start">
     <h3 class="my-16 cd-title red--text red-accent-1">
       Get -50% from <br />Summer Collection
     </h3>
@@ -15,7 +15,7 @@
       Shop now
       <v-icon class="shop-icon ml-5"> mdi-arrow-right </v-icon>
     </v-btn>
-  </div>
+  </section>
 </template>
 
 <script>

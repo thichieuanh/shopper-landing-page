@@ -1,6 +1,6 @@
 <template>
   <section id="top-sellers">
-    <div class="container-control my-16">
+    <div class="container-control">
       <!-- HEADING -->
       <v-row class="flex-column align-center justify-center">
         <h2 class="mb-4">Top month Sellers</h2>
@@ -48,7 +48,7 @@
       </v-tabs>
 
       <!-- DISCOVER MORE -->
-      <div class="text-center underline-wrapper mt-16">
+      <div class="text-center underline-wrapper">
         <a class="link-underline" href="#!">Discover more</a>
         <div class="line"></div>
       </div>

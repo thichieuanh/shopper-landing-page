@@ -1,6 +1,6 @@
 <template>
   <section id="best-picks">
-    <div class="container-control py-16">
+    <div class="container-control">
       <!-- HEADING -->
       <v-row class="flex-column align-center justify-center">
         <h6 class="grey--text mb-3">NEW COLLECTION</h6>
