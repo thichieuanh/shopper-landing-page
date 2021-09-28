@@ -55,7 +55,7 @@ h2 {
 
 a {
   text-decoration: none;
-  color: black !important;
+  color: inherit !important;
   font-family: inherit;
   font-size: inherit;
 }
@@ -83,8 +83,8 @@ a {
   }
 }
 section + section {
-  margin: 8rem 0;
-  padding: 0;
+  /* margin: 8rem 0; */
+  padding: 8rem 0;
 }
 
 .row {
@@ -105,3 +105,4 @@ section + section {
 /* .v-application .text-h5  {
   font-family: var(--main-font) !important;
 } */
+

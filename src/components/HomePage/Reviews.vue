@@ -1,5 +1,5 @@
 <template>
-  <section id="reviews" class="my-16">
+  <section id="reviews">
     <div class="container-control">
       <!-- HEADING -->
       <v-row class="flex-column align-center justify-center">
