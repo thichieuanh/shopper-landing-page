@@ -79,13 +79,8 @@
             </p>
           </v-col>
           <v-col class="pa-0">
-            <ul class="pa-0">
-              <li
-                v-for="n in 6"
-                :key="n"
-                style="display: inline-block"
-                class="mx-1"
-              >
+            <ul class="pa-0 d-flex justify-end">
+              <li v-for="n in 6" :key="n" class="mx-1">
                 <img
                   :src="require(`@/assets/img/payments/payment${n}.svg`)"
                   alt=""
