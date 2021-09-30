@@ -1,29 +1,21 @@
 <template>
-  <nav class="navigation">
-    <ul class="menu">
-      <li class="li">
-        <a href="#">Home</a>
-      </li>
-      <li class="li">
-        <a href="#">About me</a>
-      </li>
-      <li class="li">
-        <a href="#">My Personal Blog</a>
-      </li>
-      <li class="li">
-        <a href="#">Contact</a>
-      </li>
-      <li class="li">
-        <a href="#">Twitter</a>
-      </li>
-    </ul>
-  </nav>
+  <div>
+    <v-btn @click="show = !show">SHOW LIST</v-btn>
+
+    <v-slide-y-transition>
+      <ul v-if="show" class="mt-10">
+        <li v-for="n in 6" :key="n" style="display: inline-block">{{ n }}</li>
+      </ul>
+    </v-slide-y-transition>
+  </div>
 </template>
 
 <script>
 import 'animate.css';
 export default {
-  data: () => ({}),
+  data: () => ({
+    show: true,
+  }),
 };
 </script>
 

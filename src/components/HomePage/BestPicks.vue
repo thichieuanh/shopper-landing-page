@@ -79,6 +79,10 @@ export default {
   &:hover .v-image {
     transform: translatex(-0.2em);
   }
+  // Tun fixed, note bo scoped
+  // &:hover .v-image__image {
+  //   background-position: 10% 50% !important;
+  // }
   &:hover .shop-icon {
     transform: translatex(0.2em);
   }

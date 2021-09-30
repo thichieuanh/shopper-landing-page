@@ -275,7 +275,6 @@ export default {
 }
 
 .dropdown {
-  list-style-type: none;
   display: flex;
   align-items: center;
   justify-items: center;

@@ -9,10 +9,10 @@ import '@/assets/styles/app-style.css';
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faShoppingCart, faSearch, faStar } from '@fortawesome/free-solid-svg-icons'
-import { faFacebookF, faInstagram, faTwitter, faMedium } from '@fortawesome/free-brands-svg-icons'
+import { faFacebookF, faInstagram, faTwitter, faMedium, faYoutube } from '@fortawesome/free-brands-svg-icons'
 import { faUser, faHeart, faEye } from '@fortawesome/free-regular-svg-icons'
 
-library.add(faShoppingCart, faFacebookF, faTwitter, faInstagram, faMedium, faUser, faSearch, faHeart, faEye, faStar)
+library.add(faShoppingCart, faFacebookF, faTwitter, faInstagram, faMedium, faYoutube, faUser, faSearch, faHeart, faEye, faStar)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

@@ -1,48 +1,199 @@
 <template>
-  <v-footer id="home-footer">
-    <v-card flat tile class="lighten-1 white--text text-center">
-      <v-card-text>
-        <v-btn v-for="icon in icons" :key="icon" class="mx-4 white--text" icon>
-          <v-icon size="24px">
-            {{ icon }}
-          </v-icon>
-        </v-btn>
-      </v-card-text>
+  <v-footer
+    padless
+    dark
+    color="#1f1f1f"
+    id="home-footer"
+    class="d-flex flex-column"
+  >
+    <!-- FOOTER TOP -->
+    <div class="py-12 mx-0 footer-top">
+      <div class="container-control">
+        <v-card flat style="background: transparent">
+          <v-row class="justify-center align-center flex-column text-center">
+            <v-col cols="12" sm="12" md="7" lg="6" class="pa-0">
+              <h5 class="mb-7">Want style Ideas and Treats?</h5>
+              <form action="#" class="d-flex mb-11">
+                <input
+                  type="email"
+                  placeholder="Enter Email *"
+                  required
+                  class="form-control mr-3"
+                />
+                <button class="subcribe-button btn px-10" type="submit">
+                  Subcribe
+                </button>
+              </form>
+            </v-col>
+          </v-row>
 
-      <v-card-text class="white--text pt-0">
-        Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet.
-        Mauris cursus commodo interdum. Praesent ut risus eget metus luctus
-        accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim a
-        sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula
-        lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus
-        iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum tempor
-        vel ut orci. Orci varius natoque penatibus et magnis dis parturient
-        montes, nascetur ridiculus mus.
-      </v-card-text>
+          <v-row>
+            <v-col cols="12" md="3" class="pa-0">
+              <h4 class="mb-6">Pineapple.</h4>
+              <ul class="d-flex pa-0 mb-7">
+                <li
+                  v-for="(icon, socialIconsIdx) in socialIcons"
+                  :key="socialIconsIdx"
+                >
+                  <a href="" class="detail-link mr-2">
+                    <font-awesome-icon :icon="icon.spec" class="btn" />
+                  </a>
+                </li>
+              </ul>
+            </v-col>
 
-      <v-divider></v-divider>
+            <v-col cols="12" md="9" class="pa-0">
+              <v-row>
+                <v-col
+                  v-for="(content, idx) in contactDetails"
+                  :key="idx"
+                  cols="3"
+                  class="pa-0"
+                >
+                  <h6 class="mb-4">{{ content.title }}</h6>
+                  <ul class="pa-0">
+                    <li
+                      :key="detailIdx"
+                      v-for="(detail, detailIdx) in content.details"
+                    >
+                      <a :href="detail.href" class="detail-link btn">
+                        {{ detail.article }}
+                      </a>
+                    </li>
+                  </ul>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-card>
+      </div>
+    </div>
 
-      <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
-      </v-card-text>
-    </v-card>
+    <!-- FOOTER BOTTOM -->
+    <div class="py-6 mx-0 footer-top">
+      <div class="container-control">
+        <v-row class="justify-space-between align-center">
+          <v-col class="pa-0">
+            <p class="my-auto font-size-xxs" style="color: #767676">
+              © 2019 All rights reserved. Designed by Unvab.
+            </p>
+          </v-col>
+          <v-col class="pa-0">
+            <ul class="pa-0">
+              <li
+                v-for="n in 6"
+                :key="n"
+                style="display: inline-block"
+                class="mx-1"
+              >
+                <img
+                  :src="require(`@/assets/img/payments/payment${n}.svg`)"
+                  alt=""
+                />
+              </li>
+            </ul>
+          </v-col>
+        </v-row>
+      </div>
+    </div>
   </v-footer>
 </template>
 
 <script>
-// import img from '../../assets/img/backgroundPatterns/pattern2.svg'
 export default {
   data: () => ({
-    icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram'],
+    socialIcons: [
+      {
+        href: 'https://www.facebook.com/maytrongdem/',
+        spec: ['fab', 'facebook-f'],
+      },
+      {
+        href: '#',
+        spec: ['fab', 'youtube'],
+      },
+      {
+        href: '#',
+        spec: ['fab', 'twitter'],
+      },
+      {
+        href: '#',
+        spec: ['fab', 'instagram'],
+      },
+      {
+        href: '#',
+        spec: ['fab', 'medium'],
+      },
+    ],
+    contactDetails: [
+      {
+        title: 'SUPPORT',
+        details: [
+          { article: 'Contact Us', href: '#' },
+          { article: 'FAQs', href: '#' },
+          { article: 'Size Guide', href: '#' },
+          { article: 'Shipping & Returns', href: '#' },
+        ],
+      },
+      {
+        title: 'SHOP',
+        details: [
+          { article: "Men's Shopping'", href: '#' },
+          { article: "Women's Shopping", href: '#' },
+          { article: "Kids' Shopping", href: '#' },
+          { article: 'Shipping & Returns', href: '#' },
+        ],
+      },
+      {
+        title: 'COMPANY',
+        details: [
+          { article: 'Our Story', href: '#' },
+          { article: 'Careers', href: '#' },
+          { article: 'Terms & Conditions', href: '#' },
+          { article: 'Privacy & Cookie policy', href: '#' },
+        ],
+      },
+      {
+        title: 'CONTACT',
+        details: [
+          { article: '1-202-555-0105', href: '#' },
+          { article: '1-202-555-0106', href: '#' },
+          { article: 'help@shopper.com', href: '#' },
+        ],
+      },
+    ],
+    payments: [],
   }),
 };
 </script>
 
 <style lang="scss" scoped>
 #home-footer {
-  // background-image: url('../../assets/img/backgroundPatterns/pattern2.svg');
-  background-image: url('../../assets/img/covers/countdown.jpeg');
+  background-image: url('../../assets/img/backgroundPatterns/pattern2.svg');
   background-size: cover;
   background-position: center;
+}
+
+.footer-top {
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #303030;
+}
+
+.form-control {
+  background: #303030;
+  color: #fff;
+  padding: 1.0625rem 1.875rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  width: 100%;
+}
+
+.subcribe-button {
+  background: #525252;
+  padding: 0 10px;
+}
+
+.detail-link {
+  color: #bababa !important;
 }
 </style>
