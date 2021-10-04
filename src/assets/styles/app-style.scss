@@ -138,6 +138,10 @@ section + section {
   font-size: .8125rem !important;
 }
 
+.font-size-sm {
+  font-size: .9375rem!important;
+}
+
 .heading-xxxs {
   font-size: .6875rem;
   font-weight: 500;
@@ -188,5 +192,94 @@ section + section {
 .v-application .py-12 {
   padding-top: 6rem !important;
   padding-bottom: 6rem !important;
+}
+
+/* END OF OVERWRITE VUETIFY CLASSES */
+
+.menu-body {
+  padding: 2rem;
+  min-width: 200px;
+  font-size: 1rem;
+  background: #fff;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.menu-link {
+  color: #525252 !important;
+  transition: color 0.2s ease-in-out
+}
+
+.menu-link:hover {
+  color: #111 !important;
+}
+
+.menu-item+.menu-item {
+  margin-top: 0.75em;
+}
+
+.shop-button {
+  display: inline-block;
+  height: calc(1.5rem + 1.75rem + 2px);
+  white-space: nowrap;
+  font-weight: 500;
+  vertical-align: middle;
+  padding: .875rem 1.75rem;
+  text-align: center;
+
+  .shop-icon {
+    font-size: 1rem !important;
+  }
+}
+
+.white-button {
+  background: #fff;
+  color: #111 !important;
+
+  .shop-icon {
+    color: #111 !important;
+  }
+}
+
+.dark-button {
+  background: #1f1f1f;
+  color: #fff !important;
+
+  .shop-icon {
+    color: #fff !important;
+  }
+}
+
+.img-with-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bg-hover {
+  background: rgba(31,31,31,0);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  
+  &:hover {
+    background: rgba(31,31,31,0.1);
+    .shop-icon {
+      transform: translatex(0.2em);
+    }
+  }
+}
+
+.stretched-link::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: auto;
+  content: "";
+  background-color: rgba(0,0,0,0);
 }
 

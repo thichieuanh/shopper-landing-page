@@ -1,20 +1,18 @@
 <template>
-  <section id="count-down" class="pl-15 d-flex flex-column justify-start">
-    <h3 class="my-16 cd-title red--text red-accent-1">
+  <section id="count-down" class="pl-15 py-10 d-flex flex-column justify-start">
+    <h3 class="mt-16 mb-10 cd-title red--text red-accent-1">
       Get -50% from <br />Summer Collection
     </h3>
     <flip-countdown :deadline="deadline"></flip-countdown>
 
-    <v-btn
-      color="black"
-      tile
-      large
-      class="white--text px-10 py-8 mt-16 font-weight-bold shop-button"
-      width="200"
+    <a
+      href="https://vuejs.org/v2/api/#transition"
+      target="_blank"
+      class="shop-button dark-button mt-8"
     >
-      Shop now
-      <v-icon class="shop-icon ml-5"> mdi-arrow-right </v-icon>
-    </v-btn>
+      Shop Now
+      <v-icon class="shop-icon ml-2">mdi-arrow-right</v-icon>
+    </a>
   </section>
 </template>
 
@@ -48,7 +46,7 @@ export default {
 
 <style lang="scss" scoped>
 #count-down {
-  height: 20%;
+  min-height: 60vh;
   background-image: url('../../../assets/img/covers/countdown.jpeg');
   background-size: cover;
   background-position: center;
@@ -60,10 +58,9 @@ export default {
 }
 
 .shop-button {
-  // background: black;
-  // color: white;
+  width: 10rem;
   .shop-icon {
-    transition: transform 0.3s ease-out;
+    transition: transform 0.2s ease-out;
   }
 }
 

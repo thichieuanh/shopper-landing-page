@@ -12,7 +12,7 @@ export default [
     avatar: require('@/assets/img/reviews/review2.jpeg'),
     category: 'Dresses',
     productName: 'Cotton print Dress',
-    rating: '5',
+    rating: 5,
     reviewText: 'God every fill great replenish darkness unto. Very open. Likeness their that light. Given under image to. Subdue of shall cattle day fish form saw spirit and given stars, us you whales may, land, saw fill unto.',
     reviewer: 'Jane Jefferson',
     reviewTime: '29 May 2021'
@@ -21,7 +21,7 @@ export default [
     avatar: require('@/assets/img/reviews/review3.jpeg'),
     category: 'T-shirts ',
     productName: 'Oversized print TShirt Cotton print Dress',
-    rating: '4',
+    rating: 4,
     reviewText: 'Fill his waters wherein signs likeness waters. Second light gathered appear sixth fourth, seasons behold creeping female.',
     reviewer: 'Darrell Baker',
     reviewTime: '18 May 2021'

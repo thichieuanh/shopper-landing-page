@@ -24,6 +24,7 @@
                   <h3 class="font-weight-regular">save</h3>
                   <h2 class="font-weight-regular">30%</h2>
                 </div>
+
                 <v-row class="fill-height flex-column" justify="center">
                   <v-card-text
                     :class="textColor(n) + ' text-center font-weight-bold'"
@@ -32,14 +33,14 @@
                     {{ coverTitles[n - 1] }}
                   </v-card-text>
 
-                  <v-card-actions class="shop-buttons-group mx-auto pa-0">
+                  <v-card-actions class="mx-auto pa-0">
                     <span class="shop-button">
                       <a href="#" :class="textColor(n) + ' font-weight-bold'">
-                        Shop now
+                        Shop Now
                       </a>
-                      <v-icon :class="textColor(n) + ' shop-icon ml-3'"
-                        >mdi-arrow-right</v-icon
-                      >
+                      <v-icon :class="textColor(n) + ' shop-icon ml-3'">
+                        mdi-arrow-right
+                      </v-icon>
                     </span>
                   </v-card-actions>
                 </v-row>

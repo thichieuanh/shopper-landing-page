@@ -73,33 +73,22 @@ body {
   padding: 3px 0;
   margin-bottom: 1px;
 
-  &:hover {
-    color: #aaa;
-
-    /*     &::after, */
-    &::before {
-      width: 0%;
-      right: 0%;
-    }
-  }
-
-  /*   &::after, */
   &::before {
     content: '';
     position: absolute;
     top: calc(100% + 5px);
     width: 100%;
     height: 3px;
+    transition: width 0.1s cubic-bezier(0.29, 0.18, 0.26, 0.83);
   }
 
-  &::before {
-    transition: width 0.1s cubic-bezier(0.29, 0.18, 0.26, 0.83);
-    background: #2196f3;
+  &:hover {
+    color: #aaa;
+
+    &::before {
+      width: 0%;
+      right: 0%;
+    }
   }
-  /*
-  &::after {
-    transition: width .2s cubic-bezier(0.29, 0.18, 0.26, 0.83);
-    background: #F44336;
-  } */
 }
 </style>

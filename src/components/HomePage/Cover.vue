@@ -5,35 +5,29 @@
       <v-container fluid pa-0>
         <v-row no-gutters>
           <v-col v-for="n in 3" :key="n" cols="4">
-            <v-hover v-slot="{ hover }">
-              <v-card tile :class="{ 'on-hover': hover }">
-                <v-img
-                  :src="require(`@/assets/img/covers/cover${n}.jpeg`)"
-                  aspect-ratio="1"
+            <v-card tile>
+              <v-img
+                :src="require(`@/assets/img/covers/cover${n}.jpeg`)"
+                aspect-ratio="1"
+                content-class="bg-hover img-with-button"
+              >
+                <v-card-text
+                  class="text-center white--text font-weight-bold mb-16"
+                  style="font-size: 3rem"
+                  align="center"
                 >
-                  <v-row class="fill-height flex-column" justify="center">
-                    <v-card-text
-                      class="text-center white--text font-weight-bold mb-16"
-                      style="font-size: 3rem"
-                      align="center"
-                    >
-                      {{ coverTitles[n - 1] }}
-                    </v-card-text>
-                    <v-card-actions class="shop-buttons-group mx-auto pa-0">
-                      <v-btn
-                        tile
-                        large
-                        class="px-10 py-8 font-weight-bold shop-button"
-                        width="200"
-                      >
-                        Shop {{ coverTitles[n - 1] }}
-                        <v-icon class="shop-icon ml-5">mdi-arrow-right</v-icon>
-                      </v-btn>
-                    </v-card-actions>
-                  </v-row>
-                </v-img>
-              </v-card>
-            </v-hover>
+                  {{ coverTitles[n - 1] }}
+                </v-card-text>
+                <a
+                  href="https://vuejs.org/v2/api/#transition"
+                  target="_blank"
+                  class="shop-button white-button mt-16 stretched-link"
+                >
+                  Shop {{ coverTitles[n - 1] }}
+                  <v-icon class="shop-icon ml-2">mdi-arrow-right</v-icon>
+                </a>
+              </v-img>
+            </v-card>
           </v-col>
         </v-row>
       </v-container>
@@ -108,22 +102,6 @@ export default {
 
 .row {
   margin: 0;
-}
-
-.shop-buttons-group {
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translate(-50%, 0);
-  margin: auto;
-}
-
-.shop-button > .shop-icon {
-  transition: transform 0.3s ease-out;
-}
-
-.shop-button:hover .shop-icon {
-  transform: translatex(0.2em);
 }
 
 .feature-row {

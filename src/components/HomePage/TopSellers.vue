@@ -8,9 +8,10 @@
 
       <!-- TABS -->
       <v-tabs centered color="red accent-2">
-        <v-tab v-for="item in items" :key="item">
+        <v-tab v-for="item in tabItems" :key="item">
           {{ item }}
         </v-tab>
+
         <v-tab-item
           v-for="n in 3"
           :key="n"
@@ -66,8 +67,7 @@ export default {
 
   data() {
     return {
-      tab: null,
-      items: ['Women', 'Men', 'Kids'],
+      tabItems: ['Women', 'Men', 'Kids'],
     };
   },
 

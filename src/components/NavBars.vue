@@ -26,7 +26,7 @@
                   <template v-slot:activator="{ on, attrs }" elevation="0">
                     <a
                       href="#"
-                      class="nav-link d-flex align-center font-weight-medium"
+                      class="d-flex align-center font-weight-medium"
                       v-bind="attrs"
                       v-on="on"
                     >
@@ -46,12 +46,7 @@
                       <v-list-item :key="countryIdx" link>
                         <a
                           href="#"
-                          class="
-                            nav-link
-                            d-flex
-                            align-center
-                            font-weight-regular
-                          "
+                          class="d-flex align-center font-weight-regular"
                         >
                           <img
                             v-if="dropdownKey === 'countries'"
@@ -97,97 +92,101 @@
     </nav>
 
     <!-- BREADCUMS -->
-    <div class="navbar-breadcrumbs d-flex justify-center">
+    <div class="px-4 py-6">
       <div class="container-control">
-        <v-toolbar flat height="100">
+        <div class="d-flex justify-space-between align-center">
           <span class="brand">Pineapple.</span>
+
           <div class="main-breadcrumbs">
-            <v-toolbar dense flat>
-              <v-toolbar-items
+            <ul class="d-flex pa-0">
+              <li
                 v-for="(breadcrumbVal, breadcrumbKey) in breadcrumbs"
                 :key="breadcrumbKey"
                 class="mx-2"
               >
-                <v-menu transition="scroll-y-transition" offset-y open-on-hover>
+                <v-menu
+                  transition="scroll-y-reverse-transition"
+                  offset-y
+                  :close-on-click="true"
+                  :close-on-content-click="false"
+                  :content-class="
+                    breadcrumbKey === 'Catalog' ? 'catalog-control' : undefined
+                  "
+                >
                   <template v-slot:activator="{ on, attrs }" elevation="0">
-                    <v-btn
-                      depressed
-                      plain
-                      text
-                      color="black"
-                      class="nav-link d-flex align-center font-weight-medium"
+                    <div
                       v-bind="attrs"
                       v-on="on"
+                      class="font-weight-medium px-4 py-2 red-hover-btn"
                     >
                       {{ breadcrumbKey }}
-                    </v-btn>
+                    </div>
                   </template>
 
-                  <v-list class="pa-0">
-                    <template v-for="(item, breadcrumbValIdx) in breadcrumbVal">
-                      <v-list-item :key="breadcrumbValIdx">
-                        <a
-                          href="#"
-                          class="
-                            nav-link
-                            d-flex
-                            align-center
-                            font-weight-regular
-                          "
-                        >
-                          {{ item }}
-                        </a>
-                      </v-list-item>
-                    </template>
-                  </v-list>
+                  <component :is="currentMenu(breadcrumbKey)" />
                 </v-menu>
-              </v-toolbar-items>
-            </v-toolbar>
+              </li>
+            </ul>
           </div>
 
           <!-- FUNCTIONAL ICONS -->
-          <div>
-            <v-btn
-              v-for="(icon, functionalIconsIdx) in functionalIcons"
-              :key="functionalIconsIdx"
-              small
-              text
-              icon
-              plain
-              color="grey"
-              :href="icon.href"
-              target="_blank"
-            >
-              <font-awesome-icon :icon="icon.spec" size="lg" />
-            </v-btn>
+          <div class="d-flex">
+            <ul class="pa-0 d-flex">
+              <li
+                v-for="(icon, functionalIconsIdx) in functionalIcons"
+                :key="functionalIconsIdx"
+              >
+                <a
+                  :href="icon.href"
+                  target="_blank"
+                  class="px-2 py-2 font-weight-light functional-icons"
+                >
+                  <font-awesome-icon :icon="icon.spec" class="red-hover-btn" />
+                </a>
+              </li>
+            </ul>
 
-            <v-btn small text icon plain color="grey" href="#" target="_blank">
+            <a href="#" target="_blank" class="pl-2 font-weight-light">
               <v-badge color="red accent-2" content="6">
-                <font-awesome-icon :icon="['fas', 'shopping-cart']" size="lg"
-              /></v-badge>
-            </v-btn>
+                <font-awesome-icon
+                  :icon="['fas', 'shopping-cart']"
+                  class="red-hover-btn"
+                />
+              </v-badge>
+            </a>
           </div>
-        </v-toolbar>
+        </div>
       </div>
     </div>
 
-    <div class="happy-deal-banner">
-      <v-banner
-        single-line
-        @click:icon="alert"
-        color="black"
-        height="48"
-        class="white--text font-weight-medium banner-heading mb-5"
-      >
-        ⚡️ HAPPY HOLIDAY DEALS ON EVERYTHING ⚡️
-      </v-banner>
-    </div>
+    <!-- HAPPY DEAL BANNER -->
+
+    <v-banner
+      single-line
+      color="#1f1f1f"
+      height="48"
+      class="
+        white--text
+        font-weight-medium
+        banner-heading
+        mb-5
+        happy-deal-banner
+      "
+    >
+      ⚡️ HAPPY HOLIDAY DEALS ON EVERYTHING ⚡️
+    </v-banner>
   </div>
 </template>
 
 <script>
+import HomeMenu from '@/components/HomePage/BreadcrumbMenu/HomeMenu';
+import PageMenu from '@/components/HomePage/BreadcrumbMenu/PageMenu';
+import BlogMenu from '@/components/HomePage/BreadcrumbMenu/BlogMenu';
+import CatalogMenu from '@/components/HomePage/BreadcrumbMenu/CatalogMenu';
+
 export default {
   name: 'NavBars',
+  components: { HomeMenu, PageMenu, BlogMenu, CatalogMenu },
 
   data: () => ({
     dropdownOptions: {
@@ -259,8 +258,21 @@ export default {
     },
   }),
   methods: {
-    alert() {
-      alert('Hello, World!');
+    currentMenu(key) {
+      switch (key) {
+        case 'Home':
+          return 'HomeMenu';
+        case 'Catalog':
+          return 'CatalogMenu';
+        // case 'Shop':
+        //   return 'ShopMenu';
+        case 'Pages':
+          return 'PageMenu';
+        case 'Blog':
+          return 'BlogMenu';
+        default:
+          return 'HomeMenu';
+      }
     },
   },
 };
@@ -288,28 +300,10 @@ export default {
   height: 100%;
   width: 100%;
 }
-.v-menu__content {
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  border: 1px #e0e0e0 solid;
-}
-
-.nav-link {
-  text-decoration: none;
-  color: black !important;
-}
 
 .v-breadcrumbs__item {
   color: black !important;
 }
-
-// .navbar-breadcrumbs {
-//   border-bottom: 1px rgb(229, 229, 229) solid !important;
-//   .v-toolbar__content {
-//     display: flex;
-//     justify-content: space-between;
-//   }
-// }
 
 .brand {
   font-size: 1.75rem;
@@ -325,5 +319,28 @@ export default {
 
 .divider {
   height: 100%;
+}
+
+.happy-deal-banner {
+  background-image: url('../assets/img/backgroundPatterns/pattern1.svg');
+}
+
+.red-hover-btn {
+  transition: color 0.2s ease-in-out;
+  &:hover {
+    color: #ff5252;
+  }
+}
+
+.functional-icons {
+  color: #111 !important;
+  font-weight: 200;
+}
+
+.catalog-control {
+  top: calc(113px + 1.5rem) !important;
+  left: 0px !important;
+  min-width: 100vw !important;
+  max-width: 100vw !important;
 }
 </style>

@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import VueSplide from '@splidejs/vue-splide';
-import '@/assets/styles/app-style.css';
+import '@/assets/styles/app-style.scss';
 
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
