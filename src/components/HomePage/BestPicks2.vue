@@ -12,13 +12,44 @@
       </v-row>
 
       <!-- COLLECTIONS -->
+      <v-row>
+        <v-col v-for="n in 4" :key="n" cols="12">
+          <!-- Card -->
+          <div
+            class="card"
+            :style="{
+              height: '400px',
+            }"
+          >
+            <!-- Background -->
+            <div class="card-bg">
+              <div
+                class="card-bg-img"
+                :style="{
+                  'background-image': `url(${require(`@/assets/img/collection/collection${n}.jpeg`)})`,
+                }"
+              ></div>
+            </div>
+            <!-- Body  -->
+            <div class="my-auto text-center">
+              <!-- Heading  -->
+              <h4>{{ coverTitles[n - 1] }}</h4>
+              <!-- Link  -->
+              <span class="shop-button">
+                <a href="#" class="font-weight-bold"> Shop Now </a>
+                <v-icon class="shop-icon ml-3"> mdi-arrow-right </v-icon>
+              </span>
+            </div>
+          </div>
+        </v-col>
+      </v-row>
 
       <v-row>
         <v-col v-for="n in 4" :key="n" :cols="n === 2 || n === 3 ? 8 : 4">
           <v-card tile flat max-height="400">
             <v-img
               :src="require(`@/assets/img/collection/collection${n}.jpeg`)"
-              min-height="400"
+              height="400"
             >
               <div v-if="n === 2" class="card-circle">
                 <h3 class="font-weight-regular">save</h3>
@@ -53,7 +84,6 @@
 </template>
 
 <script>
-// import img from '../../assets/img/collection/collection1.jpeg'
 export default {
   name: 'BestPicks',
 
@@ -74,20 +104,16 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .v-card {
-  transition: background-position 2s ease-in-out;
-
-  background-position: 50% 50% !important;
-
-  // &:hover .v-image__image {
-  //   background-position: 60% 50% !important;
-  // }
-
-  &:hover .v-image__image {
-    transform: translatex(-0.2em);
+  transition: all 3s linear;
+  &:hover .v-image {
+    transform: translatex(-0.3em);
   }
-
+  // Tun fixed, note bo scoped
+  // &:hover .v-image__image {
+  //   background-position: 10% 50% !important;
+  // }
   &:hover .shop-icon {
     transform: translatex(0.2em);
   }
