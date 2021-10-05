@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- MAIN NAV -->
-    <nav class="top-navbar d-flex justify-center">
+    <nav class="top-navbar d-flex justify-center py-1 px-4">
       <div class="container-control d-flex align-center">
         <!-- PROMO -->
         <section class="promo">
@@ -65,11 +65,22 @@
           </section>
 
           <!-- INFO -->
-          <v-breadcrumbs
+          <!-- <v-breadcrumbs
             :items="info"
             divider=""
-            class="font-weight-medium mr-10"
-          ></v-breadcrumbs>
+            class="font-weight-medium mr-10 pa-0"
+          ></v-breadcrumbs> -->
+          <ul class="d-flex">
+            <li
+              v-for="info in infos"
+              :key="info"
+              class="font-weight-medium px-4"
+            >
+              <a :href="info.href">
+                {{ info.text }}
+              </a>
+            </li>
+          </ul>
 
           <!-- CONTACT -->
           <section>
@@ -97,20 +108,22 @@
         <div class="d-flex justify-space-between align-center">
           <span class="brand">Pineapple.</span>
 
-          <div class="main-breadcrumbs">
+          <div class="main-breadcrumbs d-flex align-center justify-center">
             <ul class="d-flex pa-0">
               <li
-                v-for="(breadcrumbVal, breadcrumbKey) in breadcrumbs"
-                :key="breadcrumbKey"
+                v-for="(breadcrumb, breadcrumbIdx) in breadcrumbs"
+                :key="breadcrumbIdx"
                 class="mx-2"
               >
                 <v-menu
+                  :nudge-left="breadcrumb === 'Shop' ? '250' : 0"
                   transition="scroll-y-reverse-transition"
                   offset-y
-                  :close-on-click="true"
+                  open-on-hover
                   :close-on-content-click="false"
+                  :close-delay="breadcrumb === 'Catalog' ? '100' : undefined"
                   :content-class="
-                    breadcrumbKey === 'Catalog' ? 'catalog-control' : undefined
+                    breadcrumb === 'Catalog' ? 'catalog-control' : undefined
                   "
                 >
                   <template v-slot:activator="{ on, attrs }" elevation="0">
@@ -119,14 +132,18 @@
                       v-on="on"
                       class="font-weight-medium px-4 py-2 red-hover-btn"
                     >
-                      {{ breadcrumbKey }}
+                      {{ breadcrumb }}
                     </div>
                   </template>
 
-                  <component :is="currentMenu(breadcrumbKey)" />
+                  <component :is="currentMenu(breadcrumb)" />
                 </v-menu>
               </li>
             </ul>
+
+            <a href="#" class="font-weight-medium px-4 py-2 red-hover-btn">
+              Docs
+            </a>
           </div>
 
           <!-- FUNCTIONAL ICONS -->
@@ -147,7 +164,7 @@
             </ul>
 
             <a href="#" target="_blank" class="pl-2 font-weight-light">
-              <v-badge color="red accent-2" content="6">
+              <v-badge color="#ff6f61" content="6">
                 <font-awesome-icon
                   :icon="['fas', 'shopping-cart']"
                   class="red-hover-btn"
@@ -160,21 +177,13 @@
     </div>
 
     <!-- HAPPY DEAL BANNER -->
-
-    <v-banner
-      single-line
-      color="#1f1f1f"
-      height="48"
-      class="
-        white--text
-        font-weight-medium
-        banner-heading
-        mb-5
-        happy-deal-banner
-      "
+    <div
+      class="happy-deal-banner font-weight-medium mb-5 white--text text-center"
     >
-      ⚡️ HAPPY HOLIDAY DEALS ON EVERYTHING ⚡️
-    </v-banner>
+      <v-row>
+        <v-col cols="12"> ⚡️ HAPPY HOLIDAY DEALS ON EVERYTHING ⚡️</v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 
@@ -183,10 +192,11 @@ import HomeMenu from '@/components/HomePage/BreadcrumbMenu/HomeMenu';
 import PageMenu from '@/components/HomePage/BreadcrumbMenu/PageMenu';
 import BlogMenu from '@/components/HomePage/BreadcrumbMenu/BlogMenu';
 import CatalogMenu from '@/components/HomePage/BreadcrumbMenu/CatalogMenu';
+import ShopMenu from '@/components/HomePage/BreadcrumbMenu/ShopMenu';
 
 export default {
   name: 'NavBars',
-  components: { HomeMenu, PageMenu, BlogMenu, CatalogMenu },
+  components: { HomeMenu, PageMenu, BlogMenu, CatalogMenu, ShopMenu },
 
   data: () => ({
     dropdownOptions: {
@@ -211,7 +221,7 @@ export default {
         { title: 'German' },
       ],
     },
-    info: [
+    infos: [
       { text: 'Shipping', href: '#' },
       { text: 'FAQ', href: '#' },
       { text: 'Contact', href: '#' },
@@ -248,14 +258,7 @@ export default {
         spec: ['far', 'heart'],
       },
     ],
-    breadcrumbs: {
-      Home: ['Default', 'Classic'],
-      Catalog: ['Default', 'Classic'],
-      Shop: ['Default', 'Classic'],
-      Pages: ['Default', 'Classic'],
-      Blog: ['Default', 'Classic'],
-      Docs: ['Default', 'Classic'],
-    },
+    breadcrumbs: ['Home', 'Catalog', 'Shop', 'Pages', 'Blog'],
   }),
   methods: {
     currentMenu(key) {
@@ -264,8 +267,8 @@ export default {
           return 'HomeMenu';
         case 'Catalog':
           return 'CatalogMenu';
-        // case 'Shop':
-        //   return 'ShopMenu';
+        case 'Shop':
+          return 'ShopMenu';
         case 'Pages':
           return 'PageMenu';
         case 'Blog':
@@ -310,25 +313,20 @@ export default {
   font-weight: 600;
 }
 
-.banner-heading {
-  text-align: center;
-  .v-banner__wrapper {
-    height: 100%;
-  }
-}
-
 .divider {
   height: 100%;
 }
 
 .happy-deal-banner {
-  background-image: url('../assets/img/backgroundPatterns/pattern1.svg');
+  background-image: url('../assets/img/backgroundPatterns/pattern1.svg') !important;
+  background: #1f1f1f;
+  font-size: 0.8125rem;
 }
 
 .red-hover-btn {
   transition: color 0.2s ease-in-out;
   &:hover {
-    color: #ff5252;
+    color: #ff5252 !important;
   }
 }
 
@@ -339,6 +337,7 @@ export default {
 
 .catalog-control {
   top: calc(113px + 1.5rem) !important;
+  position: absolute;
   left: 0px !important;
   min-width: 100vw !important;
   max-width: 100vw !important;

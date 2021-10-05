@@ -27,8 +27,7 @@ textarea {
   box-sizing: border-box;
   font-family: var(--main-font) !important;
   --main-font: 'Jost', sans-serif;
-  --main-grey: #F5F5F5
-  
+  --main-grey: #F5F5F5;
 }
 
 body {
@@ -36,13 +35,18 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: black;
+  color: #111 !important;
   box-sizing: border-box;
 }
 
 .v-application {
   font-family: var(--main-font) !important;
+  color: #111;
   /* margin: auto; */
+}
+
+.theme--light.v-application {
+  color: #111;
 }
 
 h2 {
@@ -93,7 +97,10 @@ ul {
 .container-control {
   height: 100%;
   margin: auto;
-  width: 1140px
+  width: 100%;
+  max-width: 1140px;
+  padding-right: 1rem;
+  padding-left: 1rem;
 }
 
 @media (min-width: 576px) {
@@ -126,8 +133,7 @@ ul {
   }
 }
 section + section {
-  /* margin: 8rem 0; */
-  padding: 8rem 0;
+  padding: 6rem 0;
 }
 
 .row {
@@ -167,33 +173,53 @@ section + section {
 
 /* OVERWRITE VUETIFY CLASSES */
 
-.v-application .mb-6 {
-  margin-bottom: 1.5em !important;
-}
+.v-application {
+  /* PADDING */
+  .py-3, .pt-3 {
+    padding-top: 0.75rem !important;
 
-.v-application .py-6 {
-  padding-top: 1.5rem !important;
-  padding-bottom: 1.5rem !important;
-}
+  }
+  .py-3, .pb-3 {
+    padding-bottom: 0.75rem !important;
+  }
 
-.v-application .mb-7 {
-  margin-bottom: 2rem !important;
-}
+  .py-6, .pt-6 {
+    padding-top: 1.5rem !important;
+  }
 
-.v-application .my-7 {
-  margin-top: 2rem !important;
-  margin-bottom: 2rem !important;
-}
+  .py-6, .pb-6 {
+    padding-bottom: 1.5rem !important;
+  }
 
-.v-application .mb-11 {
-  margin-bottom: 5rem !important;
-}
+  .py-12, .pt-12 {
+    padding-top: 6rem !important;
+  }
 
-.v-application .py-12 {
-  padding-top: 6rem !important;
-  padding-bottom: 6rem !important;
-}
+  .py-12, .pb-12 {
+    padding-bottom: 6rem !important;
+  }
 
+  /* MARGIN */
+  .my-6, .mt-6 {
+    margin-top: 1.5rem !important;
+  }
+
+  .my-7, .mt-7 {
+    margin-top: 2rem !important;
+  }
+
+  .my-7, .mb-7 {
+    margin-bottom: 2rem !important;
+  }
+
+  .my-11, .mt-11 {
+    margin-top: 5rem !important;
+  }
+
+  .my-11, .mb-11 {
+    margin-bottom: 5rem !important;
+  }
+}
 /* END OF OVERWRITE VUETIFY CLASSES */
 
 .menu-body {

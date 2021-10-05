@@ -1,41 +1,39 @@
 <template>
-  <section id="cover">
+  <section>
     <!-- COVER -->
     <article>
-      <v-container fluid pa-0>
-        <v-row no-gutters>
-          <v-col v-for="n in 3" :key="n" cols="4">
-            <v-card tile>
-              <v-img
-                :src="require(`@/assets/img/covers/cover${n}.jpeg`)"
-                aspect-ratio="1"
-                content-class="bg-hover img-with-button"
+      <v-row no-gutters>
+        <v-col v-for="n in 3" :key="n" cols="4">
+          <v-card tile>
+            <v-img
+              :src="require(`@/assets/img/covers/cover${n}.jpeg`)"
+              aspect-ratio="1.17234"
+              content-class="bg-hover img-with-button"
+            >
+              <v-card-text
+                class="text-center white--text font-weight-bold mb-16"
+                style="font-size: 3rem"
+                align="center"
               >
-                <v-card-text
-                  class="text-center white--text font-weight-bold mb-16"
-                  style="font-size: 3rem"
-                  align="center"
-                >
-                  {{ coverTitles[n - 1] }}
-                </v-card-text>
-                <a
-                  href="https://vuejs.org/v2/api/#transition"
-                  target="_blank"
-                  class="shop-button white-button mt-16 stretched-link"
-                >
-                  Shop {{ coverTitles[n - 1] }}
-                  <v-icon class="shop-icon ml-2">mdi-arrow-right</v-icon>
-                </a>
-              </v-img>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
+                {{ coverTitles[n - 1] }}
+              </v-card-text>
+              <a
+                href="https://vuejs.org/v2/api/#transition"
+                target="_blank"
+                class="shop-button white-button mt-16 stretched-link"
+              >
+                Shop {{ coverTitles[n - 1] }}
+                <v-icon class="shop-icon ml-2">mdi-arrow-right</v-icon>
+              </a>
+            </v-img>
+          </v-card>
+        </v-col>
+      </v-row>
     </article>
 
     <!-- FEATURES -->
     <article>
-      <v-container class="mx-auto py-7 px-0 container-control">
+      <v-container class="mx-auto pt-7 px-0 container-control">
         <v-row class="feature-row pb-7">
           <v-col v-for="(item, index) in features" :key="index" cols="3">
             <v-card class="feature-cards" tile flat>
@@ -92,6 +90,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#cover {
+  height: 470px;
+}
+
 .v-card {
   transition: opacity 0.4s ease-in-out;
 }
@@ -110,11 +112,9 @@ export default {
 
 .feature-cards {
   display: flex !important;
-  //   align-items: start;
   & .v-icon {
     vertical-align: baseline !important;
     line-height: inherit;
-    // color: #ff8a80;
   }
 }
 </style>

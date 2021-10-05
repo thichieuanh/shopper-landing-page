@@ -23,7 +23,7 @@
                 cols="3"
                 class="pa-0"
               >
-                <p class="font-weight-bold mb-5">{{ catalog.category }}</p>
+                <p class="font-weight-medium mb-5">{{ catalog.category }}</p>
                 <ul class="pa-0 font-size-sm">
                   <li
                     v-for="(sub, subIdx) in catalog.subCategory"
@@ -122,6 +122,3 @@ export default {
   }),
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

@@ -33,11 +33,6 @@ export default {
   border: 1px #e0e0e0 solid;
 }
 
-.nav-link {
-  text-decoration: none;
-  color: black !important;
-}
-
 .v-breadcrumbs__item {
   color: black !important;
 }
