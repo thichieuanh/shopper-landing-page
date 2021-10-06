@@ -12,7 +12,6 @@
       </v-row>
 
       <!-- COLLECTIONS -->
-
       <v-row>
         <v-col
           v-for="n in 4"
@@ -21,36 +20,45 @@
           :md="n === 2 || n === 3 ? 7 : 5"
           :lg="n === 2 || n === 3 ? 8 : 4"
         >
-          <v-card tile flat max-height="400">
-            <v-img
-              :src="require(`@/assets/img/collection/collection${n}.jpeg`)"
-              height="400"
-            >
-              <div v-if="n === 2" class="card-circle">
-                <h3 class="font-weight-regular">save</h3>
-                <h2 class="font-weight-regular">30%</h2>
-              </div>
+          <div class="card bg-hover">
+            <!-- Card background -->
+            <div
+              class="card-bg"
+              :style="{
+                'background-image': `url(${require(`@/assets/img/collection/collection${n}.jpeg`)})`,
+                'background-position': 'center center',
+                'background-size': 'cover',
+                'background-repeat': 'no-repeat',
+                height: '400px',
+              }"
+            ></div>
 
-              <v-row class="fill-height flex-column" justify="center">
-                <div
-                  :class="
-                    textColor(n) + ' text-center font-weight-medium px-md-10'
-                  "
-                >
-                  <div style="font-size: 2rem">
-                    {{ coverTitles[n - 1] }}
-                  </div>
-
-                  <div class="pa-0 shop-button" style="font-size: 1.125rem">
-                    <a href="#"> Shop Now </a>
-                    <v-icon class="shop-icon ml-3" size="1.125rem">
-                      mdi-arrow-right
-                    </v-icon>
-                  </div>
+            <!-- Card body -->
+            <v-row class="fill-height flex-column card-body" justify="center">
+              <div
+                :class="
+                  textColor(n) + ' text-center font-weight-medium px-md-10'
+                "
+              >
+                <div style="font-size: 2rem">
+                  {{ coverTitles[n - 1] }}
                 </div>
-              </v-row>
-            </v-img>
-          </v-card>
+
+                <div class="pa-0 shop-button" style="font-size: 1.125rem">
+                  <a href="#"> Shop Now </a>
+                  <v-icon class="shop-icon ml-3" size="1.125rem">
+                    mdi-arrow-right
+                  </v-icon>
+                </div>
+              </div>
+            </v-row>
+
+            <!-- Promotion badgle -->
+            <div v-if="n === 2" class="card-circle">
+              <h3 class="font-weight-regular">save</h3>
+              <h2 class="font-weight-regular">30%</h2>
+            </div>
+          </div>
         </v-col>
       </v-row>
     </div>
@@ -80,22 +88,22 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.v-card {
-  .v-image__image {
-    transition: transform 0.2s ease-in-out;
-    width: calc(100% + 0.3rem);
-    overflow: hidden;
-  }
+<style lang="scss" scoped>
+// .v-card {
+//   .v-image__image {
+//     transition: transform 0.2s ease-in-out;
+//     width: calc(100% + 0.3rem);
+//     overflow: hidden;
+//   }
 
-  &:hover .v-image__image {
-    transform: translatex(-0.3rem);
-  }
+//   &:hover .v-image__image {
+//     transform: translatex(-0.3rem);
+//   }
 
-  &:hover .shop-icon {
-    transform: translatex(0.2em);
-  }
-}
+//   &:hover .shop-icon {
+//     transform: translatex(0.2em);
+//   }
+// }
 
 .card-circle {
   background: #ff6f61;
@@ -107,5 +115,22 @@ export default {
   position: absolute;
   top: 1.2rem;
   right: 1.2rem;
+}
+
+.card-bg {
+  width: calc(100% + 0.3rem);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card-body {
+  position: absolute;
+  top: 0;
+}
+
+.bg-hover {
+  overflow: hidden;
+  &:hover .card-bg {
+    transform: translatex(-0.3rem);
+  }
 }
 </style>

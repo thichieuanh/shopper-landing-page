@@ -35,36 +35,4 @@ export default [
     reviewer: 'Pavel Doe',
     reviewTime: '29 May 2021'
   },
-  // {
-  //   avatar: require('@/assets/img/reviews/review5.jpeg'),
-  //   category: 'Shoes',
-  //   productName: 'Leather mid-heel Sandals',
-  //   rating: '$129.00',
-  //   reviewText: 'null',
-  //   reviewer: 'true'
-  // },
-  // {
-  //   avatar: require('@/assets/img/reviews/review6.jpeg'),
-  //   category: 'Shoes',
-  //   productName: 'Leather mid-heel Sandals',
-  //   rating: '$129.00',
-  //   reviewText: 'null',
-  //   reviewer: 'true'
-  // },
-  // {
-  //   avatar: require('@/assets/img/reviews/review7.jpeg'),
-  //   category: 'Shoes',
-  //   productName: 'Leather mid-heel Sandals',
-  //   rating: '$129.00',
-  //   reviewText: 'null',
-  //   reviewer: 'true'
-  // },
-  // {
-  //   avatar: require('@/assets/img/reviews/review8.jpeg'),
-  //   category: 'Shoes',
-  //   productName: 'Leather mid-heel Sandals',
-  //   rating: '$129.00',
-  //   reviewText: 'null',
-  //   reviewer: 'true'
-  // }
 ]

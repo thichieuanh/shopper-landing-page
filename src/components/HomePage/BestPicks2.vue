@@ -1,3 +1,34 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+
+@anhthichieu
+anhthichieu
+/
+shopper-landing-page
+Public
+1
+00
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+shopper-landing-page/src/components/HomePage/BestPicks2.vue
+
+Thi Chieu temp push
+Latest commit 3668288 22 hours ago
+ History
+ 0 contributors
+133 lines (124 sloc)  3.55 KB
+
 <template>
   <section id="best-picks">
     <div class="container-control">
@@ -86,7 +117,6 @@
 <script>
 export default {
   name: 'BestPicks',
-
   data: () => ({
     coverTitles: [
       'Bag Collections',
@@ -95,7 +125,6 @@ export default {
       'Sweatshirts',
     ],
   }),
-
   methods: {
     textColor(idx) {
       return idx === 1 || idx === 3 ? 'white--text' : 'black--text';
@@ -118,7 +147,6 @@ export default {
     transform: translatex(0.2em);
   }
 }
-
 .card-circle {
   background: #ff6f61;
   border-radius: 50%;
@@ -131,3 +159,16 @@ export default {
   right: 1.2rem;
 }
 </style>
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete

@@ -1,20 +1,20 @@
 <template>
   <div>
     <!-- MAIN NAV -->
-    <nav class="top-navbar d-flex justify-center py-1 px-4">
+    <nav class="top-navbar d-flex justify-center">
       <div class="container-control d-flex align-center">
         <!-- PROMO -->
-        <section class="promo">
+        <div class="promo">
           <v-icon color="black" small class="mr-2"> mdi-truck-outline</v-icon>
           <span class="nav-heading heading-xxxs">FREE SHIPPING WORLDWIDE</span>
-        </section>
+        </div>
 
         <div class="collasped d-flex align-center justify-space-between">
           <!-- DROPDOWN -->
-          <section style="width: 50%">
-            <ul class="dropdown px-0">
+          <div style="width: 50%">
+            <ul class="dropdown px-0 d-flex">
               <li
-                class="mx-2"
+                class="dropdown-link d-flex"
                 v-for="(dropdownVal, dropdownKey) in dropdownOptions"
                 :key="dropdownKey"
               >
@@ -22,19 +22,15 @@
                   transition="scroll-y-reverse-transition"
                   offset-y
                   open-on-hover
+                  content-class="dropdown-content"
                 >
                   <template v-slot:activator="{ on, attrs }" elevation="0">
-                    <a
-                      href="#"
-                      class="d-flex align-center font-weight-medium"
-                      v-bind="attrs"
-                      v-on="on"
-                    >
+                    <a href="#" v-bind="attrs" v-on="on">
                       <img
                         v-if="dropdownKey === 'countries'"
                         src="@/assets/img/flags/usa.svg"
                         alt="usa flag"
-                        class="ma-2"
+                        class="mb-1 mr-1"
                       />
                       {{ dropdownVal[0].title }}
                       <v-icon color="black">mdi-chevron-down</v-icon>
@@ -60,16 +56,12 @@
                     </template>
                   </v-list>
                 </v-menu>
+                <v-divider vertical class="ml-5"></v-divider>
               </li>
             </ul>
-          </section>
+          </div>
 
           <!-- INFO -->
-          <!-- <v-breadcrumbs
-            :items="info"
-            divider=""
-            class="font-weight-medium mr-10 pa-0"
-          ></v-breadcrumbs> -->
           <ul class="d-flex">
             <li
               v-for="info in infos"
@@ -83,21 +75,18 @@
           </ul>
 
           <!-- CONTACT -->
-          <section>
-            <v-btn
-              v-for="(icon, socialIconsIdx) in socialIcons"
-              :key="socialIconsIdx"
-              small
-              text
-              icon
-              plain
-              color="grey"
-              href="#"
-              target="_blank"
-            >
-              <font-awesome-icon :icon="icon.spec" size="lg" />
-            </v-btn>
-          </section>
+          <div>
+            <ul class="d-flex pa-0">
+              <li
+                v-for="(icon, socialIconsIdx) in socialIcons"
+                :key="socialIconsIdx"
+              >
+                <a href="" class="detail-link">
+                  <font-awesome-icon :icon="icon.spec" class="btn" />
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>
@@ -284,15 +273,22 @@ export default {
 <style lang="scss" scoped>
 .top-navbar {
   width: 100%;
-  height: 48px;
   background: var(--main-grey);
   font-size: 0.875rem;
+  padding: 0.25rem 1rem;
 }
 
 .dropdown {
   display: flex;
   align-items: center;
   justify-items: center;
+  .dropdown-link {
+    padding: 9px;
+  }
+}
+
+.dropdown-content {
+  font-size: 0.875rem !important;
 }
 
 .promo {
@@ -341,5 +337,10 @@ export default {
   left: 0px !important;
   min-width: 100vw !important;
   max-width: 100vw !important;
+}
+
+.detail-link {
+  color: #a6a6a6 !important;
+  padding: 9px;
 }
 </style>

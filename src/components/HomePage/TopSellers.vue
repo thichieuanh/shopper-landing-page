@@ -111,7 +111,7 @@ export default {
 
 .underline-wrapper {
   position: relative;
-  width: 25%;
+  width: 18%;
   text-align: center;
   margin: auto;
 
