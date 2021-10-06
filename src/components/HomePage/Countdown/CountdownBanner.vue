@@ -1,9 +1,7 @@
 <template>
   <section id="count-down" class="pl-15 py-10 d-flex flex-column justify-start">
-    <h3 class="mt-16 mb-10 cd-title red--text red-accent-1">
-      Get -50% from <br />Summer Collection
-    </h3>
-    <flip-countdown :deadline="deadline"></flip-countdown>
+    <h3 class="mt-16 mb-10 cd-title">Get -50% from <br />Summer Collection</h3>
+    <countdown :deadline="deadline"></countdown>
 
     <a
       href="https://vuejs.org/v2/api/#transition"
@@ -17,7 +15,7 @@
 </template>
 
 <script>
-import FlipCountdown from '@/components/HomePage/Countdown/FlipCountdown.vue';
+import Countdown from '@/components/HomePage/Countdown/Countdown.vue';
 import format from 'date-fns/format';
 import add from 'date-fns/add';
 const fmt = 'yyyy-MM-dd HH:mm:ss';
@@ -25,13 +23,13 @@ const fmt = 'yyyy-MM-dd HH:mm:ss';
 export default {
   name: 'CountdownBanner',
 
-  components: { FlipCountdown },
+  components: { Countdown },
 
   data: () => ({
     deadline: format(
       add(new Date(), {
         years: 0,
-        months: 3,
+        months: 0,
         weeks: 0,
         days: 7,
         hours: 5,
@@ -46,10 +44,16 @@ export default {
 
 <style lang="scss" scoped>
 #count-down {
-  min-height: 60vh;
+  min-height: 95vh;
   background-image: url('../../../assets/img/covers/countdown.jpeg');
   background-size: cover;
   background-position: center;
+}
+
+@media (min-width: 1500px) {
+  #count-down {
+    min-height: 60vh;
+  }
 }
 
 .cd-title {

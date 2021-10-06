@@ -1,29 +1,24 @@
 <template>
-  <div class="flip-clock ma-0 text-center d-flex">
+  <div class="ma-0 text-center d-flex">
     <template v-for="data in timeData">
-      <span
+      <div
         :key="data.label"
         class="flip-clock__piece"
         :id="data.elementId"
         v-show="data.show"
       >
-        <span class="flip-clock__card flip-card">
-          <b class="flip-card__top">{{ data.current | twoDigits }}</b>
-          <b
-            class="flip-card__bottom"
-            :data-value="data.current | twoDigits"
-          ></b>
-          <b
-            class="flip-card__back"
-            :data-value="data.previous | twoDigits"
-          ></b>
-          <b
-            class="flip-card__back-bottom"
-            :data-value="data.previous | twoDigits"
-          ></b>
+        <span class="flip-card">
+          {{ data.current | twoDigits }}
         </span>
         <span class="flip-clock__slot">{{ data.label }}</span>
-      </span>
+      </div>
+      <div
+        :key="data.elementId"
+        class="flip-card px-md-4"
+        v-if="data.label !== 'SECONDS'"
+      >
+        :
+      </div>
     </template>
   </div>
 </template>
@@ -66,10 +61,10 @@ export default {
       required: false,
       default: function () {
         return {
-          days: 'Days',
-          hours: 'Hours',
-          minutes: 'Minutes',
-          seconds: 'Seconds',
+          days: 'DAYS',
+          hours: 'HOURS',
+          minutes: 'MINUTES',
+          seconds: 'SECONDS',
         };
       },
     },
@@ -254,162 +249,20 @@ export default {
 }
 
 .flip-clock__slot {
-  font-size: 1rem;
+  font-size: 0.914rem;
+  font-weight: 500;
   line-height: 1.5;
   display: block;
+  color: #767676;
 }
 
 .flip-card {
   display: block;
   position: relative;
-  padding-bottom: 0.72em;
+  padding-bottom: 0.72rem;
   font-size: 3rem;
+  font-weight: 600;
   line-height: 0.95;
-}
-
-@media (min-width: 1000px) {
-  .flip-clock__slot {
-    font-size: 2rem;
-  }
-  .flip-card {
-    font-size: 5rem;
-  }
-}
-
-.flip-card__top,
-.flip-card__bottom,
-.flip-card__back-bottom,
-.flip-card__back::before,
-.flip-card__back::after {
-  display: block;
-  height: 0.72em;
-  color: #cca900;
-  background: #222;
-  padding: 0.23em 0.15em 0.4em;
-  border-radius: 0.15em 0.15em 0 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d;
-  width: 2.14em;
-  height: 0.72em;
-}
-
-// .flip-card__top-4digits,
-// .flip-card__bottom-4digits,
-// .flip-card__back-bottom-4digits,
-// .flip-card__back-4digits::before,
-// .flip-card__back-4digits::after {
-//   display: block;
-//   height: 0.72em;
-//   color: #cca900;
-//   background: #222;
-//   padding: 0.23em 0.15em 0.4em;
-//   border-radius: 0.15em 0.15em 0 0;
-//   backface-visibility: hidden;
-//   -webkit-backface-visibility: hidden;
-//   transform-style: preserve-3d;
-//   width: 2.65em;
-//   height: 0.72em;
-// }
-
-.flip-card__bottom,
-.flip-card__back-bottom,
-.flip-card__bottom-4digits,
-.flip-card__back-bottom-4digits {
-  color: #ffdc00;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  border-top: solid 1px #000;
-  background: #393939;
-  border-radius: 0 0 0.15em 0.15em;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 2;
-}
-
-.flip-card__back-bottom,
-.flip-card__back-bottom-4digits {
-  z-index: 1;
-}
-
-.flip-card__bottom::after,
-.flip-card__back-bottom::after,
-.flip-card__bottom-4digits::after,
-.flip-card__back-bottom-4digits::after {
-  display: block;
-  margin-top: -0.72em;
-}
-
-.flip-card__back::before,
-.flip-card__bottom::after,
-.flip-card__back-bottom::after,
-.flip-card__back-4digits::before,
-.flip-card__bottom-4digits::after,
-.flip-card__back-bottom-4digits::after {
-  content: attr(data-value);
-}
-
-.flip-card__back,
-.flip-card__back-4digits {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  left: 0%;
-  pointer-events: none;
-}
-
-.flip-card__back::before,
-.flip-card__back-4digits::before {
-  position: relative;
-  overflow: hidden;
-  z-index: -1;
-}
-
-.flip .flip-card__back::before,
-.flip .flip-card__back-4digits::before {
-  z-index: 1;
-  animation: flipTop 0.3s cubic-bezier(0.37, 0.01, 0.94, 0.35);
-  animation-fill-mode: both;
-  transform-origin: center bottom;
-}
-
-.flip .flip-card__bottom,
-.flip .flip-card__bottom-4digits {
-  transform-origin: center top;
-  animation-fill-mode: both;
-  animation: flipBottom 0.6s cubic-bezier(0.15, 0.45, 0.28, 1);
-}
-
-@keyframes flipTop {
-  0% {
-    transform: rotateX(0deg);
-    z-index: 2;
-  }
-  0%,
-  99% {
-    opacity: 1;
-  }
-  100% {
-    transform: rotateX(-90deg);
-    opacity: 0;
-  }
-}
-
-@keyframes flipBottom {
-  0%,
-  50% {
-    z-index: -1;
-    transform: rotateX(90deg);
-    opacity: 0;
-  }
-  51% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: rotateX(0deg);
-    z-index: 5;
-  }
+  color: #ff6f61;
 }
 </style>
