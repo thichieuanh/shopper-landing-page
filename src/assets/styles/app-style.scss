@@ -171,7 +171,7 @@ section + section {
 } */
 
 
-/* OVERWRITE VUETIFY CLASSES */
+/* OVERWRITE VUETIFY SPACING */
 
 .v-application {
   /* PADDING */
@@ -189,6 +189,10 @@ section + section {
 
   .py-6, .pb-6 {
     padding-bottom: 1.5rem !important;
+  }
+
+  .pl-md-10, .px-md-10 {
+    padding-left: 4rem!important;
   }
 
   .py-12, .pt-12 {
@@ -219,6 +223,10 @@ section + section {
   .my-11, .mb-11 {
     margin-bottom: 5rem !important;
   }
+}
+
+.theme--light.v-icon {
+  color: inherit;
 }
 /* END OF OVERWRITE VUETIFY CLASSES */
 

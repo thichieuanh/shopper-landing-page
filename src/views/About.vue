@@ -1,46 +1,29 @@
 <template>
   <div>
-    <input
-      type="text"
-      placeholder="Add new cat"
-      v-model="newCat"
-      @keyup.13="addCat"
-    />
-    <br />
-    <button @click="addCat">ADD CAT</button>
-    <br />
-    <button @click="removeCat">REMOVE CAT</button>
-
-    <h2>Cat List:</h2>
-
-    <div v-for="cat in cats" :key="cat">
-      <label for="">
-        <input type="checkbox" v-model="selected" :value="cat" />
-        {{ cat }}
-      </label>
-    </div>
-
-    <h4>Selected: {{ selected }}</h4>
+    <ul class="d-flex">
+      <li v-for="item in array" :key="item" class="mx-2 mx-md-10">
+        {{ item }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 export default {
   data: () => ({
-    newCat: '',
-    cats: ['foo', 'bar'],
-    selected: [],
+    array: ['thi', 'thi 2', 'thi 3'],
   }),
-  methods: {
-    addCat() {
-      if (this.newCat !== '') {
-        this.cats.push(this.newCat);
-        this.newCat = '';
-      }
-    },
-    removeCat() {
-      this.cats = this.cats.filter((item) => !this.selected.includes(item));
-    },
-  },
+  computed: {},
+  methods: {},
 };
 </script>
+
+<style lang="scss" scoped>
+// .list {
+//   display: flex;
+// }
+
+// .list-item {
+//   margin: 5px;
+// }
+</style>

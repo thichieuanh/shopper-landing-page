@@ -14,11 +14,17 @@
       <!-- COLLECTIONS -->
 
       <v-row>
-        <v-col v-for="n in 4" :key="n" :cols="n === 2 || n === 3 ? 8 : 4">
+        <v-col
+          v-for="n in 4"
+          :key="n"
+          cols="12"
+          :md="n === 2 || n === 3 ? 7 : 5"
+          :lg="n === 2 || n === 3 ? 8 : 4"
+        >
           <v-card tile flat max-height="400">
             <v-img
               :src="require(`@/assets/img/collection/collection${n}.jpeg`)"
-              min-height="400"
+              height="400"
             >
               <div v-if="n === 2" class="card-circle">
                 <h3 class="font-weight-regular">save</h3>
@@ -26,23 +32,22 @@
               </div>
 
               <v-row class="fill-height flex-column" justify="center">
-                <v-card-text
-                  :class="textColor(n) + ' text-center font-weight-bold'"
-                  style="font-size: 2rem"
+                <div
+                  :class="
+                    textColor(n) + ' text-center font-weight-medium px-md-10'
+                  "
                 >
-                  {{ coverTitles[n - 1] }}
-                </v-card-text>
+                  <div style="font-size: 2rem">
+                    {{ coverTitles[n - 1] }}
+                  </div>
 
-                <v-card-actions class="mx-auto pa-0">
-                  <span class="shop-button">
-                    <a href="#" :class="textColor(n) + ' font-weight-bold'">
-                      Shop Now
-                    </a>
-                    <v-icon :class="textColor(n) + ' shop-icon ml-3'">
+                  <div class="pa-0 shop-button" style="font-size: 1.125rem">
+                    <a href="#"> Shop Now </a>
+                    <v-icon class="shop-icon ml-3" size="1.125rem">
                       mdi-arrow-right
                     </v-icon>
-                  </span>
-                </v-card-actions>
+                  </div>
+                </div>
               </v-row>
             </v-img>
           </v-card>
@@ -53,7 +58,6 @@
 </template>
 
 <script>
-// import img from '../../assets/img/collection/collection1.jpeg'
 export default {
   name: 'BestPicks',
 
@@ -68,7 +72,9 @@ export default {
 
   methods: {
     textColor(idx) {
-      return idx === 1 || idx === 3 ? 'white--text' : 'black--text';
+      return idx === 1 || idx === 4
+        ? 'white--text'
+        : 'black--text text-md-left';
     },
   },
 };
@@ -76,16 +82,14 @@ export default {
 
 <style lang="scss">
 .v-card {
-  transition: background-position 2s ease-in-out;
-
-  background-position: 50% 50% !important;
-
-  // &:hover .v-image__image {
-  //   background-position: 60% 50% !important;
-  // }
+  .v-image__image {
+    transition: transform 0.2s ease-in-out;
+    width: calc(100% + 0.3rem);
+    overflow: hidden;
+  }
 
   &:hover .v-image__image {
-    transform: translatex(-0.2em);
+    transform: translatex(-0.3rem);
   }
 
   &:hover .shop-icon {
