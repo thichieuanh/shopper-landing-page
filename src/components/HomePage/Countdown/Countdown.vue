@@ -10,6 +10,7 @@
         <span class="flip-card">
           {{ data.current | twoDigits }}
         </span>
+
         <span class="flip-clock__slot">{{ data.label }}</span>
       </div>
       <div

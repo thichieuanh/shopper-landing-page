@@ -1,11 +1,16 @@
 <template>
   <div>
-    <!-- MAIN NAV -->
+    <!-- TOP NAV -->
     <nav class="top-navbar d-flex justify-center">
       <div class="container-control d-flex align-center">
         <!-- PROMO -->
         <div class="promo">
-          <v-icon color="black" small class="mr-2"> mdi-truck-outline</v-icon>
+          <Icon
+            icon="feather:truck"
+            width="15.75"
+            :inline="true"
+            class="mr-3"
+          />
           <span class="nav-heading heading-xxxs">FREE SHIPPING WORLDWIDE</span>
         </div>
 
@@ -91,12 +96,14 @@
       </div>
     </nav>
 
-    <!-- BREADCUMS -->
+    <!-- BREADCRUMS -->
     <div class="px-4 py-6">
       <div class="container-control">
+        <!-- Brand name -->
         <div class="d-flex justify-space-between align-center">
           <span class="brand">Pineapple.</span>
 
+          <!-- Middle breadcrums -->
           <div class="main-breadcrumbs d-flex align-center justify-center">
             <ul class="d-flex pa-0">
               <li
@@ -135,30 +142,43 @@
             </a>
           </div>
 
-          <!-- FUNCTIONAL ICONS -->
+          <!-- Functional icons -->
           <div class="d-flex">
-            <ul class="pa-0 d-flex">
-              <li
-                v-for="(icon, functionalIconsIdx) in functionalIcons"
-                :key="functionalIconsIdx"
-              >
-                <a
-                  :href="icon.href"
-                  target="_blank"
-                  class="px-2 py-2 font-weight-light functional-icons"
-                >
-                  <font-awesome-icon :icon="icon.spec" class="red-hover-btn" />
-                </a>
-              </li>
-            </ul>
+            <!-- Search -->
+            <a href="#" class="functional-icon">
+              <Icon
+                icon="ph:magnifying-glass"
+                width="18"
+                class="red-hover-btn"
+                :inline="true"
+              />
+            </a>
 
-            <a href="#" target="_blank" class="pl-2 font-weight-light">
-              <v-badge color="#ff6f61" content="6">
-                <font-awesome-icon
-                  :icon="['fas', 'shopping-cart']"
-                  class="red-hover-btn"
-                />
-              </v-badge>
+            <a href="#" class="functional-icon">
+              <Icon
+                icon="feather:user"
+                width="18"
+                class="red-hover-btn"
+                :inline="true"
+              />
+            </a>
+            <a href="#" class="functional-icon">
+              <Icon
+                icon="ph:heart-straight"
+                width="18"
+                :inline="true"
+                class="red-hover-btn"
+              />
+            </a>
+            <!-- Shopping cart -->
+            <a href="#" class="functional-icon shopping-cart">
+              <Icon
+                icon="ph:shopping-cart-simple"
+                width="18"
+                :inline="true"
+                class="red-hover-btn"
+              />
+              <div class="badge">{{ cartCount }}</div>
             </a>
           </div>
         </div>
@@ -170,7 +190,9 @@
       class="happy-deal-banner font-weight-medium mb-5 white--text text-center"
     >
       <v-row>
-        <v-col cols="12"> ⚡️ HAPPY HOLIDAY DEALS ON EVERYTHING ⚡️</v-col>
+        <v-col cols="12" class="py-3">
+          ⚡️ HAPPY HOLIDAY DEALS ON EVERYTHING ⚡️</v-col
+        >
       </v-row>
     </div>
   </div>
@@ -182,10 +204,11 @@ import PageMenu from '@/components/HomePage/BreadcrumbMenu/PageMenu';
 import BlogMenu from '@/components/HomePage/BreadcrumbMenu/BlogMenu';
 import CatalogMenu from '@/components/HomePage/BreadcrumbMenu/CatalogMenu';
 import ShopMenu from '@/components/HomePage/BreadcrumbMenu/ShopMenu';
+import { Icon } from '@iconify/vue2';
 
 export default {
   name: 'NavBars',
-  components: { HomeMenu, PageMenu, BlogMenu, CatalogMenu, ShopMenu },
+  components: { HomeMenu, PageMenu, BlogMenu, CatalogMenu, ShopMenu, Icon },
 
   data: () => ({
     dropdownOptions: {
@@ -235,19 +258,16 @@ export default {
     ],
     functionalIcons: [
       {
-        href: '#',
-        spec: ['fas', 'search'],
-      },
-      {
-        href: '#',
+        href: '/about',
         spec: ['far', 'user'],
       },
       {
-        href: '#',
+        href: '/about',
         spec: ['far', 'heart'],
       },
     ],
     breadcrumbs: ['Home', 'Catalog', 'Shop', 'Pages', 'Blog'],
+    cartCount: 2,
   }),
   methods: {
     currentMenu(key) {
@@ -326,9 +346,28 @@ export default {
   }
 }
 
-.functional-icons {
-  color: #111 !important;
-  font-weight: 200;
+.functional-icon {
+  padding: 0.5rem;
+}
+
+.shopping-cart {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: 10%;
+  right: 0;
+  background: #ff6f61;
+  color: #fff;
+  border-radius: 50%;
+  width: 0.75rem;
+  height: 0.75rem;
+  font-size: 11px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .catalog-control {

@@ -1,5 +1,5 @@
 <template>
-  <section id="reviews">
+  <section id="reviews" class="py-12">
     <div class="container-control">
       <!-- HEADING -->
       <v-row class="flex-column align-center justify-center">

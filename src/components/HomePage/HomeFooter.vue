@@ -74,7 +74,7 @@
       <div class="container-control">
         <v-row class="justify-space-between align-center">
           <v-col class="pa-0">
-            <p class="my-auto font-size-xxs" style="color: #767676">
+            <p class="my-auto font-size-xxs text-muted">
               © 2019 All rights reserved. Designed by Unvab.
             </p>
           </v-col>

@@ -6,7 +6,7 @@
         <v-img :src="imgOnHoverUrl" aspect-ratio="0.85" class="image-hover">
           <div class="product-button-group d-flex justify-center ma-0">
             <div
-              v-for="(icon, functionalIconsIdx) in functionalIcons"
+              v-for="(item, functionalIconsIdx) in functionalIcons"
               :key="functionalIconsIdx"
               :class="
                 'product-button d-flex justify-center align-center mx-1' +
@@ -17,10 +17,7 @@
                     ` animate__delay-${functionalIconsIdx}s`)
               "
             >
-              <font-awesome-icon
-                :icon="icon.spec"
-                :key="'icon' + functionalIconsIdx"
-              />
+              <Icon :icon="item.spec" width="16.875" :inline="true" />
             </div></div
         ></v-img>
         <div :class="[{ new: isNew }, { sale: isSale }, 'product-badge']">
@@ -32,16 +29,18 @@
         <a href="#" class="grey--text text--darken-2">{{ category }}</a>
       </v-card-subtitle>
       <v-card-title class="pa-0 mt-1 mb-0">
-        <a href="#" style="font-size: 1.2rem; word-break: break-word">
+        <a href="#" style="font-size: 1rem; word-break: break-word">
           {{ productName }}
         </a>
       </v-card-title>
       <v-card-subtitle
         class="pa-0 mt-1 mb-0 font-weight-medium"
-        style="font-size: 1.2rem"
+        style="font-size: 1rem"
       >
         <span :class="{ 'old-price': isSale }"> {{ price }}</span>
-        <span class="red--text red-accent-2"> {{ discountedPrice }}</span>
+        <span class="red--text red-accent-2">
+          {{ discountedPrice }}
+        </span>
       </v-card-subtitle>
     </v-card>
   </v-hover>
@@ -49,20 +48,24 @@
 
 <script>
 import 'animate.css';
+import { Icon } from '@iconify/vue2';
+
 export default {
+  components: { Icon },
+
   data: () => ({
     functionalIcons: [
       {
         href: '#',
-        spec: ['far', 'eye'],
+        spec: 'feather:eye',
       },
       {
         href: '#',
-        spec: ['fas', 'shopping-cart'],
+        spec: 'ph:shopping-cart-simple',
       },
       {
         href: '#',
-        spec: ['far', 'heart'],
+        spec: 'ph:heart-straight',
       },
     ],
   }),
@@ -123,9 +126,10 @@ export default {
   position: absolute;
   top: 5%;
   left: 0;
-  width: 30%;
   text-align: center;
   font-weight: 500;
+  font-size: 0.6875em;
+  padding: 0.5em 1em;
 }
 
 .new {

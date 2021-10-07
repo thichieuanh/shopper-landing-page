@@ -7,7 +7,7 @@
           <v-card tile>
             <v-img
               :src="require(`@/assets/img/covers/cover${n}.jpeg`)"
-              aspect-ratio="1.17234"
+              aspect-ratio="1.35"
               content-class="bg-hover img-with-button"
             >
               <v-card-text
@@ -36,20 +36,19 @@
       <v-container class="mx-auto pt-7 px-0 container-control">
         <v-row class="feature-row pb-7">
           <v-col v-for="(item, index) in features" :key="index" cols="3">
-            <v-card class="feature-cards" tile flat>
-              <v-icon class="red--text text-accent-2">{{ item.icon }}</v-icon>
+            <div class="d-flex">
+              <Icon
+                :icon="item.icon"
+                width="20.25"
+                color="ff6f61"
+                :inline="true"
+                class="mr-3"
+              />
               <div class="ml-6">
-                <v-card-title
-                  class="pa-0 font-weight-medium"
-                  style="font-size: 14px; color: black"
-                >
-                  {{ item.title }}
-                </v-card-title>
-                <v-card-text class="pa-0">
-                  {{ item.text }}
-                </v-card-text>
+                <h6 class="heading-xxs mb-1">{{ item.title }}</h6>
+                <p class="font-size-sm text-muted">{{ item.text }}</p>
               </div>
-            </v-card>
+            </div>
           </v-col>
         </v-row>
       </v-container>
@@ -58,29 +57,31 @@
 </template>
 
 <script>
+import { Icon } from '@iconify/vue2';
 export default {
   name: 'Cover',
+  components: { Icon },
 
   data: () => ({
     coverTitles: ['Women', 'Men', 'Kids'],
     features: [
       {
-        icon: 'mdi-truck-outline',
+        icon: 'feather:truck',
         title: 'FREE SHIPPING',
         text: 'From all orders over $100',
       },
       {
-        icon: 'mdi-repeat',
+        icon: 'akar-icons:arrow-repeat',
         title: 'FREE RETURNS',
         text: 'Return money within 30 days',
       },
       {
-        icon: 'mdi-lock-outline',
+        icon: 'feather:lock',
         title: 'SECURE SHOPPING',
         text: "You're in safe hands",
       },
       {
-        icon: 'mdi-tag-outline',
+        icon: 'akar-icons:tag',
         title: 'OVER 10,000 STYLES',
         text: 'We have everything you need',
       },

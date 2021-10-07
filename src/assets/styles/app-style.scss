@@ -37,7 +37,6 @@ html {
 body {
   font-family: var(--main-font);
   font-size: 1rem;
-  // font-size: 18px;
   font-weight: 400;
   line-height: 1.5;
   color: #111 !important;
@@ -153,6 +152,17 @@ section + section {
   font-size: .9375rem!important;
 }
 
+.text-muted {
+  color: #767676;
+}
+
+.heading-xxs {
+  font-size: .8125rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
 .heading-xxxs {
   font-size: .6875rem;
   font-weight: 500;
@@ -209,8 +219,20 @@ section + section {
   }
 
   /* MARGIN */
+  .my-4, .mt-4 {
+    margin-top: 1rem!important;
+  }
+
+  .my-4, .mb-4 {
+    margin-bottom: 1rem!important;
+  }
+
   .my-6, .mt-6 {
     margin-top: 1.5rem !important;
+  }
+
+  .my-6, .mb-6 {
+    margin-bottom: 1.5rem !important;
   }
 
   .my-7, .mt-7 {
