@@ -63,12 +63,5 @@ export default {
 
 .shop-button {
   width: 10rem;
-  .shop-icon {
-    transition: transform 0.2s ease-out;
-  }
-}
-
-.shop-button:hover .shop-icon {
-  transform: translatex(0.2em);
 }
 </style>

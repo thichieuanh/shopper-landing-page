@@ -27,16 +27,16 @@
               class="px-4 py-10"
             >
               <product
-                :imgUrl="womenProducts[index].img"
-                :imgOnHoverUrl="womenProducts[index].imgOnHover"
-                :category="womenProducts[index].category"
+                :imgUrl="item.img"
+                :imgOnHoverUrl="item.imgOnHover"
+                :category="item.category"
                 :productName="womenProducts[index].name"
-                :price="womenProducts[index].price"
-                :discountedPrice="womenProducts[index].discountedPrice"
-                :isNew="womenProducts[index].isNew"
+                :price="item.price"
+                :discountedPrice="item.discountedPrice"
+                :isNew="item.isNew"
                 :isSale="isSale(womenProducts, index)"
                 :badgeText="
-                  womenProducts[index].isNew
+                  item.isNew
                     ? 'NEW'
                     : isSale(womenProducts, index)
                     ? 'SALE'

@@ -30,15 +30,25 @@
                   content-class="dropdown-content"
                 >
                   <template v-slot:activator="{ on, attrs }" elevation="0">
-                    <a href="#" v-bind="attrs" v-on="on">
+                    <a
+                      href="#"
+                      v-bind="attrs"
+                      v-on="on"
+                      class="d-flex align-center"
+                    >
                       <img
                         v-if="dropdownKey === 'countries'"
                         src="@/assets/img/flags/usa.svg"
                         alt="usa flag"
-                        class="mb-1 mr-1"
+                        class="mr-2"
                       />
                       {{ dropdownVal[0].title }}
-                      <v-icon color="black">mdi-chevron-down</v-icon>
+                      <Icon
+                        icon="jam:chevron-down"
+                        width="18"
+                        :inline="true"
+                        class="ml-1"
+                      />
                     </a>
                   </template>
 
@@ -69,8 +79,8 @@
           <!-- INFO -->
           <ul class="d-flex">
             <li
-              v-for="info in infos"
-              :key="info"
+              v-for="(info, infoIdx) in infos"
+              :key="infoIdx"
               class="font-weight-medium px-4"
             >
               <a :href="info.href">
@@ -145,7 +155,7 @@
           <!-- Functional icons -->
           <div class="d-flex">
             <!-- Search -->
-            <a href="#" class="functional-icon">
+            <a href="#" class="functional-icon" @click="drawer = !drawer">
               <Icon
                 icon="ph:magnifying-glass"
                 width="18"
@@ -154,6 +164,7 @@
               />
             </a>
 
+            <!-- Acount -->
             <a href="#" class="functional-icon">
               <Icon
                 icon="feather:user"
@@ -162,6 +173,8 @@
                 :inline="true"
               />
             </a>
+
+            <!-- Wishlist -->
             <a href="#" class="functional-icon">
               <Icon
                 icon="ph:heart-straight"
@@ -170,6 +183,7 @@
                 class="red-hover-btn"
               />
             </a>
+
             <!-- Shopping cart -->
             <a href="#" class="functional-icon shopping-cart">
               <Icon
@@ -195,6 +209,12 @@
         >
       </v-row>
     </div>
+
+    <!-- SEARCH DRAWER -->
+    <search-drawer
+      :drawer="drawer"
+      @closePopup="drawer = false"
+    ></search-drawer>
   </div>
 </template>
 
@@ -204,11 +224,20 @@ import PageMenu from '@/components/HomePage/BreadcrumbMenu/PageMenu';
 import BlogMenu from '@/components/HomePage/BreadcrumbMenu/BlogMenu';
 import CatalogMenu from '@/components/HomePage/BreadcrumbMenu/CatalogMenu';
 import ShopMenu from '@/components/HomePage/BreadcrumbMenu/ShopMenu';
+import SearchDrawer from '@/components/HomePage/SearchDrawer';
 import { Icon } from '@iconify/vue2';
 
 export default {
   name: 'NavBars',
-  components: { HomeMenu, PageMenu, BlogMenu, CatalogMenu, ShopMenu, Icon },
+  components: {
+    HomeMenu,
+    PageMenu,
+    BlogMenu,
+    CatalogMenu,
+    ShopMenu,
+    SearchDrawer,
+    Icon,
+  },
 
   data: () => ({
     dropdownOptions: {
@@ -268,6 +297,11 @@ export default {
     ],
     breadcrumbs: ['Home', 'Catalog', 'Shop', 'Pages', 'Blog'],
     cartCount: 2,
+    drawer: false,
+    items: [
+      { title: 'Home', icon: 'mdi-view-dashboard' },
+      { title: 'About', icon: 'mdi-forum' },
+    ],
   }),
   methods: {
     currentMenu(key) {

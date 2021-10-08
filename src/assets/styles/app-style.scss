@@ -152,6 +152,10 @@ section + section {
   font-size: .9375rem!important;
 }
 
+.font-size-lg {
+  font-size: 1.125rem!important;
+}
+
 .text-muted {
   color: #767676;
 }
@@ -288,8 +292,13 @@ section + section {
   padding: .875rem 1.75rem;
   text-align: center;
 
-  .shop-icon {
+  .shop-icon {  
     font-size: 1rem !important;
+    transition: transform 0.2s ease-out;
+  }
+
+  &:hover .shop-icon {
+  transform: translatex(0.2em);
   }
 }
 
@@ -350,4 +359,9 @@ section + section {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+input[type=search]::-webkit-search-cancel-button, 
+input[type=search]::-webkit-search-decoration {
+  -webkit-appearance: searchfield-cancel-button !important;
 }
