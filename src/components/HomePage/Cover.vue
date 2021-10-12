@@ -107,7 +107,7 @@ export default {
 }
 
 .happy-deal-banner {
-  background-image: url('../../assets/img/backgroundPatterns/pattern1.svg') !important;
+  background-image: url('/img/backgroundPatterns/pattern1.svg') !important;
   background: #1f1f1f;
   font-size: 0.8125rem;
 }

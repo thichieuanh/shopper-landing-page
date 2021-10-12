@@ -144,8 +144,8 @@ export default {
   width: 100%;
   padding: 0.875rem 3.5rem 0.875rem 1.5rem;
   margin-bottom: 1.5rem;
-  background: #fff url('../../assets/img/backgroundPatterns/arrowDown.svg')
-    no-repeat right 1.5rem center/1rem 1rem;
+  background: #fff url('/img/backgroundPatterns/arrowDown.svg') no-repeat right
+    1.5rem center/1rem 1rem;
   border: 1px solid #ccc;
 }
 

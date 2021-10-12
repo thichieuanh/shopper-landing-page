@@ -1,11 +1,3 @@
-function getImg(idx) {
-  const path = `@/assets/img/products/product${idx}.jpeg'`
-  return path;
-}
-getImg(2);
-
-// Do this later ^
-
 export default [
   {
     img: '/img/products/product1a.jpeg',

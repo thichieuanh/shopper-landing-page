@@ -160,7 +160,7 @@ export default {
 
 <style lang="scss" scoped>
 #home-footer {
-  background-image: url('../../assets/img/backgroundPatterns/pattern2.svg');
+  background-image: url('/img/backgroundPatterns/pattern2.svg');
   background-size: cover;
   background-position: center;
 }

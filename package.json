@@ -17,7 +17,6 @@
     "animate.css": "^4.1.1",
     "core-js": "^3.6.5",
     "date-fns": "^2.24.0",
-    "faker": "^5.5.3",
     "flickity": "^2.2.2",
     "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",

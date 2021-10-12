@@ -38,7 +38,7 @@
                     >
                       <img
                         v-if="dropdownKey === 'countries'"
-                        src="@/assets/img/flags/usa.svg"
+                        src="/img/flags/usa.svg"
                         alt="usa flag"
                         class="mr-2"
                       />

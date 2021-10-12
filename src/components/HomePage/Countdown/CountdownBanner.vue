@@ -45,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 #count-down {
   min-height: 95vh;
-  background-image: url('../../../assets/img/covers/countdown.jpeg');
+  background-image: url('/img/covers/countdown.jpeg');
   background-size: cover;
   background-position: center;
 }
