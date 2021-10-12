@@ -41,7 +41,7 @@
 
           <v-col cols="4">
             <v-img
-              :src="require(`@/assets/img/menu/women.jpeg`)"
+              :src="'/img/menu/women.jpeg'"
               aspect-ratio="1"
               content-class="bg-hover img-with-button"
             >

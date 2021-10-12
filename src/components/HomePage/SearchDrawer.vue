@@ -124,10 +124,6 @@ export default {
   padding: 1.5rem 2rem;
 }
 
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
 .border-top {
   border-top: 1px solid #e5e5e5;
 }

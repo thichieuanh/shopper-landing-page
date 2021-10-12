@@ -1,12 +1,22 @@
 <template>
   <section>
+    <!-- HAPPY DEAL BANNER -->
+    <div
+      class="happy-deal-banner font-weight-medium mb-5 white--text text-center"
+    >
+      <v-row>
+        <v-col cols="12" class="py-3">
+          ⚡️ HAPPY HOLIDAY DEALS ON EVERYTHING ⚡️</v-col
+        >
+      </v-row>
+    </div>
     <!-- COVER -->
     <article>
       <v-row no-gutters>
         <v-col v-for="n in 3" :key="n" cols="4">
           <v-card tile>
             <v-img
-              :src="require(`@/assets/img/covers/cover${n}.jpeg`)"
+              :src="`/img/covers/cover${n}.jpeg`"
               aspect-ratio="1.35"
               content-class="bg-hover img-with-button"
             >
@@ -58,6 +68,7 @@
 
 <script>
 import { Icon } from '@iconify/vue2';
+
 export default {
   name: 'Cover',
   components: { Icon },
@@ -95,6 +106,11 @@ export default {
   height: 470px;
 }
 
+.happy-deal-banner {
+  background-image: url('../../assets/img/backgroundPatterns/pattern1.svg') !important;
+  background: #1f1f1f;
+  font-size: 0.8125rem;
+}
 .v-card {
   transition: opacity 0.4s ease-in-out;
 }

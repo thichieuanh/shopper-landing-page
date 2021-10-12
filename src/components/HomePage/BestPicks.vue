@@ -25,7 +25,7 @@
             <div
               class="card-bg"
               :style="{
-                'background-image': `url(${require(`@/assets/img/collection/collection${n}.jpeg`)})`,
+                'background-image': `url(/img/collection/collection${n}.jpeg)`,
                 'background-position': 'center center',
                 'background-size': 'cover',
                 'background-repeat': 'no-repeat',

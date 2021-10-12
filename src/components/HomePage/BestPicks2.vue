@@ -57,7 +57,7 @@ Latest commit 3668288 22 hours ago
               <div
                 class="card-bg-img"
                 :style="{
-                  'background-image': `url(${require(`@/assets/img/collection/collection${n}.jpeg`)})`,
+                  'background-image': `url(/img/collection/collection${n}.jpeg)`,
                 }"
               ></div>
             </div>
@@ -78,10 +78,7 @@ Latest commit 3668288 22 hours ago
       <v-row>
         <v-col v-for="n in 4" :key="n" :cols="n === 2 || n === 3 ? 8 : 4">
           <v-card tile flat max-height="400">
-            <v-img
-              :src="require(`@/assets/img/collection/collection${n}.jpeg`)"
-              height="400"
-            >
+            <v-img :src="`/img/collection/collection${n}.jpeg`" height="400">
               <div v-if="n === 2" class="card-circle">
                 <h3 class="font-weight-regular">save</h3>
                 <h2 class="font-weight-regular">30%</h2>

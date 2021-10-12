@@ -37,23 +37,23 @@ export default {
   color: black !important;
 }
 
-.navbar-breadcrumbs {
-  border-bottom: 1px rgb(229, 229, 229) solid !important;
-  .v-toolbar__content {
-    display: flex;
-    justify-content: space-between;
-  }
-}
+// .navbar-breadcrumbs {
+//   border-bottom: 1px rgb(229, 229, 229) solid !important;
+//   .v-toolbar__content {
+//     display: flex;
+//     justify-content: space-between;
+//   }
+// }
 
 .brand {
   font-size: 1.75rem;
   font-weight: 600;
 }
 
-.banner-heading {
-  text-align: center;
-  .v-banner__wrapper {
-    height: 100%;
-  }
-}
+// .banner-heading {
+//   text-align: center;
+//   .v-banner__wrapper {
+//     height: 100%;
+//   }
+// }
 </style>

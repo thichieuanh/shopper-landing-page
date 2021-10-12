@@ -1,6 +1,6 @@
 export default [
   {
-    avatar: require('@/assets/img/reviews/review1.jpeg'),
+    avatar: ('/img/reviews/review1.jpeg'),
     category: 'Shoes',
     productName: 'Low top Sneakers',
     rating: 3,
@@ -9,7 +9,7 @@ export default [
     reviewTime: '01 Jun 2021'
   },
   {
-    avatar: require('@/assets/img/reviews/review2.jpeg'),
+    avatar: ('/img/reviews/review2.jpeg'),
     category: 'Dresses',
     productName: 'Cotton print Dress',
     rating: 5,
@@ -18,7 +18,7 @@ export default [
     reviewTime: '29 May 2021'
   },
   {
-    avatar: require('@/assets/img/reviews/review3.jpeg'),
+    avatar: ('/img/reviews/review3.jpeg'),
     category: 'T-shirts ',
     productName: 'Oversized print TShirt Cotton print Dress',
     rating: 4,
@@ -27,7 +27,7 @@ export default [
     reviewTime: '18 May 2021'
   },
   {
-    avatar: require('@/assets/img/reviews/review4.jpeg'),
+    avatar: ('/img/reviews/review4.jpeg'),
     category: 'Bags & Accessories',
     productName: 'Suede cross body Bag',
     rating: 4,

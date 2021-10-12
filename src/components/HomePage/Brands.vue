@@ -18,9 +18,7 @@
               <v-hover v-slot="{ hover }">
                 <v-card tile :class="[{ 'on-hover': hover }]">
                   <v-img
-                    :src="
-                      require(`@/assets/img/brands/brandPictures/brand${n}.jpeg`)
-                    "
+                    :src="`/img/brands/brandPictures/brand${n}.jpeg`"
                     aspect-ratio="1"
                   >
                     <v-row class="fill-height flex-column" justify="center">
@@ -68,13 +66,13 @@ export default {
     likeCount: 248,
     commentCount: 7,
     brandLogos: [
-      require('@/assets/img/brands/brandLogos/mango.svg'),
-      require('@/assets/img/brands/brandLogos/zara.svg'),
-      require('@/assets/img/brands/brandLogos/reebok.svg'),
-      require('@/assets/img/brands/brandLogos/asos.svg'),
-      require('@/assets/img/brands/brandLogos/stradivarius.svg'),
-      require('@/assets/img/brands/brandLogos/adidas.svg'),
-      require('@/assets/img/brands/brandLogos/bershka.svg'),
+      '/img/brands/brandLogos/mango.svg',
+      '/img/brands/brandLogos/zara.svg',
+      '/img/brands/brandLogos/reebok.svg',
+      '/img/brands/brandLogos/asos.svg',
+      '/img/brands/brandLogos/stradivarius.svg',
+      '/img/brands/brandLogos/adidas.svg',
+      '/img/brands/brandLogos/bershka.svg',
     ],
   }),
 };

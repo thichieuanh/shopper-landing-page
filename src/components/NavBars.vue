@@ -71,7 +71,11 @@
                     </template>
                   </v-list>
                 </v-menu>
-                <v-divider vertical class="ml-5"></v-divider>
+                <v-divider
+                  vertical
+                  class="ml-5"
+                  v-if="dropdownKey !== 'languagues'"
+                ></v-divider>
               </li>
             </ul>
           </div>
@@ -107,7 +111,7 @@
     </nav>
 
     <!-- BREADCRUMS -->
-    <div class="px-4 py-6">
+    <div class="px-4 py-6 border-bottom">
       <div class="container-control">
         <!-- Brand name -->
         <div class="d-flex justify-space-between align-center">
@@ -155,7 +159,7 @@
           <!-- Functional icons -->
           <div class="d-flex">
             <!-- Search -->
-            <a href="#" class="functional-icon" @click="drawer = !drawer">
+            <a href="#" class="functional-icon" @click="showDrawer">
               <Icon
                 icon="ph:magnifying-glass"
                 width="18"
@@ -165,7 +169,7 @@
             </a>
 
             <!-- Acount -->
-            <a href="#" class="functional-icon">
+            <a href="/account-orders" class="functional-icon">
               <Icon
                 icon="feather:user"
                 width="18"
@@ -199,22 +203,8 @@
       </div>
     </div>
 
-    <!-- HAPPY DEAL BANNER -->
-    <div
-      class="happy-deal-banner font-weight-medium mb-5 white--text text-center"
-    >
-      <v-row>
-        <v-col cols="12" class="py-3">
-          ⚡️ HAPPY HOLIDAY DEALS ON EVERYTHING ⚡️</v-col
-        >
-      </v-row>
-    </div>
-
     <!-- SEARCH DRAWER -->
-    <search-drawer
-      :drawer="drawer"
-      @closePopup="drawer = false"
-    ></search-drawer>
+    <search-drawer :drawer="drawer" @closePopup="closeDrawer"></search-drawer>
   </div>
 </template>
 
@@ -243,15 +233,15 @@ export default {
     dropdownOptions: {
       countries: [
         {
-          imgUrl: require('@/assets/img/flags/usa.svg'),
+          imgUrl: '/img/flags/usa.svg',
           title: 'United States',
         },
         {
-          imgUrl: require('@/assets/img/flags/canada.svg'),
+          imgUrl: '/img/flags/canada.svg',
           title: 'Canada',
         },
         {
-          imgUrl: require('@/assets/img/flags/germany.svg'),
+          imgUrl: '/img/flags/germany.svg',
           title: 'Germany',
         },
       ],
@@ -320,6 +310,12 @@ export default {
           return 'HomeMenu';
       }
     },
+    showDrawer() {
+      this.drawer = true;
+    },
+    closeDrawer() {
+      this.drawer = false;
+    },
   },
 };
 </script>
@@ -365,12 +361,6 @@ export default {
 
 .divider {
   height: 100%;
-}
-
-.happy-deal-banner {
-  background-image: url('../assets/img/backgroundPatterns/pattern1.svg') !important;
-  background: #1f1f1f;
-  font-size: 0.8125rem;
 }
 
 .red-hover-btn {
