@@ -26,6 +26,7 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid';
+import twoDigits from '@/utils/twoDigits';
 
 export default {
   name: 'flipCountdown',
@@ -167,12 +168,7 @@ export default {
     },
   },
   filters: {
-    twoDigits(value) {
-      if (value.toString().length <= 1) {
-        return '0' + value.toString();
-      }
-      return value.toString();
-    },
+    twoDigits,
   },
   methods: {
     updateAllCards() {

@@ -27,21 +27,15 @@
               class="px-4 py-10"
             >
               <product
-                :imgUrl="item.img"
-                :imgOnHoverUrl="item.imgOnHover"
+                :imgUrl="item.images.img"
+                :imgOnHoverUrl="item.images.imgOnHover"
                 :category="item.category"
-                :productName="womenProducts[index].name"
-                :price="item.price"
-                :discountedPrice="item.discountedPrice"
+                :productName="item.name"
+                :price="'$' + item.pricing.price"
+                :discountedPrice="discountedPrice(item)"
                 :isNew="item.isNew"
-                :isSale="isSale(womenProducts, index)"
-                :badgeText="
-                  item.isNew
-                    ? 'NEW'
-                    : isSale(womenProducts, index)
-                    ? 'SALE'
-                    : ''
-                "
+                :isSale="isSale(item)"
+                :badgeText="item.isNew ? 'NEW' : isSale(item) ? 'SALE' : ''"
               ></product>
             </v-col>
           </v-row>
@@ -76,12 +70,21 @@ export default {
   },
 
   methods: {
-    isSale(arrray, idx) {
-      if (arrray[idx].discountedPrice) return true;
+    isSale(item) {
+      if (item.pricing.discount) return true;
     },
     isNew(arrray, idx) {
       if (arrray[idx].isNew) return true;
     },
+    discountedPrice(item) {
+      return item.pricing.discount
+        ? '$' + (item.pricing.price * (1 - item.pricing.discount)).toFixed(2)
+        : '';
+    },
+  },
+
+  async mounted() {
+    await this.$store.dispatch('getProducts');
   },
 };
 </script>
