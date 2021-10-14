@@ -7,43 +7,47 @@
       </v-row>
 
       <!-- TABS -->
-      <v-tabs centered color="red accent-2">
-        <v-tab v-for="item in tabItems" :key="item">
-          {{ item }}
-        </v-tab>
-
-        <v-tab-item
-          v-for="n in 3"
-          :key="n"
-          class="my-16"
-          transition="fade-transition"
+      <div class="text-center mb-10">
+        <span
+          v-for="(tab, tabIndex) in tabItems"
+          :key="tabIndex"
+          :class="['tab-list', { active: selectedIndex === tabIndex }]"
+          @click="selectedIndex = tabIndex"
         >
-          <v-row>
-            <v-col
-              v-for="(item, index) in womenProducts"
-              :key="index"
-              cols="12"
-              md="3"
-              class="px-4 py-10"
-            >
-              <product
-                :imgUrl="item.images.img"
-                :imgOnHoverUrl="item.images.imgOnHover"
-                :category="item.category"
-                :productName="item.name"
-                :price="'$' + item.pricing.price"
-                :discountedPrice="discountedPrice(item)"
-                :isNew="item.isNew"
-                :isSale="isSale(item)"
-                :badgeText="item.isNew ? 'NEW' : isSale(item) ? 'SALE' : ''"
-              ></product>
-            </v-col>
-          </v-row>
-        </v-tab-item>
-      </v-tabs>
+          {{ tab }}
+        </span>
+      </div>
+
+      <div
+        :class="['tab-pane fade', { show: selectedIndex === productGroupIdx }]"
+        v-for="(productGroup, productGroupIdx) in allProducts"
+        :key="productGroupIdx"
+      >
+        <v-row v-show="selectedIndex === productGroupIdx">
+          <v-col
+            v-for="(product, productIdx) in productGroup"
+            :key="productIdx"
+            cols="12"
+            md="3"
+            class="px-4 py-0 mb-7"
+          >
+            <product
+              :imgUrl="product.images.img"
+              :imgOnHoverUrl="product.images.imgOnHover"
+              :category="product.category"
+              :productName="product.name"
+              :price="'$' + product.pricing.price"
+              :discountedPrice="discountedPrice(product)"
+              :isNew="product.isNew"
+              :isSale="isSale(product)"
+              :badgeText="product.isNew ? 'NEW' : isSale(product) ? 'SALE' : ''"
+            ></product>
+          </v-col>
+        </v-row>
+      </div>
 
       <!-- DISCOVER MORE -->
-      <div class="text-center underline-wrapper">
+      <div class="text-center underline-wrapper mt-7">
         <a class="link-underline" href="#!">Discover more</a>
         <div class="line"></div>
       </div>
@@ -53,7 +57,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import Product from '@/components/HomePage/Product.vue';
+import Product from '@/components/HomePage/Product/Product.vue';
 
 export default {
   name: 'TopSellers',
@@ -62,11 +66,21 @@ export default {
   data() {
     return {
       tabItems: ['Women', 'Men', 'Kids'],
+      activeTab: 0,
+      selectedIndex: 0,
     };
   },
 
   computed: {
-    ...mapState(['womenProducts']),
+    ...mapState(['womenProducts', 'menProducts', 'kidsProducts']),
+
+    allProducts() {
+      return [
+        [...this.womenProducts],
+        [...this.menProducts],
+        [...this.kidsProducts],
+      ];
+    },
   },
 
   methods: {
@@ -91,7 +105,7 @@ export default {
 
 <style lang="scss" scoped>
 .v-card {
-  transition: transform 0.3s ease-out;
+  transition: transform 0.4s ease-out;
   &:hover .v-image {
     transform: translatex(-0.2em);
   }
@@ -135,6 +149,34 @@ export default {
   &:hover > .line {
     right: 0;
     width: 0%;
+  }
+}
+
+.tab-list {
+  padding: 9px 18px;
+  cursor: pointer;
+  &:hover {
+    color: #ff6f61;
+  }
+}
+
+.fade {
+  transition: opacity 0.4s ease-in-out;
+  &:not(.show) {
+    opacity: 0;
+  }
+}
+
+.active {
+  color: #ff6f61;
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.25rem;
+    border-top: 1px solid #ff6f61;
   }
 }
 </style>

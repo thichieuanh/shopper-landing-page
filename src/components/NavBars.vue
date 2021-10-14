@@ -115,7 +115,7 @@
       <div class="container-control">
         <!-- Brand name -->
         <div class="d-flex justify-space-between align-center">
-          <span class="brand">Pineapple.</span>
+          <a class="brand" href="/">Pineapple.</a>
 
           <!-- Middle breadcrums -->
           <div class="main-breadcrumbs d-flex align-center justify-center">
@@ -179,7 +179,7 @@
             </a>
 
             <!-- Wishlist -->
-            <a href="#" class="functional-icon">
+            <a href="/account-wishlist" class="functional-icon">
               <Icon
                 icon="ph:heart-straight"
                 width="18"

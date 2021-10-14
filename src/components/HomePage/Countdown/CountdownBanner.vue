@@ -44,6 +44,7 @@ export default {
 
 <style lang="scss" scoped>
 #count-down {
+  margin-top: 3rem;
   min-height: 95vh;
   background-image: url('/img/covers/countdown.jpeg');
   background-size: cover;
