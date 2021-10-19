@@ -90,7 +90,7 @@
                       'size-item',
                       'text-muted',
                       { 'active-size': selectedSize === size },
-                      { 'out-of-stock': isOutOfStock(size) },
+                      { 'out-of-stock': isSizeOutOfStock(size) },
                     ]"
                     @click="selectSize(size, sizeIdx)"
                   >
@@ -174,11 +174,11 @@ export default {
       this.$emit('closeProductDialog');
       this.selectedSize = undefined;
     },
-    isOutOfStock(item) {
+    isSizeOutOfStock(item) {
       return Object.values(item)[0] === 0;
     },
     selectSize(item) {
-      if (!this.isOutOfStock(item)) this.selectedSize = item;
+      if (!this.isSizeOutOfStock(item)) this.selectedSize = item;
     },
   },
 };
@@ -218,8 +218,8 @@ export default {
   z-index: 50;
   width: -webkit-fill-available;
   height: -webkit-fill-available;
-  // opacity: 0.3;
-  // background: black;
+  opacity: 0.3;
+  background: black;
 }
 
 .product-dialog {
