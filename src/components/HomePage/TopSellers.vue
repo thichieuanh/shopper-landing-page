@@ -32,7 +32,7 @@
             class="px-4 py-0 mb-7"
           >
             <Product
-              @showProductDialog="toggleProductDialog"
+              @showProductDialog="onShowProductDialog"
               :productData="product"
             ></Product>
           </v-col>
@@ -44,7 +44,7 @@
         v-if="productId"
         :id="productId"
         :isOpen="isDialogOpen"
-        @closeProductDialog="hidemodal"
+        @closeProductDialog="isDialogOpen = false"
       ></ProductDialog>
 
       <!-- DISCOVER MORE -->
@@ -87,26 +87,9 @@ export default {
   },
 
   methods: {
-    toggleProductDialog(id) {
-      this.isDialogOpen = !this.isDialogOpen;
-      this.productId = id;
-      if (this.isDialogOpen) {
-        this.showmodal();
-      } else {
-        this.hidemodal();
-      }
-    },
-    showmodal() {
+    onShowProductDialog(id) {
       this.isDialogOpen = true;
-      this.$nextTick(() => {
-        document.querySelector('.modal').classList.add('show');
-      });
-    },
-    hidemodal() {
-      this.isDialogOpen = false;
-      this.$nextTick(() => {
-        document.querySelector('.modal').classList.remove('show');
-      });
+      this.productId = id;
     },
   },
 

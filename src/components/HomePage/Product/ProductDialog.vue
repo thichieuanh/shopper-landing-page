@@ -7,7 +7,7 @@
       @click="close"
     ></div>
 
-    <div class="fade modal" v-show="isOpen">
+    <div :class="modalClass" v-show="isOpen">
       <div class="modal-dialog">
         <button class="close" @click="close">
           <Icon icon="clarity:close-line" width="27" :inline="true" />
@@ -167,6 +167,9 @@ export default {
     },
     selectedSizeName() {
       return this.selectedSize ? Object.keys(this.selectedSize)[0] : undefined;
+    },
+    modalClass() {
+      return this.isOpen ? 'fade modal show' : 'fade modal';
     },
   },
   methods: {
