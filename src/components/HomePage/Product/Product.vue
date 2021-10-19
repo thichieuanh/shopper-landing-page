@@ -2,10 +2,15 @@
   <v-hover v-slot:default="{ hover }">
     <v-card tile flat class="mx-auto" max-width="344">
       <div class="image-wrapper">
-        <v-img :src="imgUrl" aspect-ratio="0.85"></v-img>
-        <v-img :src="imgOnHoverUrl" aspect-ratio="0.85" class="image-hover">
+        <v-img :src="productData.images.img" aspect-ratio="0.85"></v-img>
+        <v-img
+          :src="productData.images.imgOnHover"
+          aspect-ratio="0.85"
+          class="image-hover"
+        >
           <div class="product-button-group d-flex justify-center ma-0">
             <div
+              @click.prevent="iconClicked(functionalIconsIdx)"
               v-for="(item, functionalIconsIdx) in functionalIcons"
               :key="functionalIconsIdx"
               :class="
@@ -20,26 +25,36 @@
               <Icon :icon="item.spec" width="16.875" :inline="true" />
             </div></div
         ></v-img>
-        <div :class="[{ new: isNew }, { sale: isSale }, 'product-badge']">
-          {{ badgeText }}
+        <div
+          :class="[
+            { new: productData.isNew },
+            { sale: isSale(productData) },
+            'product-badge',
+          ]"
+        >
+          {{ productData.isNew ? 'NEW' : isSale(productData) ? 'SALE' : '' }}
         </div>
       </div>
 
       <v-card-subtitle class="pa-0 mt-4 mb-0">
-        <a href="#" class="grey--text text--darken-2">{{ category }}</a>
+        <a href="#" class="grey--text text--darken-2">{{
+          productData.category
+        }}</a>
       </v-card-subtitle>
       <v-card-title class="pa-0 mt-1 mb-0">
         <a href="#" style="font-size: 1rem; word-break: break-word">
-          {{ productName }}
+          {{ productData.name }}
         </a>
       </v-card-title>
       <v-card-subtitle
         class="pa-0 mt-1 mb-0 font-weight-medium"
         style="font-size: 1rem"
       >
-        <span :class="{ 'old-price': isSale }"> {{ price }}</span>
+        <span :class="{ 'old-price': isSale(productData) }">
+          {{ productData.pricing.price }}</span
+        >
         <span class="red--text red-accent-2">
-          {{ discountedPrice }}
+          {{ productData.pricing.discountedPrice }}
         </span>
       </v-card-subtitle>
     </v-card>
@@ -70,15 +85,31 @@ export default {
     ],
   }),
   props: {
-    imgUrl: String,
-    imgOnHoverUrl: String,
-    productName: String,
-    category: String,
-    price: String,
-    discountedPrice: String,
-    isNew: Boolean,
-    isSale: Boolean,
-    badgeText: String,
+    productData: { type: Object, default: () => ({}) },
+  },
+  methods: {
+    iconClicked(index) {
+      switch (index) {
+        case 0:
+          this.$emit('showProductDialog', this.productData.id);
+          break;
+        case 1:
+          this.$emit('addToCart');
+          break;
+        case 2:
+          this.$emit('addToWishList');
+          break;
+      }
+    },
+    discountedPrice(product) {
+      return product.pricing.discount
+        ? '$' +
+            (product.pricing.price * (1 - product.pricing.discount)).toFixed(2)
+        : '';
+    },
+    isSale(product) {
+      if (product.pricing.discount) return true;
+    },
   },
 };
 </script>
@@ -92,8 +123,8 @@ export default {
 
 .product-button {
   background: white;
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   cursor: pointer;
 

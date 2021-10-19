@@ -33,6 +33,14 @@ export default new Vuex.Store({
       }
     },
   },
+  getters: {
+    getAllProducts: state => {
+      return [...state.womenProducts, ...state.menProducts, ...state.kidsProducts];
+    },
+    getProductById: (state, getters) => (id) => {
+      return getters.getAllProducts.find(product => product.id === id);
+    }
+  },
   modules: {
   }
 })

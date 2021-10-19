@@ -21,13 +21,13 @@ td,
 form,
 fieldset,
 input,
-textarea {  
+textarea {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: var(--main-font) !important;
   --main-font: 'Jost', sans-serif;
-  --main-grey: #F5F5F5;
+  --main-grey: #f5f5f5;
 }
 
 html {
@@ -73,6 +73,17 @@ h6 {
   font-size: 0.8125rem;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
 @media (max-width: 767.98px) {
   h4 {
     font-size: 1.5rem;
@@ -108,7 +119,7 @@ ul {
 }
 
 @media (min-width: 576px) {
- .container-control {
+  .container-control {
     max-width: 540px;
   }
 }
@@ -145,15 +156,15 @@ section + section {
 }
 
 .font-size-xxs {
-  font-size: .8125rem !important;
+  font-size: 0.8125rem !important;
 }
 
 .font-size-sm {
-  font-size: .9375rem!important;
+  font-size: 0.9375rem !important;
 }
 
 .font-size-lg {
-  font-size: 1.125rem!important;
+  font-size: 1.125rem !important;
 }
 
 .text-muted {
@@ -161,97 +172,156 @@ section + section {
 }
 
 .heading-xxs {
-  font-size: .8125rem;
+  font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: .02em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
 .heading-xxxs {
-  font-size: .6875rem;
+  font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: .02em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
 .btn {
+  height: calc(1.5rem + 1.75rem + 2px);
   font-weight: 500;
   text-align: center;
   vertical-align: middle;
+  opacity: 0.9;
   transition: opacity 0.2s ease-in-out;
 }
 
 .btn:hover {
-  opacity: 0.85;
+  opacity: 1;
 }
 
-/* .v-application .text-h5  {
-  font-family: var(--main-font) !important;
-} */
+.btn-block {
+  width: 100%;
+}
 
+.btn-dark {
+  color: #fff;
+  background: #1f1f1f;
+}
+
+.btn-primary {
+  opacity: 1;
+  color: #fff;
+  background-color: #FF6F60;
+  border-color: #ff6f61;
+  &:hover {
+    background-color: #ff4c3b;
+    border-color: #ff412e;
+  }
+}
+
+.btn-outline-dark {
+  border: 1px #1f1f1f solid;
+  &:hover {
+    color: #fff;
+    background-color: #1f1f1f;
+    border-color: #1f1f1f;
+  }
+}
 
 /* OVERWRITE VUETIFY SPACING */
-
 .v-application {
   /* PADDING */
-  .py-3, .pt-3 {
+  .py-3,
+  .pt-3 {
     padding-top: 0.75rem !important;
-
   }
-  .py-3, .pb-3 {
+  .py-3,
+  .pb-3 {
     padding-bottom: 0.75rem !important;
   }
 
-  .py-6, .pt-6 {
+  .py-6,
+  .pt-6 {
     padding-top: 1.5rem !important;
   }
 
-  .py-6, .pb-6 {
+  .py-6,
+  .pb-6 {
     padding-bottom: 1.5rem !important;
   }
 
-  .pl-md-10, .px-md-10 {
-    padding-left: 4rem!important;
+  .pl-md-10,
+  .px-md-10 {
+    padding-left: 4rem !important;
   }
 
-  .py-12, .pt-12 {
+  .py-12,
+  .pt-12 {
     padding-top: 6rem !important;
   }
 
-  .py-12, .pb-12 {
+  .py-12,
+  .pb-12 {
     padding-bottom: 6rem !important;
   }
 
   /* MARGIN */
-  .my-4, .mt-4 {
-    margin-top: 1rem!important;
+  .my-4,
+  .mt-4 {
+    margin-top: 1rem !important;
   }
 
-  .my-4, .mb-4 {
-    margin-bottom: 1rem!important;
+  .my-4,
+  .mb-4 {
+    margin-bottom: 1rem !important;
   }
 
-  .my-6, .mt-6 {
+  .my-6,
+  .mt-6 {
     margin-top: 1.5rem !important;
   }
 
-  .my-6, .mb-6 {
+  .my-6,
+  .mb-6 {
     margin-bottom: 1.5rem !important;
   }
 
-  .my-7, .mt-7 {
+  .my-7,
+  .mt-7 {
     margin-top: 2rem !important;
   }
 
-  .my-7, .mb-7 {
+  .my-7,
+  .mb-7 {
     margin-bottom: 2rem !important;
   }
 
-  .my-11, .mt-11 {
+  .my-8,
+  .mt-8 {
+    margin-top: 2.5rem !important;
+  }
+
+  .my-8,
+  .mb-8 {
+    margin-bottom: 2.5rem !important;
+  }
+
+  .my-10,
+  .mb-10 {
+    margin-bottom: 4rem !important;
+  }
+
+  .my-10,
+  .mt-10 {
+    margin-top: 4rem !important;
+  }
+
+  .my-11,
+  .mt-11 {
     margin-top: 5rem !important;
   }
 
-  .my-11, .mb-11 {
+  .my-11,
+  .mb-11 {
     margin-bottom: 5rem !important;
   }
 }
@@ -272,14 +342,14 @@ section + section {
 
 .menu-link {
   color: #525252 !important;
-  transition: color 0.2s ease-in-out
+  transition: color 0.2s ease-in-out;
 }
 
 .menu-link:hover {
   color: #111 !important;
 }
 
-.menu-item+.menu-item {
+.menu-item + .menu-item {
   margin-top: 0.75em;
 }
 
@@ -289,16 +359,16 @@ section + section {
   white-space: nowrap;
   font-weight: 500;
   vertical-align: middle;
-  padding: .875rem 1.75rem;
+  padding: 0.875rem 1.75rem;
   text-align: center;
 
-  .shop-icon {  
+  .shop-icon {
     font-size: 1rem !important;
     transition: transform 0.2s ease-out;
   }
 
   &:hover .shop-icon {
-  transform: translatex(0.2em);
+    transform: translatex(0.2em);
   }
 }
 
@@ -330,12 +400,12 @@ section + section {
 
 .bg-hover {
   position: relative;
-  background: rgba(31,31,31,0);
+  background: rgba(31, 31, 31, 0);
   transition: all 0.2s ease-in-out;
   cursor: pointer;
-  
+
   &:hover {
-    background: rgba(31,31,31,0.1);
+    background: rgba(31, 31, 31, 0.1);
     .shop-icon {
       transform: translatex(0.2em);
     }
@@ -350,8 +420,8 @@ section + section {
   left: 0;
   z-index: 1;
   pointer-events: auto;
-  content: "";
-  background-color: rgba(0,0,0,0);
+  content: '';
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .card {
@@ -361,11 +431,53 @@ section + section {
   justify-content: center;
 }
 
-input[type=search]::-webkit-search-cancel-button, 
-input[type=search]::-webkit-search-decoration {
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration {
   -webkit-appearance: searchfield-cancel-button !important;
 }
 
 .border-bottom {
   border-bottom: 1px solid #e5e5e5;
+}
+
+.close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  &:hover {
+    color: #a6a6a6;
+  }
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.custom-select {
+  width: 100%;
+  display: inline-block;
+  padding: 0.875rem 3.5rem 0.875rem 1.5rem;
+  margin-bottom: 1.5rem;
+  background: #fff url('/img/backgroundPatterns/arrowDown.svg') no-repeat right 1.5rem center/1rem 1rem;
+  border: 1px solid #ccc;
+  transition: border-color 0.1s ease-in-out;
+  &:focus {
+    border-color: #555;
+  }
+}
+
+.form-control {
+  display: block;
+  height: calc(1.5em + 1.75rem + 2px);
+  padding: 0.875rem 1.5rem;
+  outline: none;
+}
+
+.input-group > .form-control {
+  position: relative;
+  flex: 1 1 0%;
+  min-width: 0;
+  margin-bottom: 0;
 }

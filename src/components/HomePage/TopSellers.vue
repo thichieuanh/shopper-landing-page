@@ -31,20 +31,20 @@
             md="3"
             class="px-4 py-0 mb-7"
           >
-            <product
-              :imgUrl="product.images.img"
-              :imgOnHoverUrl="product.images.imgOnHover"
-              :category="product.category"
-              :productName="product.name"
-              :price="'$' + product.pricing.price"
-              :discountedPrice="discountedPrice(product)"
-              :isNew="product.isNew"
-              :isSale="isSale(product)"
-              :badgeText="product.isNew ? 'NEW' : isSale(product) ? 'SALE' : ''"
-            ></product>
+            <Product
+              @showProductDialog="toggleProductDialog"
+              :productData="product"
+            ></Product>
           </v-col>
         </v-row>
       </div>
+
+      <!-- PRODUCT DIALOG -->
+      <ProductDialog
+        :id="productId"
+        :isOpen="isDialogOpen"
+        @closeProductDialog="hidemodal"
+      ></ProductDialog>
 
       <!-- DISCOVER MORE -->
       <div class="text-center underline-wrapper mt-7">
@@ -58,16 +58,18 @@
 <script>
 import { mapState } from 'vuex';
 import Product from '@/components/HomePage/Product/Product.vue';
+import ProductDialog from '@/components/HomePage/Product/ProductDialog.vue';
 
 export default {
   name: 'TopSellers',
-  components: { Product },
+  components: { Product, ProductDialog },
 
   data() {
     return {
       tabItems: ['Women', 'Men', 'Kids'],
-      activeTab: 0,
       selectedIndex: 0,
+      isDialogOpen: false,
+      productId: 0,
     };
   },
 
@@ -84,16 +86,34 @@ export default {
   },
 
   methods: {
-    isSale(item) {
-      if (item.pricing.discount) return true;
+    toggleProductDialog(id) {
+      this.isDialogOpen = !this.isDialogOpen;
+      this.productId = id;
+      if (this.isDialogOpen) {
+        this.showmodal();
+      } else {
+        this.hidemodal();
+      }
     },
-    isNew(arrray, idx) {
-      if (arrray[idx].isNew) return true;
+    showmodal() {
+      this.isDialogOpen = true;
+      document
+        .querySelector('.modal')
+        .classList.add('animate__fadeInDown', 'animate_slower');
+      document
+        .querySelector('.modal')
+        .classList.remove('animate__fadeOutUp', 'animate_slower');
     },
-    discountedPrice(item) {
-      return item.pricing.discount
-        ? '$' + (item.pricing.price * (1 - item.pricing.discount)).toFixed(2)
-        : '';
+    hidemodal() {
+      document
+        .querySelector('.modal')
+        .classList.remove('animate__fadeInDown', 'animate_slower');
+      document
+        .querySelector('.modal')
+        .classList.add('animate__fadeOutUp', 'animate_slower');
+      setTimeout(() => {
+        this.isDialogOpen = false;
+      }, 1000);
     },
   },
 

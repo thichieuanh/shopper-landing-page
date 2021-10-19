@@ -19,10 +19,10 @@
         id="modalSearchCategories"
         class="custom-select form-control"
       >
-        <option value="volvo">All Categories</option>
-        <option value="volvo">Women</option>
-        <option value="saab">Men</option>
-        <option value="mercedes">Kids</option>
+        <option value="all">All Categories</option>
+        <option value="women">Women</option>
+        <option value="men">Men</option>
+        <option value="kids">Kids</option>
       </select>
 
       <!-- Searh bar -->
@@ -128,39 +128,8 @@ export default {
   border-top: 1px solid #e5e5e5;
 }
 
-.close {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  color: #a6a6a6;
-}
-
 .modal-body {
   padding: 2rem;
-}
-
-.custom-select {
-  display: inline-block;
-  width: 100%;
-  padding: 0.875rem 3.5rem 0.875rem 1.5rem;
-  margin-bottom: 1.5rem;
-  background: #fff url('/img/backgroundPatterns/arrowDown.svg') no-repeat right
-    1.5rem center/1rem 1rem;
-  border: 1px solid #ccc;
-}
-
-.form-control {
-  display: block;
-  height: calc(1.5em + 1.75rem + 2px);
-  padding: 0.875rem 1.5rem;
-  outline: none;
-}
-
-.input-group > .form-control {
-  position: relative;
-  flex: 1 1 0%;
-  min-width: 0;
-  margin-bottom: 0;
 }
 
 .input-group {

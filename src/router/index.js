@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import AccountOrders from '../views/AccountOrders.vue'
 import Wishlist from '../views/Wishlist.vue'
 import Shop from '../views/Shop.vue'
+import ProductPage from '../views/ProductPage.vue'
+import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
 
@@ -27,7 +29,18 @@ const routes = [
     path: '/shop',
     name: 'Shop',
     component: Shop
+  },
+  {
+    path: '/product',
+    name: 'ProductPage',
+    component: ProductPage
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test
   }
+
 ]
 
 const router = new VueRouter({

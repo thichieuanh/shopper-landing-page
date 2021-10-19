@@ -1,8 +1,8 @@
 import requester from './requester';
 
 const Api = {
-  getWomenProducts: () => requester.get('/women'),
-  getMenProducts: () => requester.get('/men'),
-  getKidsProducts: () => requester.get('/kids'),
+  getWomenProducts: () => requester.get('/women.json'),
+  getMenProducts: () => requester.get('/men.json'),
+  getKidsProducts: () => requester.get('/kids.json'),
 }
 export default Api;
