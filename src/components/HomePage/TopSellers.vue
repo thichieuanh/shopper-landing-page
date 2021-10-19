@@ -41,6 +41,7 @@
 
       <!-- PRODUCT DIALOG -->
       <ProductDialog
+        v-if="productId"
         :id="productId"
         :isOpen="isDialogOpen"
         @closeProductDialog="hidemodal"
@@ -97,23 +98,15 @@ export default {
     },
     showmodal() {
       this.isDialogOpen = true;
-      document
-        .querySelector('.modal')
-        .classList.add('animate__fadeInDown', 'animate_slower');
-      document
-        .querySelector('.modal')
-        .classList.remove('animate__fadeOutUp', 'animate_slower');
+      this.$nextTick(() => {
+        document.querySelector('.modal').classList.add('show');
+      });
     },
     hidemodal() {
-      document
-        .querySelector('.modal')
-        .classList.remove('animate__fadeInDown', 'animate_slower');
-      document
-        .querySelector('.modal')
-        .classList.add('animate__fadeOutUp', 'animate_slower');
-      setTimeout(() => {
-        this.isDialogOpen = false;
-      }, 1000);
+      this.isDialogOpen = false;
+      this.$nextTick(() => {
+        document.querySelector('.modal').classList.remove('show');
+      });
     },
   },
 
