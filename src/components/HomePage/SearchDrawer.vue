@@ -103,11 +103,14 @@ export default {
     searchText: '',
   }),
   computed: {
-    ...mapState(['womenProducts']),
+    ...mapState('products', ['womenProducts']),
 
     // Temp use for hard-coding
+    // resultProducts() {
+    //   return this.womenProducts.filter((item, index) => index <= 4);
+    // },
     resultProducts() {
-      return this.womenProducts.filter((item, index) => index <= 4);
+      return this.womenProducts;
     },
   },
 

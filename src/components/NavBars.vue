@@ -115,7 +115,9 @@
       <div class="container-control">
         <!-- Brand name -->
         <div class="d-flex justify-space-between align-center">
-          <a class="brand" href="/">Pineapple.</a>
+          <router-link :to="{ name: 'Home' }" class="brand">
+            Pineapple
+          </router-link>
 
           <!-- Middle breadcrums -->
           <div class="main-breadcrumbs d-flex align-center justify-center">
@@ -169,24 +171,27 @@
             </a>
 
             <!-- Acount -->
-            <a href="/account-orders" class="functional-icon">
+            <router-link
+              :to="{ name: 'AccountOrders' }"
+              class="functional-icon"
+            >
               <Icon
                 icon="feather:user"
                 width="18"
                 class="red-hover-btn"
                 :inline="true"
               />
-            </a>
+            </router-link>
 
             <!-- Wishlist -->
-            <a href="/account-wishlist" class="functional-icon">
+            <router-link :to="{ name: 'Wishlist' }" class="functional-icon">
               <Icon
                 icon="ph:heart-straight"
                 width="18"
                 :inline="true"
                 class="red-hover-btn"
               />
-            </a>
+            </router-link>
 
             <!-- Shopping cart -->
             <a href="#" class="functional-icon shopping-cart">
@@ -196,7 +201,7 @@
                 :inline="true"
                 class="red-hover-btn"
               />
-              <div class="badge">{{ cartCount }}</div>
+              <div class="badge">{{ cartTotal }}</div>
             </a>
           </div>
         </div>
@@ -216,6 +221,7 @@ import CatalogMenu from '@/components/HomePage/BreadcrumbMenu/CatalogMenu';
 import ShopMenu from '@/components/HomePage/BreadcrumbMenu/ShopMenu';
 import SearchDrawer from '@/components/HomePage/SearchDrawer';
 import { Icon } from '@iconify/vue2';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'NavBars',
@@ -293,6 +299,9 @@ export default {
       { title: 'About', icon: 'mdi-forum' },
     ],
   }),
+  computed: {
+    ...mapGetters('productPrivateStore', ['cartTotal']),
+  },
   methods: {
     currentMenu(key) {
       switch (key) {

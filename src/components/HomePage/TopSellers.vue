@@ -33,7 +33,7 @@
           >
             <Product
               @showProductDialog="onShowProductDialog"
-              :productData="product"
+              :productDetails="product"
             ></Product>
           </v-col>
         </v-row>
@@ -42,7 +42,7 @@
       <!-- PRODUCT DIALOG -->
       <ProductDialog
         v-if="productId"
-        :id="productId"
+        :productId="productId"
         :isOpen="isDialogOpen"
         @closeProductDialog="isDialogOpen = false"
       ></ProductDialog>
@@ -75,7 +75,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['womenProducts', 'menProducts', 'kidsProducts']),
+    ...mapState('products', ['womenProducts', 'menProducts', 'kidsProducts']),
 
     allProducts() {
       return [
@@ -94,7 +94,7 @@ export default {
   },
 
   async mounted() {
-    await this.$store.dispatch('getProducts');
+    await this.$store.dispatch('products/getProducts');
   },
 };
 </script>
@@ -153,13 +153,6 @@ export default {
   cursor: pointer;
   &:hover {
     color: #ff6f61;
-  }
-}
-
-.fade {
-  transition: opacity 0.4s ease-in-out;
-  &:not(.show) {
-    opacity: 0;
   }
 }
 

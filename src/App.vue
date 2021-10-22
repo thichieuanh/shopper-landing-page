@@ -4,19 +4,61 @@
     <v-main class="pa-0">
       <router-view />
     </v-main>
+
+    <!-- fix snackbar, tự code lại -->
+    <v-snackbar
+      v-show="isShowNotification"
+      :value="isShowNotification"
+      transition="fade-transition"
+      centered
+      elevation="5"
+      class="custom-notify"
+      :content-class="isError ? 'error-noti' : ''"
+      :light="isError"
+      :timeout="1500"
+      @input="hideNotification()"
+    >
+      <Icon :icon="notiIcon" width="28" :inline="true" class="mb-2" />
+      <div>{{ notificationMessage }}</div>
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
 import NavBars from '@/components/NavBars';
+import { Icon } from '@iconify/vue2';
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'App',
 
   components: {
     NavBars,
+    Icon,
   },
 
   data: () => ({}),
+
+  computed: {
+    ...mapGetters('notification', [
+      'isShowNotification',
+      'notificationType',
+      'notificationMessage',
+    ]),
+    notiIcon() {
+      return this.isError
+        ? 'fluent:error-circle-20-regular'
+        : 'akar-icons:circle-check';
+    },
+    isError() {
+      return this.notificationType === 'error';
+    },
+  },
+  methods: {
+    hideNotification() {
+      this.$store.commit('notification/hideNotification');
+    },
+  },
 };
 </script>
 
@@ -37,23 +79,15 @@ export default {
   color: black !important;
 }
 
-// .navbar-breadcrumbs {
-//   border-bottom: 1px rgb(229, 229, 229) solid !important;
-//   .v-toolbar__content {
-//     display: flex;
-//     justify-content: space-between;
-//   }
-// }
-
-.brand {
-  font-size: 1.75rem;
-  font-weight: 600;
+.custom-notify {
+  .v-snack__wrapper {
+    min-width: auto;
+    & > .v-snack__content {
+      text-align: center !important;
+    }
+  }
 }
-
-// .banner-heading {
-//   text-align: center;
-//   .v-banner__wrapper {
-//     height: 100%;
-//   }
-// }
+.error-noti {
+  color: #ff4c3b;
+}
 </style>

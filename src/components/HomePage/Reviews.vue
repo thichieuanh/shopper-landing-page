@@ -86,7 +86,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(['reviews']),
+    ...mapState('products', ['reviews']),
   },
 };
 </script>

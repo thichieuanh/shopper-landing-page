@@ -1,11 +1,17 @@
 <template>
-  <div>WISHLIST</div>
+  <div>
+    <div>WISHLIST: {{ wishlist }}</div>
+    <div>CART: {{ cart }}</div>
+  </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   data: () => ({}),
-  computed: {},
+  computed: {
+    ...mapState('productPrivateStore', ['wishlist', 'cart']),
+  },
   methods: {},
 };
 </script>
