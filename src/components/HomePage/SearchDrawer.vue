@@ -1,6 +1,6 @@
 <template>
   <!-- SEARCH DRAWER -->
-  <v-navigation-drawer width="455" v-model="drawer" app temporary right>
+  <v-navigation-drawer width="455" :value="drawer" app temporary right>
     <!-- Close -->
     <button class="close" @click="closeSearch()">
       <Icon icon="clarity:close-line" width="27" :inline="true" />
@@ -18,11 +18,15 @@
         name="modalSearchCategories"
         id="modalSearchCategories"
         class="custom-select form-control"
+        v-model="selectedCategory"
       >
-        <option value="all">All Categories</option>
-        <option value="women">Women</option>
-        <option value="men">Men</option>
-        <option value="kids">Kids</option>
+        <option
+          v-for="category in categories"
+          :value="category"
+          :key="category"
+        >
+          {{ category }}
+        </option>
       </select>
 
       <!-- Searh bar -->
@@ -41,57 +45,70 @@
       </div>
     </div>
 
-    <!-- Body: Result -->
+    <!-- Body: Results -->
     <div class="modal-body border-top font-size-sm">
-      <p>Search Results:</p>
-      <v-row v-for="(product, index) in resultProducts" :key="index">
-        <v-list-item class="pa-0 mb-6">
-          <v-list-item-avatar tile size="80" class="mr-8">
-            <v-img :src="product.img"></v-img>
-          </v-list-item-avatar>
+      <div v-if="!searchText">
+        Please enter product name onto above search bar.
+      </div>
+      <div v-else>
+        <!-- Found -->
+        <div v-if="resultProducts(selectedCategory).length">
+          <p>Search Results:</p>
+          <v-row
+            v-for="(product, index) in resultProducts(selectedCategory)"
+            :key="index"
+          >
+            <v-list-item class="pa-0 mb-6">
+              <v-list-item-avatar tile size="80" class="mr-8">
+                <v-img :src="product.images.img"></v-img>
+              </v-list-item-avatar>
 
-          <v-list-item-content>
-            <v-list-item-title
-              class="mb-1 font-weight-medium font-size-sm"
-              style="white-space: normal"
-            >
-              {{ product.name }}
-            </v-list-item-title>
+              <v-list-item-content>
+                <v-list-item-title
+                  class="mb-1 font-weight-medium font-size-sm"
+                  style="white-space: normal"
+                >
+                  {{ product.name }}
+                </v-list-item-title>
 
-            <v-list-item-subtitle>
-              <a
-                href="#"
-                class="
-                  grey--text
-                  text--darken-2
-                  font-size-sm font-weight-medium
-                "
-              >
-                {{ product.price }}
-              </a>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-row>
-      <div class="pa-0 shop-button" style="font-size: 1.125rem">
-        <a href="#"> View All </a>
-        <v-icon class="shop-icon ml-3" size="1.125rem">
-          mdi-arrow-right
-        </v-icon>
+                <v-list-item-title>
+                  <router-link
+                    :to="{ name: 'ProductPage' }"
+                    :class="
+                      'stretched-link ' +
+                      (isSale(product) ? 'text-primary' : 'text-muted')
+                    "
+                  >
+                    {{ price(product) }}
+                  </router-link>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-row>
+          <div class="pa-0 shop-button" style="font-size: 1.125rem">
+            <a href="#"> View All </a>
+            <v-icon class="shop-icon ml-3" size="1.125rem">
+              mdi-arrow-right
+            </v-icon>
+          </div>
+        </div>
+        <!-- Not found -->
+        <div v-else>
+          <p class="mb-3 font-size-sm text-center">
+            Nothing matches your search
+          </p>
+          <p class="mb-0 font-size-sm text-center">😞</p>
+        </div>
       </div>
     </div>
-    <!-- Body: Empty: Add d-none class to hide this -->
-    <div class="modal-body">
-      <!-- Text -->
-      <p class="mb-3 font-size-sm text-center">Nothing matches your search</p>
-      <p class="mb-0 font-size-sm text-center">😞</p>
-    </div>
+
+    <!-- Body: Empty: -->
   </v-navigation-drawer>
 </template>
 
 <script>
 import { Icon } from '@iconify/vue2';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 export default {
   props: {
     drawer: { type: Boolean, default: false },
@@ -101,22 +118,45 @@ export default {
   },
   data: () => ({
     searchText: '',
+    categories: ['All Categories', 'Women', 'Men', 'Kids'],
+    selectedCategory: 'All Categories',
   }),
   computed: {
-    ...mapState('products', ['womenProducts']),
-
-    // Temp use for hard-coding
-    // resultProducts() {
-    //   return this.womenProducts.filter((item, index) => index <= 4);
-    // },
-    resultProducts() {
-      return this.womenProducts;
-    },
+    ...mapState('products', ['womenProducts', 'menProducts', 'kidsProducts']),
+    ...mapGetters('products', ['getAllProducts']),
   },
 
   methods: {
     closeSearch() {
       this.$emit('closePopup');
+    },
+    price(product) {
+      const { pricing } = product;
+      return pricing.discount ? pricing.discountedPrice : pricing.price;
+    },
+    isSale(product) {
+      if (product.pricing.discount) return true;
+    },
+    resultProducts(category) {
+      let searchArray;
+      switch (category) {
+        case 'Women':
+          searchArray = this.womenProducts;
+          break;
+        case 'Men':
+          searchArray = this.menProducts;
+          break;
+        case 'Kids':
+          searchArray = this.kidsProducts;
+          break;
+        default:
+          searchArray = this.getAllProducts;
+          break;
+      }
+      const result = searchArray.filter((item) =>
+        item.name.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+      return result;
     },
   },
 };

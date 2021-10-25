@@ -50,7 +50,7 @@
         <span :class="{ 'old-price': isSale(productDetails) }">
           {{ productDetails.pricing.price }}</span
         >
-        <span class="red--text red-accent-2">
+        <span class="sale-price">
           {{ productDetails.pricing.discountedPrice }}
         </span>
       </v-card-subtitle>
@@ -112,20 +112,19 @@ export default {
             (product.pricing.price * (1 - product.pricing.discount)).toFixed(2)
         : '';
     },
+
     isSale(product) {
       if (product.pricing.discount) return true;
     },
+
     buttonClass(isHover, index, type) {
       let state = '';
       if (index === 1 && this.isProductIdInCart(this.productDetails.id)) {
-        console.log('check 1');
         state = 'added-to-cart';
       }
       if (index === 2 && this.isWishlisted(this.productDetails.id)) {
-        console.log('check 2');
         state = 'added-to-wishlist';
       }
-      console.log('state', state);
       return (
         `product-button ${state} d-flex justify-center align-center mx-1` +
         (isHover

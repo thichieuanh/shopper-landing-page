@@ -161,7 +161,11 @@
           <!-- Functional icons -->
           <div class="d-flex">
             <!-- Search -->
-            <a href="#" class="functional-icon" @click="showDrawer">
+            <a
+              href="#"
+              class="functional-icon"
+              @click="isShowDrawer = !isShowDrawer"
+            >
               <Icon
                 icon="ph:magnifying-glass"
                 width="18"
@@ -209,7 +213,10 @@
     </div>
 
     <!-- SEARCH DRAWER -->
-    <search-drawer :drawer="drawer" @closePopup="closeDrawer"></search-drawer>
+    <search-drawer
+      :drawer="isShowDrawer"
+      @closePopup="isShowDrawer = false"
+    ></search-drawer>
   </div>
 </template>
 
@@ -293,7 +300,7 @@ export default {
     ],
     breadcrumbs: ['Home', 'Catalog', 'Shop', 'Pages', 'Blog'],
     cartCount: 2,
-    drawer: false,
+    isShowDrawer: false,
     items: [
       { title: 'Home', icon: 'mdi-view-dashboard' },
       { title: 'About', icon: 'mdi-forum' },
@@ -318,12 +325,6 @@ export default {
         default:
           return 'HomeMenu';
       }
-    },
-    showDrawer() {
-      this.drawer = true;
-    },
-    closeDrawer() {
-      this.drawer = false;
     },
   },
 };
