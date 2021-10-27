@@ -6,13 +6,13 @@
       v-show="isOpen"
       @click="hidemodal"
     ></div>
-    <a href="#" @click.prevent="toggle" class="js-open-modal">
+    <a href="" @click.prevent="toggle" class="js-open-modal">
       open modal {{ isOpen }}
     </a>
     <div class="modal">
       <div class="modal__header">
         modal header
-        <a href="#" @click="hidemodal" class="js-close-modal">X</a>
+        <a href="" @click="hidemodal" class="js-close-modal">X</a>
       </div>
       <p>hey there, I'm the modal</p>
     </div>
@@ -38,7 +38,6 @@ export default {
       this.isOpen = true;
     },
     hidemodal() {
-      console.log(document.querySelector('.modal').classList);
       document.querySelector('.modal').classList.remove('visible');
       this.isOpen = false;
     },

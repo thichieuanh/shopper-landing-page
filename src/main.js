@@ -2,8 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import vuetify from './plugins/vuetify'
 import VueSplide from '@splidejs/vue-splide';
+import eventhub from './plugins/eventhub'
+import vuetify from './plugins/vuetify'
 import '@/assets/styles/app-style.scss';
 
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
@@ -17,6 +18,7 @@ library.add(faShoppingCart, faFacebookF, faTwitter, faInstagram, faMedium, faYou
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(VueSplide);
+Vue.use(eventhub);
 
 Vue.config.productionTip = false
 dom.watch()
@@ -25,5 +27,6 @@ new Vue({
   router,
   store,
   vuetify,
+  eventhub,
   render: h => h(App)
 }).$mount('#app')

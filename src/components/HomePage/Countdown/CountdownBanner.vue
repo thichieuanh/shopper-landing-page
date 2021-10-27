@@ -6,7 +6,7 @@
     <a
       href="https://vuejs.org/v2/api/#transition"
       target="_blank"
-      class="shop-button dark-button mt-8"
+      class="shop-button btn-dark mt-8"
     >
       Shop Now
       <v-icon class="shop-icon ml-2">mdi-arrow-right</v-icon>

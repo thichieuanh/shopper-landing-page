@@ -19,7 +19,7 @@
 
                 <v-list-item-content>
                   <v-list-item-subtitle>
-                    <a href="#" class="grey--text text--darken-2">
+                    <a href="" class="grey--text text--darken-2">
                       {{ review.category }}
                     </a>
                   </v-list-item-subtitle>

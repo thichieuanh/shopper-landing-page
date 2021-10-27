@@ -30,12 +30,7 @@
                   content-class="dropdown-content"
                 >
                   <template v-slot:activator="{ on, attrs }" elevation="0">
-                    <a
-                      href="#"
-                      v-bind="attrs"
-                      v-on="on"
-                      class="d-flex align-center"
-                    >
+                    <a v-bind="attrs" v-on="on" class="d-flex align-center">
                       <img
                         v-if="dropdownKey === 'countries'"
                         src="/img/flags/usa.svg"
@@ -56,7 +51,7 @@
                     <template v-for="(country, countryIdx) in dropdownVal">
                       <v-list-item :key="countryIdx" link>
                         <a
-                          href="#"
+                          href=""
                           class="d-flex align-center font-weight-regular"
                         >
                           <img
@@ -153,7 +148,7 @@
               </li>
             </ul>
 
-            <a href="#" class="font-weight-medium px-4 py-2 red-hover-btn">
+            <a href="" class="font-weight-medium px-4 py-2 red-hover-btn">
               Docs
             </a>
           </div>
@@ -162,9 +157,8 @@
           <div class="d-flex">
             <!-- Search -->
             <a
-              href="#"
               class="functional-icon"
-              @click="isShowDrawer = !isShowDrawer"
+              @click="isShowSearchDrawer = !isShowSearchDrawer"
             >
               <Icon
                 icon="ph:magnifying-glass"
@@ -198,7 +192,10 @@
             </router-link>
 
             <!-- Shopping cart -->
-            <a href="#" class="functional-icon shopping-cart">
+            <a
+              class="functional-icon shopping-cart"
+              @click="isShowCartDrawer = !isShowCartDrawer"
+            >
               <Icon
                 icon="ph:shopping-cart-simple"
                 width="18"
@@ -213,10 +210,13 @@
     </div>
 
     <!-- SEARCH DRAWER -->
-    <search-drawer
-      :drawer="isShowDrawer"
-      @closePopup="isShowDrawer = false"
-    ></search-drawer>
+    <search-drawer :searchDrawer="isShowSearchDrawer"></search-drawer>
+
+    <!-- CART DRAWER -->
+    <cart-drawer
+      v-if="isShowCartDrawer"
+      :cartDrawer="isShowCartDrawer"
+    ></cart-drawer>
   </div>
 </template>
 
@@ -227,6 +227,7 @@ import BlogMenu from '@/components/HomePage/BreadcrumbMenu/BlogMenu';
 import CatalogMenu from '@/components/HomePage/BreadcrumbMenu/CatalogMenu';
 import ShopMenu from '@/components/HomePage/BreadcrumbMenu/ShopMenu';
 import SearchDrawer from '@/components/HomePage/SearchDrawer';
+import CartDrawer from '@/components/HomePage/CartDrawer';
 import { Icon } from '@iconify/vue2';
 import { mapGetters } from 'vuex';
 
@@ -239,6 +240,7 @@ export default {
     CatalogMenu,
     ShopMenu,
     SearchDrawer,
+    CartDrawer,
     Icon,
   },
 
@@ -300,7 +302,8 @@ export default {
     ],
     breadcrumbs: ['Home', 'Catalog', 'Shop', 'Pages', 'Blog'],
     cartCount: 2,
-    isShowDrawer: false,
+    isShowSearchDrawer: false,
+    isShowCartDrawer: false,
     items: [
       { title: 'Home', icon: 'mdi-view-dashboard' },
       { title: 'About', icon: 'mdi-forum' },
@@ -326,6 +329,18 @@ export default {
           return 'HomeMenu';
       }
     },
+  },
+  created() {
+    this.eventHub.$on('closeCart', () => {
+      this.isShowCartDrawer = false;
+    });
+    this.eventHub.$on('closeSearch', () => {
+      this.isShowSearchDrawer = false;
+    });
+  },
+  beforeDestroy() {
+    this.eventHub.$off('closeCart');
+    this.eventHub.$off('closeSearch');
   },
 };
 </script>

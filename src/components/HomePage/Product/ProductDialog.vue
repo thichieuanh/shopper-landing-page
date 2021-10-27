@@ -40,7 +40,9 @@
           <v-col cols="12" md="6" lg="7" class="px-md-9 py-9 text-left">
             <h4 class="mb-3">{{ productDetails.name }}</h4>
             <div class="mb-7 d-flex align-baseline">
-              <h5 class="mr-1">{{ productDetails.pricing.price }}</h5>
+              <h5 class="mr-1">
+                {{ productDetails.pricing.priceAfterDiscount }}
+              </h5>
               <span>({{ getVariantStock }})</span>
             </div>
 
@@ -53,7 +55,7 @@
 
               <div class="d-flex mb-8">
                 <v-avatar
-                  v-for="(color, index) in productDetails.colors"
+                  v-for="(variant, index) in productDetails.variants"
                   :key="index"
                   tile
                   size="70"
@@ -74,7 +76,7 @@
 
             <!-- Sizes -->
             <div class="form-group">
-              <p v-if="selectedSize === undefined">Select size</p>
+              <p v-if="!selectedSize">Select size</p>
               <v-row v-else class="mb-6">
                 <v-col class="pa-0">
                   <div>
@@ -158,16 +160,19 @@ export default {
   props: {
     isOpen: { type: Boolean, default: false },
     productId: { type: Number },
+    isUpdatingCart: { type: Boolean, default: false },
+    itemToUpdate: { type: Object, default: () => {} },
   },
 
   data: () => ({
-    selectedSize: null,
+    defaultSize: undefined,
+    defaultVariantIdx: 0,
     selectedQuantity: 1,
-    selectedVariant: 0,
   }),
 
   computed: {
     ...mapState('productPrivateStore', ['cart']),
+
     ...mapGetters({
       getProductById: 'products/getProductById',
       isWishlisted: 'productPrivateStore/isWishlisted',
@@ -176,6 +181,36 @@ export default {
 
     productDetails() {
       return this.getProductById(this.productId);
+    },
+
+    selectedSize: {
+      get: function () {
+        if (this.isUpdatingCart) {
+          const { itemToUpdate, productDetails, selectedVariant } = this;
+          const { size } = itemToUpdate;
+
+          const foundSize = productDetails.variants[selectedVariant].stock.find(
+            (item) => Object.keys(item)[0] === size
+          );
+
+          return foundSize;
+        } else {
+          return this.defaultSize;
+        }
+      },
+      set: function (newValue) {
+        this.defaultSize = newValue;
+      },
+    },
+
+    selectedVariant: {
+      get: function () {
+        return this.defaultVariantIdx;
+      },
+
+      set: function (newValue) {
+        this.defaultVariantIdx = newValue;
+      },
     },
 
     showSizeRegion() {
@@ -209,7 +244,9 @@ export default {
     },
 
     cartButtonInfo() {
-      return { text: 'Add to cart', icon: 'bi:cart' };
+      return this.isUpdatingCart
+        ? { text: 'Update cart', icon: 'bi:cart' }
+        : { text: 'Add to cart', icon: 'bi:cart' };
     },
 
     wishlistButtonInfo() {
@@ -233,14 +270,13 @@ export default {
   methods: {
     ...mapActions({
       updateWishList: 'productPrivateStore/updateWishList',
-      addToCart: 'productPrivateStore/addToCart',
       showNotification: 'notification/showNotification',
     }),
 
     close() {
-      this.$emit('closeProductDialog');
-      this.selectedSize = null;
-      this.selectedQuantity = null;
+      this.eventHub.$emit('closeProductDialog');
+      this.selectedSize = undefined;
+      this.selectedQuantity = undefined;
     },
 
     isSizeOutOfStock(item) {
@@ -254,9 +290,19 @@ export default {
       }
     },
 
+    getDefaultVariant() {
+      if (this.isUpdatingCart) {
+        const { itemToUpdate, productDetails } = this;
+        const updatedVariantIdx = productDetails.variants.findIndex(
+          (variant) => variant.variantColor === itemToUpdate.variantColor
+        );
+        this.defaultVariantIdx = updatedVariantIdx;
+      }
+    },
+
     selectVariant(item) {
       this.selectedVariant = item;
-      this.selectedSize = null;
+      this.selectedSize = undefined;
     },
 
     sizeClass(size) {
@@ -269,46 +315,34 @@ export default {
     },
 
     onUpdateCart() {
+      const {
+        productDetails,
+        selectedSizeName,
+        selectedQuantity,
+        selectedSizeStock,
+        selectedVariant,
+        productId,
+      } = this;
+
       if (this.selectedSize) {
         const productPayload = {
-          productId: this.productId,
-          variantId:
-            this.productDetails.variants[this.selectedVariant].variantId,
-          size: this.selectedSizeName,
-          quantity: this.selectedQuantity,
+          productId: productId,
+          image: productDetails.images.img,
+          name: productDetails.name,
+          variantColor: productDetails.variants[selectedVariant].variantColor,
+          size: selectedSizeName,
+          quantity: selectedQuantity,
+          sizeStock: selectedSizeStock,
+          price: productDetails.pricing.priceAfterDiscount,
         };
 
-        const { variantId, quantity, size } = productPayload;
-
-        const successPayload = {
-          type: 'success',
-          message: 'Added to cart',
-        };
-
-        const errorPayload = {
-          type: 'error',
-          message: 'Sorry, there is not enough stock remaining for this size',
-        };
-
-        if (this.isItemInCart(productPayload)) {
-          const itemIndex = this.cart.findIndex(
-            (item) => item.variantId === variantId && item.size === size
-          );
-
-          const tempStock = this.cart[itemIndex].quantity + quantity;
-
-          if (tempStock > this.selectedSizeStock) {
-            this.showNotification(errorPayload);
-          } else {
-            this.cart[itemIndex].quantity = tempStock;
-            this.showNotification(successPayload);
-          }
-        } else {
-          this.addToCart(productPayload);
-          this.showNotification(successPayload);
-        }
+        this.$store.dispatch('productPrivateStore/updateCart', productPayload);
       }
     },
+  },
+
+  mounted() {
+    this.getDefaultVariant();
   },
 };
 </script>

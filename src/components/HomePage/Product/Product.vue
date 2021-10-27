@@ -33,13 +33,13 @@
       </div>
 
       <v-card-subtitle class="pa-0 mt-4 mb-0">
-        <a href="#" class="grey--text text--darken-2">{{
+        <a href="" class="grey--text text--darken-2">{{
           productDetails.category
         }}</a>
       </v-card-subtitle>
 
       <v-card-title class="pa-0 mt-1 mb-0">
-        <a href="#" style="font-size: 1rem; word-break: break-word">
+        <a href="" style="font-size: 1rem; word-break: break-word">
           {{ productDetails.name }}
         </a>
       </v-card-title>
@@ -50,9 +50,9 @@
         <span :class="{ 'old-price': isSale(productDetails) }">
           {{ productDetails.pricing.price }}</span
         >
-        <span class="sale-price">
-          {{ productDetails.pricing.discountedPrice }}
-        </span>
+        <span v-if="isSale(productDetails)" class="text-primary">{{
+          productDetails.pricing.priceAfterDiscount
+        }}</span>
       </v-card-subtitle>
     </v-card>
   </v-hover>
@@ -93,24 +93,21 @@ export default {
   },
 
   methods: {
-    ...mapActions('productPrivateStore', ['updateWishList', 'addToCart']),
+    ...mapActions('productPrivateStore', ['updateWishList']),
 
     iconClicked(index) {
       switch (index) {
         case 0:
         case 1:
-          this.$emit('showProductDialog', this.productDetails.id);
+          this.eventHub.$emit('showProductDialog', {
+            productId: this.productDetails.id,
+            isUpdatingCart: false,
+          });
           break;
         case 2:
           this.updateWishList(this.productDetails.id);
           break;
       }
-    },
-    discountedPrice(product) {
-      return product.pricing.discount
-        ? '$' +
-            (product.pricing.price * (1 - product.pricing.discount)).toFixed(2)
-        : '';
     },
 
     isSale(product) {

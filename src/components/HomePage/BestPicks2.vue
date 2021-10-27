@@ -67,7 +67,7 @@ Latest commit 3668288 22 hours ago
               <h4>{{ coverTitles[n - 1] }}</h4>
               <!-- Link  -->
               <span class="shop-button">
-                <a href="#" class="font-weight-bold"> Shop Now </a>
+                <a href="" class="font-weight-bold"> Shop Now </a>
                 <v-icon class="shop-icon ml-3"> mdi-arrow-right </v-icon>
               </span>
             </div>
@@ -94,7 +94,7 @@ Latest commit 3668288 22 hours ago
 
                 <v-card-actions class="mx-auto pa-0">
                   <span class="shop-button">
-                    <a href="#" :class="textColor(n) + ' font-weight-bold'">
+                    <a href="" :class="textColor(n) + ' font-weight-bold'">
                       Shop Now
                     </a>
                     <v-icon :class="textColor(n) + ' shop-icon ml-3'">

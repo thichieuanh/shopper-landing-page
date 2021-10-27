@@ -14,7 +14,7 @@
             :key="itemIdx"
             class="menu-item"
           >
-            <a href="#" class="menu-link">
+            <a href="" class="menu-link">
               {{ item }}
             </a>
           </li>

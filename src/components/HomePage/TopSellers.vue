@@ -31,21 +31,10 @@
             md="3"
             class="px-4 py-0 mb-7"
           >
-            <Product
-              @showProductDialog="onShowProductDialog"
-              :productDetails="product"
-            ></Product>
+            <Product :productDetails="product"></Product>
           </v-col>
         </v-row>
       </div>
-
-      <!-- PRODUCT DIALOG -->
-      <ProductDialog
-        v-if="productId"
-        :productId="productId"
-        :isOpen="isDialogOpen"
-        @closeProductDialog="isDialogOpen = false"
-      ></ProductDialog>
 
       <!-- DISCOVER MORE -->
       <div class="text-center underline-wrapper mt-7">
@@ -59,17 +48,15 @@
 <script>
 import { mapState } from 'vuex';
 import Product from '@/components/HomePage/Product/Product.vue';
-import ProductDialog from '@/components/HomePage/Product/ProductDialog.vue';
 
 export default {
   name: 'TopSellers',
-  components: { Product, ProductDialog },
+  components: { Product },
 
   data() {
     return {
       tabItems: ['Women', 'Men', 'Kids'],
       selectedIndex: 0,
-      isDialogOpen: false,
       productId: 0,
     };
   },
@@ -83,13 +70,6 @@ export default {
         [...this.menProducts],
         [...this.kidsProducts],
       ];
-    },
-  },
-
-  methods: {
-    onShowProductDialog(id) {
-      this.isDialogOpen = true;
-      this.productId = id;
     },
   },
 

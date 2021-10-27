@@ -21,6 +21,15 @@
       <Icon :icon="notiIcon" width="28" :inline="true" class="mb-2" />
       <div>{{ notificationMessage }}</div>
     </v-snackbar>
+
+    <!-- PRODUCT DIALOG -->
+    <ProductDialog
+      v-if="productId"
+      :productId="productId"
+      :isOpen="isDialogOpen"
+      :isUpdatingCart="isUpdatingCart"
+      :itemToUpdate="itemToUpdate"
+    ></ProductDialog>
   </v-app>
 </template>
 
@@ -28,6 +37,7 @@
 import NavBars from '@/components/NavBars';
 import { Icon } from '@iconify/vue2';
 import { mapGetters } from 'vuex';
+import ProductDialog from '@/components/HomePage/Product/ProductDialog.vue';
 
 export default {
   name: 'App',
@@ -35,9 +45,15 @@ export default {
   components: {
     NavBars,
     Icon,
+    ProductDialog,
   },
 
-  data: () => ({}),
+  data: () => ({
+    isDialogOpen: false,
+    isUpdatingCart: false,
+    itemToUpdate: {},
+    productId: 0,
+  }),
 
   computed: {
     ...mapGetters('notification', [
@@ -58,6 +74,25 @@ export default {
     hideNotification() {
       this.$store.commit('notification/hideNotification');
     },
+
+    onShowProductDialog({ productId, isUpdatingCart, itemToUpdate }) {
+      this.isDialogOpen = true;
+      this.productId = productId;
+      this.isUpdatingCart = isUpdatingCart;
+      this.itemToUpdate = itemToUpdate;
+    },
+  },
+
+  created() {
+    this.eventHub.$on('showProductDialog', this.onShowProductDialog);
+    this.eventHub.$on('closeProductDialog', () => {
+      this.isDialogOpen = false;
+    });
+  },
+
+  beforeDestroy() {
+    this.eventHub.$off('showProductDialog', this.onShowProductDialog);
+    this.eventHub.$off('closeProductDialog');
   },
 };
 </script>

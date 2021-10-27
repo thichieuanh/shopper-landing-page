@@ -1,6 +1,6 @@
 <template>
   <!-- SEARCH DRAWER -->
-  <v-navigation-drawer width="455" :value="drawer" app temporary right>
+  <v-navigation-drawer width="455" :value="searchDrawer" app temporary right>
     <!-- Close -->
     <button class="close" @click="closeSearch()">
       <Icon icon="clarity:close-line" width="27" :inline="true" />
@@ -79,17 +79,19 @@
                       (isSale(product) ? 'text-primary' : 'text-muted')
                     "
                   >
-                    {{ price(product) }}
+                    {{ product.pricing.priceAfterDiscount }}
                   </router-link>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-row>
           <div class="pa-0 shop-button" style="font-size: 1.125rem">
-            <a href="#"> View All </a>
-            <v-icon class="shop-icon ml-3" size="1.125rem">
-              mdi-arrow-right
-            </v-icon>
+            <router-link :to="{ name: 'ProductPage' }">
+              View All
+              <v-icon class="shop-icon ml-3" size="1.125rem">
+                mdi-arrow-right
+              </v-icon>
+            </router-link>
           </div>
         </div>
         <!-- Not found -->
@@ -111,7 +113,7 @@ import { Icon } from '@iconify/vue2';
 import { mapState, mapGetters } from 'vuex';
 export default {
   props: {
-    drawer: { type: Boolean, default: false },
+    searchDrawer: { type: Boolean, default: false },
   },
   components: {
     Icon,
@@ -128,15 +130,13 @@ export default {
 
   methods: {
     closeSearch() {
-      this.$emit('closePopup');
+      this.eventHub.$emit('closeSearch');
     },
-    price(product) {
-      const { pricing } = product;
-      return pricing.discount ? pricing.discountedPrice : pricing.price;
-    },
+
     isSale(product) {
       if (product.pricing.discount) return true;
     },
+
     resultProducts(category) {
       let searchArray;
       switch (category) {
@@ -153,9 +153,11 @@ export default {
           searchArray = this.getAllProducts;
           break;
       }
-      const result = searchArray.filter((item) =>
+      let result = searchArray.filter((item) =>
         item.name.toLowerCase().includes(this.searchText.toLowerCase())
       );
+
+      if (result.length > 8) result = result.slice(0, 7); // to avoid showing too many products
       return result;
     },
   },

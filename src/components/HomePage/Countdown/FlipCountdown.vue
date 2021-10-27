@@ -165,7 +165,6 @@ export default {
     },
     diff(value) {
       if (value === 0) {
-        this.$emit('timeElapsed');
         this.updateAllCards();
       }
     },

@@ -22,7 +22,7 @@
                     aspect-ratio="1"
                   >
                     <v-row class="fill-height flex-column" justify="center">
-                      <a href="#" class="img-overlay">
+                      <a href="" class="img-overlay">
                         <div class="white--text font-size-xxs mr-4">
                           <v-icon color="white" class="mr-2">
                             mdi-heart-outline

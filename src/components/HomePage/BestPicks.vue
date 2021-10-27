@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="pa-0 shop-button" style="font-size: 1.125rem">
-                  <a href="#"> Shop Now </a>
+                  <a href=""> Shop Now </a>
                   <v-icon class="shop-icon ml-3" size="1.125rem">
                     mdi-arrow-right
                   </v-icon>
