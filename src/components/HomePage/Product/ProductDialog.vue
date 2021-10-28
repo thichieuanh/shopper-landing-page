@@ -64,7 +64,7 @@
                     'product-thumb',
                     { 'active-thumb': selectedVariant === index },
                   ]"
-                  @click="selectVariant(index)"
+                  @click="eventHub.$emit('selectVariant', index)"
                 >
                   <img
                     :src="productDetails.variants[selectedVariant].variantImage"
@@ -162,11 +162,11 @@ export default {
     productId: { type: Number },
     isUpdatingCart: { type: Boolean, default: false },
     itemToUpdate: { type: Object, default: () => {} },
+    selectedVariant: { type: Number, default: 1 },
+    selectedSize: { type: Object, default: () => {} },
   },
 
   data: () => ({
-    defaultSize: undefined,
-    defaultVariantIdx: 0,
     selectedQuantity: 1,
   }),
 
@@ -181,36 +181,6 @@ export default {
 
     productDetails() {
       return this.getProductById(this.productId);
-    },
-
-    selectedSize: {
-      get: function () {
-        if (this.isUpdatingCart) {
-          const { itemToUpdate, productDetails, selectedVariant } = this;
-          const { size } = itemToUpdate;
-
-          const foundSize = productDetails.variants[selectedVariant].stock.find(
-            (item) => Object.keys(item)[0] === size
-          );
-
-          return foundSize;
-        } else {
-          return this.defaultSize;
-        }
-      },
-      set: function (newValue) {
-        this.defaultSize = newValue;
-      },
-    },
-
-    selectedVariant: {
-      get: function () {
-        return this.defaultVariantIdx;
-      },
-
-      set: function (newValue) {
-        this.defaultVariantIdx = newValue;
-      },
     },
 
     showSizeRegion() {
@@ -275,7 +245,6 @@ export default {
 
     close() {
       this.eventHub.$emit('closeProductDialog');
-      this.selectedSize = undefined;
       this.selectedQuantity = undefined;
     },
 
@@ -285,24 +254,27 @@ export default {
 
     selectSize(item) {
       if (!this.isSizeOutOfStock(item)) {
-        this.selectedSize = item;
+        this.eventHub.$emit('selectSize', item);
         this.selectedQuantity = 1;
       }
     },
 
-    getDefaultVariant() {
+    getDefaultItemInDialog() {
       if (this.isUpdatingCart) {
-        const { itemToUpdate, productDetails } = this;
+        const { itemToUpdate, productDetails, selectedVariant } = this;
+
         const updatedVariantIdx = productDetails.variants.findIndex(
           (variant) => variant.variantColor === itemToUpdate.variantColor
         );
         this.defaultVariantIdx = updatedVariantIdx;
-      }
-    },
 
-    selectVariant(item) {
-      this.selectedVariant = item;
-      this.selectedSize = undefined;
+        const { size } = itemToUpdate;
+        const foundSize = productDetails.variants[selectedVariant].stock.find(
+          (item) => Object.keys(item)[0] === size
+        );
+
+        this.defaultSize = foundSize;
+      }
     },
 
     sizeClass(size) {
@@ -339,10 +311,6 @@ export default {
         this.$store.dispatch('productPrivateStore/updateCart', productPayload);
       }
     },
-  },
-
-  mounted() {
-    this.getDefaultVariant();
   },
 };
 </script>
@@ -429,7 +397,7 @@ export default {
 }
 
 .out-of-stock {
-  background: #f5f5f5;
+  background: var(--main-grey);
   text-decoration: line-through;
   cursor: not-allowed;
 }

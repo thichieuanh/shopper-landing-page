@@ -156,10 +156,7 @@
           <!-- Functional icons -->
           <div class="d-flex">
             <!-- Search -->
-            <a
-              class="functional-icon"
-              @click="isShowSearchDrawer = !isShowSearchDrawer"
-            >
+            <a class="functional-icon" @click="eventHub.$emit('searchClicked')">
               <Icon
                 icon="ph:magnifying-glass"
                 width="18"
@@ -194,7 +191,7 @@
             <!-- Shopping cart -->
             <a
               class="functional-icon shopping-cart"
-              @click="isShowCartDrawer = !isShowCartDrawer"
+              @click="eventHub.$emit('cartClicked')"
             >
               <Icon
                 icon="ph:shopping-cart-simple"
@@ -208,15 +205,6 @@
         </div>
       </div>
     </div>
-
-    <!-- SEARCH DRAWER -->
-    <search-drawer :searchDrawer="isShowSearchDrawer"></search-drawer>
-
-    <!-- CART DRAWER -->
-    <cart-drawer
-      v-if="isShowCartDrawer"
-      :cartDrawer="isShowCartDrawer"
-    ></cart-drawer>
   </div>
 </template>
 
@@ -226,8 +214,7 @@ import PageMenu from '@/components/HomePage/BreadcrumbMenu/PageMenu';
 import BlogMenu from '@/components/HomePage/BreadcrumbMenu/BlogMenu';
 import CatalogMenu from '@/components/HomePage/BreadcrumbMenu/CatalogMenu';
 import ShopMenu from '@/components/HomePage/BreadcrumbMenu/ShopMenu';
-import SearchDrawer from '@/components/HomePage/SearchDrawer';
-import CartDrawer from '@/components/HomePage/CartDrawer';
+
 import { Icon } from '@iconify/vue2';
 import { mapGetters } from 'vuex';
 
@@ -239,8 +226,6 @@ export default {
     BlogMenu,
     CatalogMenu,
     ShopMenu,
-    SearchDrawer,
-    CartDrawer,
     Icon,
   },
 
@@ -301,9 +286,6 @@ export default {
       },
     ],
     breadcrumbs: ['Home', 'Catalog', 'Shop', 'Pages', 'Blog'],
-    cartCount: 2,
-    isShowSearchDrawer: false,
-    isShowCartDrawer: false,
     items: [
       { title: 'Home', icon: 'mdi-view-dashboard' },
       { title: 'About', icon: 'mdi-forum' },
@@ -329,18 +311,6 @@ export default {
           return 'HomeMenu';
       }
     },
-  },
-  created() {
-    this.eventHub.$on('closeCart', () => {
-      this.isShowCartDrawer = false;
-    });
-    this.eventHub.$on('closeSearch', () => {
-      this.isShowSearchDrawer = false;
-    });
-  },
-  beforeDestroy() {
-    this.eventHub.$off('closeCart');
-    this.eventHub.$off('closeSearch');
   },
 };
 </script>

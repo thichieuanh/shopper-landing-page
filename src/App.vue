@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <nav-bars></nav-bars>
+    <NavBars></NavBars>
+
     <v-main class="pa-0">
       <router-view />
     </v-main>
@@ -29,23 +30,39 @@
       :isOpen="isDialogOpen"
       :isUpdatingCart="isUpdatingCart"
       :itemToUpdate="itemToUpdate"
+      :selectedVariant="defaultVariantIdx"
+      :selectedSize="defaultSize"
     ></ProductDialog>
+
+    <!-- DRAWERS -->
+    <SearchDrawer :isOpen.sync="isShowSearchDrawer"></SearchDrawer>
+    <!-- Docs: https://vuejs.org/v2/guide/components-custom-events.html#sync-Modifier -->
+
+    <CartDrawer
+      v-model="isShowCartDrawer"
+      :isHiddenWhenDialogShown="isUpdatingCart"
+    ></CartDrawer>
+    <!-- Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components -->
   </v-app>
 </template>
 
 <script>
-import NavBars from '@/components/NavBars';
-import { Icon } from '@iconify/vue2';
 import { mapGetters } from 'vuex';
 import ProductDialog from '@/components/HomePage/Product/ProductDialog.vue';
+import NavBars from '@/components/NavBars';
+import SearchDrawer from '@/components/HomePage/SearchDrawer';
+import CartDrawer from '@/components/HomePage/CartDrawer';
+import { Icon } from '@iconify/vue2';
 
 export default {
   name: 'App',
 
   components: {
-    NavBars,
     Icon,
+    NavBars,
     ProductDialog,
+    SearchDrawer,
+    CartDrawer,
   },
 
   data: () => ({
@@ -53,6 +70,10 @@ export default {
     isUpdatingCart: false,
     itemToUpdate: {},
     productId: 0,
+    defaultVariantIdx: 0,
+    defaultSize: undefined,
+    isShowSearchDrawer: false,
+    isShowCartDrawer: false,
   }),
 
   computed: {
@@ -61,18 +82,47 @@ export default {
       'notificationType',
       'notificationMessage',
     ]),
+
+    ...mapGetters({
+      getProductById: 'products/getProductById',
+    }),
+
     notiIcon() {
       return this.isError
         ? 'fluent:error-circle-20-regular'
         : 'akar-icons:circle-check';
     },
+
     isError() {
       return this.notificationType === 'error';
     },
+
+    productDetails() {
+      return this.getProductById(this.productId);
+    },
   },
+
   methods: {
     hideNotification() {
       this.$store.commit('notification/hideNotification');
+    },
+
+    getDefaultItemInDialog() {
+      if (this.isUpdatingCart) {
+        const { itemToUpdate, productDetails } = this;
+        const { size } = itemToUpdate;
+
+        const updatingVariantIdx = productDetails.variants.findIndex(
+          (variant) => variant.variantColor === itemToUpdate.variantColor
+        );
+
+        const updatingSize = productDetails.variants[
+          updatingVariantIdx
+        ].stock.find((item) => Object.keys(item)[0] === size);
+
+        this.defaultVariantIdx = updatingVariantIdx;
+        this.defaultSize = updatingSize;
+      }
     },
 
     onShowProductDialog({ productId, isUpdatingCart, itemToUpdate }) {
@@ -80,19 +130,42 @@ export default {
       this.productId = productId;
       this.isUpdatingCart = isUpdatingCart;
       this.itemToUpdate = itemToUpdate;
+      this.getDefaultItemInDialog();
+    },
+
+    onCloseProductDialog() {
+      this.isDialogOpen = false;
+      this.defaultVariantIdx = 0;
+      this.defaultSize = undefined;
+      this.isUpdatingCart = false;
     },
   },
 
   created() {
     this.eventHub.$on('showProductDialog', this.onShowProductDialog);
-    this.eventHub.$on('closeProductDialog', () => {
-      this.isDialogOpen = false;
+    this.eventHub.$on('closeProductDialog', this.onCloseProductDialog);
+
+    this.eventHub.$on('selectVariant', (index) => {
+      this.defaultVariantIdx = index;
+      this.defaultSize = undefined;
     });
+    this.eventHub.$on('selectSize', (size) => (this.defaultSize = size));
+
+    this.eventHub.$on(
+      'cartClicked',
+      () => (this.isShowCartDrawer = !this.isShowCartDrawer)
+    );
+    this.eventHub.$on('closeCart', () => (this.isShowCartDrawer = false));
+
+    this.eventHub.$on(
+      'searchClicked',
+      () => (this.isShowSearchDrawer = !this.isShowSearchDrawer)
+    );
+    this.eventHub.$on('closeSearch', () => (this.isShowSearchDrawer = false));
   },
 
   beforeDestroy() {
-    this.eventHub.$off('showProductDialog', this.onShowProductDialog);
-    this.eventHub.$off('closeProductDialog');
+    this.eventHub.$off();
   },
 };
 </script>

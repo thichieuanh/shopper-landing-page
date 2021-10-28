@@ -1,14 +1,21 @@
 <template>
-  <!-- CART DRAWER -->
-  <v-navigation-drawer width="455" :value="cartDrawer" app temporary right>
-    <!-- Close -->
-    <button class="close" @click="close()">
-      <Icon icon="clarity:close-line" width="27" :inline="true" />
-    </button>
-
+  <v-navigation-drawer
+    width="455"
+    :value="value"
+    @input="$emit('input', $event)"
+    app
+    right
+    temporary
+    :permanent="isHiddenWhenDialogShown"
+    class="font-size-sm"
+  >
     <!-- Header -->
-    <div class="font-size-lg modal-header border-bottom mx-auto text-center">
+    <div class="modal-header font-size-lg border-bottom mx-auto text-center">
       Your Cart ({{ cartTotal }})
+
+      <button class="close" @click="close()">
+        <Icon icon="clarity:close-line" width="27" :inline="true" />
+      </button>
     </div>
 
     <!-- Body: Empty -->
@@ -24,11 +31,11 @@
     </div>
 
     <!-- Body: Cart list -->
-    <div v-else>
+    <div v-else class="cart-list">
       <v-row
         v-for="(item, index) in cart"
         :key="index"
-        class="border-bottom list-group-item font-size-sm"
+        class="cart-item border-top font-size-sm"
       >
         <v-col class="pa-0 col-4">
           <img :src="item.image" alt="" class="img-fluid" />
@@ -87,6 +94,32 @@
         </v-col>
       </v-row>
     </div>
+
+    <div
+      class="
+        cart-footer
+        bg-light
+        d-flex
+        align-center
+        justify-space-between
+        font-weight-medium
+        mt-auto
+      "
+    >
+      <span>Subtotal</span>
+      <span>$90</span>
+    </div>
+
+    <div class="modal-body d-flex flex-column">
+      <button class="btn btn-dark btn-block">
+        <router-link :to="{ name: 'Checkout' }">
+          Continue to Checkout
+        </router-link>
+      </button>
+      <button class="btn btn-outline-dark btn-block">
+        <router-link :to="{ name: 'ShoppingCart' }"> View Cart </router-link>
+      </button>
+    </div>
   </v-navigation-drawer>
 </template>
 
@@ -96,7 +129,8 @@ import { mapGetters } from 'vuex';
 
 export default {
   props: {
-    cartDrawer: { type: Boolean, default: false },
+    value: { type: Boolean },
+    isHiddenWhenDialogShown: { type: Boolean },
   },
   components: {
     Icon,
@@ -108,8 +142,6 @@ export default {
     selectedQuantity: undefined,
   }),
   computed: {
-    // ...mapGetters('productPrivateStore', ['cart', 'cartTotal']),
-
     ...mapGetters({
       getProductById: 'products/getProductById',
       cart: 'productPrivateStore/cart',
@@ -157,7 +189,28 @@ export default {
     //       sizeStock: 1,
     //       price: '$160.05',
     //     },
-    //   ].sort((a, b) => a.productId - b.productId);
+    //     {
+    //       productId: 1,
+    //       image: '/img/products/women/product1a.jpeg',
+    //       name: 'Leather mid-heel Sandals',
+    //       variantColor: 'White',
+    //       size: '7',
+    //       quantity: 1,
+    //       sizeStock: 1,
+    //       price: '$160.05',
+    //     },
+    //     {
+    //       productId: 1,
+    //       image: '/img/products/women/product1a.jpeg',
+    //       name: 'Leather mid-heel Sandals',
+    //       variantColor: 'White',
+    //       size: '7',
+    //       quantity: 1,
+    //       sizeStock: 1,
+    //       price: '$160.05',
+    //     },
+    //   ];
+    //   // .sort((a, b) => a.productId - b.productId);
     // },
 
     cartTotal() {
@@ -176,11 +229,12 @@ export default {
 
     editCart(item) {
       this.eventHub.$emit('showProductDialog', {
-        productId: item.productId,
         isUpdatingCart: true,
+        productId: item.productId,
         itemToUpdate: {
           variantColor: item.variantColor,
           size: item.size,
+          quantity: item.quantity,
         },
       });
     },
@@ -189,16 +243,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal-header {
+.cart-list {
+  max-height: 600px;
+  min-height: 600px;
+  overflow-y: auto;
+}
+
+.cart-item {
   padding: 1.5rem 2rem;
-  line-height: 1.5rem !important;
+  &:first-child {
+    border: 0;
+  }
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-
-.list-group-item {
+.cart-footer {
   padding: 1.5rem 2rem;
 }
 </style>

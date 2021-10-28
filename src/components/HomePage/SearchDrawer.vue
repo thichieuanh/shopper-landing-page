@@ -1,6 +1,13 @@
 <template>
   <!-- SEARCH DRAWER -->
-  <v-navigation-drawer width="455" :value="searchDrawer" app temporary right>
+  <v-navigation-drawer
+    width="455"
+    :value="isOpen"
+    @input="$emit('update:isOpen', $event)"
+    app
+    right
+    temporary
+  >
     <!-- Close -->
     <button class="close" @click="closeSearch()">
       <Icon icon="clarity:close-line" width="27" :inline="true" />
@@ -113,7 +120,7 @@ import { Icon } from '@iconify/vue2';
 import { mapState, mapGetters } from 'vuex';
 export default {
   props: {
-    searchDrawer: { type: Boolean, default: false },
+    isOpen: { type: Boolean },
   },
   components: {
     Icon,
@@ -165,18 +172,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal-header {
-  padding: 1.5rem 2rem;
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-
-.modal-body {
-  padding: 2rem;
-}
-
 .input-group {
   position: relative;
   display: flex;
