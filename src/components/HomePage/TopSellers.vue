@@ -58,6 +58,7 @@ export default {
       tabItems: ['Women', 'Men', 'Kids'],
       selectedIndex: 0,
       productId: 0,
+      selected: '',
     };
   },
 

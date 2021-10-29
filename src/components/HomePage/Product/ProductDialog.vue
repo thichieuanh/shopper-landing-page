@@ -107,21 +107,30 @@
 
             <!-- Quantity & Buttons -->
             <v-row>
+              <!-- <v-col class="col-12 col-lg-2 px-md-0" v-if="!isUpdatingCart"> -->
+              <!-- Qty dropdown -->
               <v-col class="col-12 col-lg-2 px-md-0">
-                <!-- Qty dropdown -->
                 <select
                   name="orderQty"
                   id="orderQty"
                   class="custom-select form-control mb-0"
-                  v-model="selectedQuantity"
+                  :value="selectedQuantity"
+                  @input="
+                    $emit('update:selectedQuantity', +$event.target.value)
+                  "
                 >
-                  <option v-for="n in selectedSizeStock" :value="n" :key="n">
+                  <option
+                    v-for="n in selectedSizeStock"
+                    :value="n"
+                    :key="n"
+                    :selected="n === selectedQuantity"
+                  >
                     {{ n }}
                   </option>
                 </select>
-
-                <!-- Cart button -->
               </v-col>
+
+              <!-- Cart button -->
               <v-col class="col-12 col-lg-5 px-0 px-lg-3">
                 <button :class="cartButtonClass" @click="onUpdateCart">
                   {{ cartButtonInfo.text }}
@@ -161,14 +170,13 @@ export default {
     isOpen: { type: Boolean, default: false },
     productId: { type: Number },
     isUpdatingCart: { type: Boolean, default: false },
-    itemToUpdate: { type: Object, default: () => {} },
-    selectedVariant: { type: Number, default: 1 },
+    selectedVariant: { type: Number, default: 0 },
     selectedSize: { type: Object, default: () => {} },
+    selectedQuantity: { type: Number },
+    itemIndexToUpdate: { type: Number },
   },
 
-  data: () => ({
-    selectedQuantity: 1,
-  }),
+  data: () => ({}),
 
   computed: {
     ...mapState('productPrivateStore', ['cart']),
@@ -176,7 +184,6 @@ export default {
     ...mapGetters({
       getProductById: 'products/getProductById',
       isWishlisted: 'productPrivateStore/isWishlisted',
-      isItemInCart: 'productPrivateStore/isItemInCart',
     }),
 
     productDetails() {
@@ -245,7 +252,6 @@ export default {
 
     close() {
       this.eventHub.$emit('closeProductDialog');
-      this.selectedQuantity = undefined;
     },
 
     isSizeOutOfStock(item) {
@@ -253,27 +259,17 @@ export default {
     },
 
     selectSize(item) {
-      if (!this.isSizeOutOfStock(item)) {
-        this.eventHub.$emit('selectSize', item);
-        this.selectedQuantity = 1;
-      }
-    },
+      let quantity = 1; // for case add new item to cart
 
-    getDefaultItemInDialog() {
       if (this.isUpdatingCart) {
-        const { itemToUpdate, productDetails, selectedVariant } = this;
-
-        const updatedVariantIdx = productDetails.variants.findIndex(
-          (variant) => variant.variantColor === itemToUpdate.variantColor
-        );
-        this.defaultVariantIdx = updatedVariantIdx;
-
-        const { size } = itemToUpdate;
-        const foundSize = productDetails.variants[selectedVariant].stock.find(
-          (item) => Object.keys(item)[0] === size
-        );
-
-        this.defaultSize = foundSize;
+        const newSizeStock = Object.values(item)[0];
+        quantity =
+          this.selectedQuantity < newSizeStock
+            ? this.selectedQuantity
+            : newSizeStock;
+      }
+      if (!this.isSizeOutOfStock(item)) {
+        this.eventHub.$emit('selectSize', { size: item, quantity: quantity });
       }
     },
 
@@ -297,18 +293,24 @@ export default {
       } = this;
 
       if (this.selectedSize) {
-        const productPayload = {
+        const payload = {
           productId: productId,
           image: productDetails.images.img,
           name: productDetails.name,
           variantColor: productDetails.variants[selectedVariant].variantColor,
-          size: selectedSizeName,
+          sizeName: selectedSizeName,
           quantity: selectedQuantity,
           sizeStock: selectedSizeStock,
           price: productDetails.pricing.priceAfterDiscount,
         };
 
-        this.$store.dispatch('productPrivateStore/updateCart', productPayload);
+        this.$store.dispatch('productPrivateStore/updateCart', {
+          isUpdatingCart: this.isUpdatingCart,
+          itemIndexToUpdate: this.itemIndexToUpdate,
+          productPayload: payload,
+        });
+
+        if (this.isUpdatingCart) this.close();
       }
     },
   },

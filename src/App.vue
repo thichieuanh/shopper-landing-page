@@ -16,7 +16,7 @@
       class="custom-notify"
       :content-class="isError ? 'error-noti' : ''"
       :light="isError"
-      :timeout="1500"
+      :timeout="isError ? 2000 : 1000"
       @input="hideNotification()"
     >
       <Icon :icon="notiIcon" width="28" :inline="true" class="mb-2" />
@@ -29,9 +29,10 @@
       :productId="productId"
       :isOpen="isDialogOpen"
       :isUpdatingCart="isUpdatingCart"
-      :itemToUpdate="itemToUpdate"
       :selectedVariant="defaultVariantIdx"
       :selectedSize="defaultSize"
+      :selectedQuantity.sync="defaultQuantity"
+      :itemIndexToUpdate="updatingItemInCart.itemIndexToUpdate"
     ></ProductDialog>
 
     <!-- DRAWERS -->
@@ -68,12 +69,18 @@ export default {
   data: () => ({
     isDialogOpen: false,
     isUpdatingCart: false,
-    itemToUpdate: {},
+    isShowSearchDrawer: false,
+    isShowCartDrawer: false,
     productId: 0,
     defaultVariantIdx: 0,
     defaultSize: undefined,
-    isShowSearchDrawer: false,
-    isShowCartDrawer: false,
+    defaultQuantity: undefined,
+    updatingItemInCart: {
+      itemIndexToUpdate: undefined,
+      sizeName: undefined,
+      variantColor: undefined,
+      quantity: undefined,
+    },
   }),
 
   computed: {
@@ -109,34 +116,50 @@ export default {
 
     getDefaultItemInDialog() {
       if (this.isUpdatingCart) {
-        const { itemToUpdate, productDetails } = this;
-        const { size } = itemToUpdate;
+        const {
+          updatingItemInCart: { sizeName, variantColor, quantity },
+          productDetails,
+        } = this;
 
         const updatingVariantIdx = productDetails.variants.findIndex(
-          (variant) => variant.variantColor === itemToUpdate.variantColor
+          (variant) => variant.variantColor === variantColor
         );
 
         const updatingSize = productDetails.variants[
           updatingVariantIdx
-        ].stock.find((item) => Object.keys(item)[0] === size);
+        ].stock.find((item) => Object.keys(item)[0] === sizeName);
 
         this.defaultVariantIdx = updatingVariantIdx;
         this.defaultSize = updatingSize;
+        this.defaultQuantity = quantity;
       }
     },
 
-    onShowProductDialog({ productId, isUpdatingCart, itemToUpdate }) {
+    onShowProductDialog({
+      isUpdatingCart,
+      productId,
+      variantColor,
+      sizeName,
+      quantity,
+      itemIndexToUpdate,
+    }) {
       this.isDialogOpen = true;
       this.productId = productId;
       this.isUpdatingCart = isUpdatingCart;
-      this.itemToUpdate = itemToUpdate;
-      this.getDefaultItemInDialog();
+      if (isUpdatingCart) {
+        this.updatingItemInCart.variantColor = variantColor;
+        this.updatingItemInCart.sizeName = sizeName;
+        this.updatingItemInCart.quantity = quantity;
+        this.updatingItemInCart.itemIndexToUpdate = itemIndexToUpdate;
+        this.$nextTick(this.getDefaultItemInDialog());
+      }
     },
 
     onCloseProductDialog() {
       this.isDialogOpen = false;
       this.defaultVariantIdx = 0;
       this.defaultSize = undefined;
+      this.defaultQuantity = 1;
       this.isUpdatingCart = false;
     },
   },
@@ -149,7 +172,11 @@ export default {
       this.defaultVariantIdx = index;
       this.defaultSize = undefined;
     });
-    this.eventHub.$on('selectSize', (size) => (this.defaultSize = size));
+
+    this.eventHub.$on('selectSize', ({ size, quantity }) => {
+      this.defaultSize = size;
+      this.defaultQuantity = quantity;
+    });
 
     this.eventHub.$on(
       'cartClicked',

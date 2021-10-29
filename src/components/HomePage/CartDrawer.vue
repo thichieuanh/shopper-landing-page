@@ -50,20 +50,21 @@
             <div class="text-muted font-size-xs">
               Color: {{ item.variantColor }}
             </div>
-            <div class="text-muted font-size-xs">Size: {{ item.size }}</div>
+            <div class="text-muted font-size-xs">Size: {{ item.sizeName }}</div>
           </router-link>
 
           <div class="d-flex w-100 justify-space-between">
             <select
               name="orderQty"
-              id="orderQty"
+              :id="`orderQty-${index}`"
               class="custom-select custom-select-xxs w-auto mb-0"
+              @change="changeQuantity(item, $event)"
             >
               <option
                 v-for="n in item.sizeStock"
                 :value="n"
                 :key="n"
-                :selected="item.quantity === n"
+                :selected="n === item.quantity"
               >
                 {{ n }}
               </option>
@@ -135,16 +136,12 @@ export default {
   components: {
     Icon,
   },
-  data: () => ({
-    searchText: '',
-    categories: ['All Categories', 'Women', 'Men', 'Kids'],
-    selectedCategory: 'All Categories',
-    selectedQuantity: undefined,
-  }),
+  data: () => ({}),
   computed: {
     ...mapGetters({
       getProductById: 'products/getProductById',
       cart: 'productPrivateStore/cart',
+      itemIndexInCart: 'productPrivateStore/itemIndexInCart',
     }),
 
     // cart() {
@@ -227,15 +224,26 @@ export default {
       if (product.pricing.discount) return true;
     },
 
+    changeQuantity(item, event) {
+      const updatedQuantity = +event.target.value;
+      const index = this.itemIndexInCart(item.variantColor, item.sizeName);
+
+      this.$store.commit('productPrivateStore/changeQtyItemExistedInCart', {
+        updatedQty: updatedQuantity,
+        itemIndex: index,
+      });
+    },
+
     editCart(item) {
+      const index = this.itemIndexInCart(item.variantColor, item.sizeName);
+
       this.eventHub.$emit('showProductDialog', {
         isUpdatingCart: true,
+        itemIndexToUpdate: index,
         productId: item.productId,
-        itemToUpdate: {
-          variantColor: item.variantColor,
-          size: item.size,
-          quantity: item.quantity,
-        },
+        variantColor: item.variantColor,
+        sizeName: item.sizeName,
+        quantity: item.quantity,
       });
     },
   },
