@@ -153,52 +153,6 @@ export default {
       itemIndexInCart: 'productPrivateStore/itemIndexInCart',
       cartSubtotal: 'productPrivateStore/cartSubtotal',
     }),
-
-    // cart() {
-    //   return [
-    //     {
-    //       productId: 1,
-    //       image: '/img/products/women/product1a.jpeg',
-    //       name: 'Leather mid-heel Sandals',
-    //       variantColor: 'White',
-    //       sizeName: '7.5',
-    //       quantity: 1,
-    //       sizeStock: 3,
-    //       price: 40,
-    //     },
-    //     {
-    //       productId: 1,
-    //       image: '/img/products/women/product1a.jpeg',
-    //       name: 'Leather mid-heel Sandals',
-    //       variantColor: 'White',
-    //       sizeName: '8.5',
-    //       quantity: 1,
-    //       sizeStock: 1,
-    //       price: 40,
-    //     },
-    //     {
-    //       productId: 1,
-    //       image: '/img/products/women/product1a.jpeg',
-    //       name: 'Leather mid-heel Sandals',
-    //       variantColor: 'White',
-    //       sizeName: '9',
-    //       quantity: 1,
-    //       sizeStock: 1,
-    //       price: 40,
-    //     },
-    //     {
-    //       productId: 1,
-    //       image: '/img/products/women/product1a.jpeg',
-    //       name: 'Leather mid-heel Sandals',
-    //       variantColor: 'White',
-    //       sizeName: '9.5',
-    //       quantity: 1,
-    //       sizeStock: 5,
-    //       price: 40,
-    //     },
-    //   ];
-    //   // .sort((a, b) => a.productId - b.productId);
-    // },
   },
 
   methods: {
