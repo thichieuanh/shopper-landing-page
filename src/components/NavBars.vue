@@ -48,8 +48,11 @@
                   </template>
 
                   <v-list class="pa-0">
-                    <template v-for="(country, countryIdx) in dropdownVal">
-                      <v-list-item :key="countryIdx" link>
+                    <div
+                      v-for="(country, countryIdx) in dropdownVal"
+                      :key="countryIdx"
+                    >
+                      <v-list-item link>
                         <a
                           href=""
                           class="d-flex align-center font-weight-regular"
@@ -63,7 +66,7 @@
                           {{ country.title }}
                         </a>
                       </v-list-item>
-                    </template>
+                    </div>
                   </v-list>
                 </v-menu>
                 <v-divider
@@ -199,7 +202,7 @@
                 :inline="true"
                 class="red-hover-btn"
               />
-              <div class="badge">{{ cartTotal }}</div>
+              <div class="badge">{{ cartLength }}</div>
             </a>
           </div>
         </div>
@@ -292,7 +295,7 @@ export default {
     ],
   }),
   computed: {
-    ...mapGetters('productPrivateStore', ['cartTotal']),
+    ...mapGetters('productPrivateStore', ['cartLength']),
   },
   methods: {
     currentMenu(key) {

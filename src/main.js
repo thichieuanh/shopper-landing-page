@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import VueSplide from '@splidejs/vue-splide';
 import eventhub from './plugins/eventhub'
+import currencyFormatter from './plugins/currencyFormatter'
 import vuetify from './plugins/vuetify'
 import '@/assets/styles/app-style.scss';
 
@@ -19,6 +20,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(VueSplide);
 Vue.use(eventhub);
+Vue.use(currencyFormatter);
 
 Vue.config.productionTip = false
 dom.watch()

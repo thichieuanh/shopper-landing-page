@@ -8,116 +8,119 @@
     right
     temporary
   >
-    <!-- Close -->
-    <button class="close" @click="closeSearch()">
-      <Icon icon="clarity:close-line" width="27" :inline="true" />
-    </button>
+    <div class="search-wrapper">
+      <!-- Header -->
+      <div class="modal-header font-size-lg border-bottom mx-auto text-center">
+        Search Products
 
-    <!-- Header -->
-    <div class="font-size-lg modal-header border-bottom mx-auto text-center">
-      Search Products
-    </div>
+        <!-- Close -->
+        <button class="close" @click="eventHub.$emit('closeSearch')">
+          <Icon icon="clarity:close-line" width="27" :inline="true" />
+        </button>
+      </div>
 
-    <!-- Body: Form -->
-    <div class="modal-body">
-      <!-- Categories dropdown -->
-      <select
-        name="modalSearchCategories"
-        id="modalSearchCategories"
-        class="custom-select form-control"
-        v-model="selectedCategory"
-      >
-        <option
-          v-for="category in categories"
-          :value="category"
-          :key="category"
+      <!-- Body: Form -->
+      <div class="modal-body">
+        <!-- Categories dropdown -->
+        <select
+          name="modalSearchCategories"
+          id="modalSearchCategories"
+          class="custom-select form-control"
+          v-model="selectedCategory"
         >
-          {{ category }}
-        </option>
-      </select>
-
-      <!-- Searh bar -->
-      <div class="input-group input-group-merge">
-        <input
-          type="Search"
-          placeholder="Search"
-          class="form-control"
-          v-model="searchText"
-        />
-        <div class="input-group-append">
-          <button class="search-btn">
-            <Icon icon="ph:magnifying-glass" width="16" />
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Body: Results -->
-    <div class="modal-body border-top font-size-sm">
-      <div v-if="!searchText">
-        Please enter product name onto above search bar.
-      </div>
-      <div v-else>
-        <!-- Found -->
-        <div v-if="resultProducts(selectedCategory).length">
-          <p>Search Results:</p>
-          <v-row
-            v-for="(product, index) in resultProducts(selectedCategory)"
-            :key="index"
+          <option
+            v-for="category in categories"
+            :value="category"
+            :key="category"
           >
-            <v-list-item class="pa-0 mb-6">
-              <v-list-item-avatar tile size="80" class="mr-8">
-                <v-img :src="product.images.img"></v-img>
-              </v-list-item-avatar>
+            {{ category }}
+          </option>
+        </select>
 
-              <v-list-item-content>
-                <v-list-item-title
-                  class="mb-1 font-weight-medium font-size-sm"
-                  style="white-space: normal"
-                >
-                  {{ product.name }}
-                </v-list-item-title>
-
-                <v-list-item-title>
-                  <router-link
-                    :to="{ name: 'ProductPage' }"
-                    :class="
-                      'stretched-link ' +
-                      (isSale(product) ? 'text-primary' : 'text-muted')
-                    "
-                  >
-                    {{ product.pricing.priceAfterDiscount }}
-                  </router-link>
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-row>
-          <div class="pa-0 shop-button" style="font-size: 1.125rem">
-            <router-link :to="{ name: 'ProductPage' }">
-              View All
-              <v-icon class="shop-icon ml-3" size="1.125rem">
-                mdi-arrow-right
-              </v-icon>
-            </router-link>
+        <!-- Searh bar -->
+        <div class="input-group input-group-merge">
+          <input
+            type="Search"
+            placeholder="Search"
+            class="form-control"
+            v-model="searchText"
+          />
+          <div class="input-group-append">
+            <button class="search-btn">
+              <Icon icon="ph:magnifying-glass" width="16" />
+            </button>
           </div>
         </div>
-        <!-- Not found -->
+      </div>
+
+      <!-- Body: Results -->
+      <div class="modal-body border-top font-size-sm">
+        <div v-if="!searchText">
+          Please enter product name onto above search bar.
+        </div>
         <div v-else>
-          <p class="mb-3 font-size-sm text-center">
-            Nothing matches your search
-          </p>
-          <p class="mb-0 font-size-sm text-center">😞</p>
+          <!-- Found -->
+          <div v-if="resultProducts(selectedCategory).length">
+            <p>Search Results:</p>
+            <v-row
+              v-for="(product, index) in resultProducts(selectedCategory)"
+              :key="index"
+            >
+              <v-list-item class="pa-0 mb-6">
+                <v-list-item-avatar tile size="80" class="mr-8">
+                  <v-img :src="product.images.img"></v-img>
+                </v-list-item-avatar>
+
+                <v-list-item-content>
+                  <v-list-item-title
+                    class="mb-1 font-weight-medium font-size-sm"
+                    style="white-space: normal"
+                  >
+                    {{ product.name }}
+                  </v-list-item-title>
+
+                  <v-list-item-title>
+                    <router-link
+                      :to="{ name: 'ProductPage' }"
+                      :class="
+                        'stretched-link ' +
+                        (isSale(product) ? 'text-primary' : 'text-muted')
+                      "
+                    >
+                      {{
+                        product.pricing.priceAfterDiscount | currencyFormatter
+                      }}
+                    </router-link>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-row>
+            <div class="pa-0 shop-button" style="font-size: 1.125rem">
+              <router-link :to="{ name: 'ProductPage' }">
+                View All
+                <v-icon class="shop-icon ml-3" size="1.125rem">
+                  mdi-arrow-right
+                </v-icon>
+              </router-link>
+            </div>
+          </div>
+          <!-- Not found -->
+          <div v-else>
+            <p class="mb-3 font-size-sm text-center">
+              Nothing matches your search
+            </p>
+            <p class="mb-0 font-size-sm text-center">😞</p>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Body: Empty: -->
   </v-navigation-drawer>
 </template>
 
 <script>
 import { Icon } from '@iconify/vue2';
 import { mapState, mapGetters } from 'vuex';
+
 export default {
   props: {
     isOpen: { type: Boolean },
@@ -136,10 +139,6 @@ export default {
   },
 
   methods: {
-    closeSearch() {
-      this.eventHub.$emit('closeSearch');
-    },
-
     isSale(product) {
       if (product.pricing.discount) return true;
     },

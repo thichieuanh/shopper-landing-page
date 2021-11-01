@@ -1,18 +1,24 @@
-const successPayload = {
-  type: 'success',
-  message: 'Added to cart',
-};
-const errorPayload = {
-  type: 'error',
-  message: 'Sorry, there is not enough stock remaining for this size',
-};
-const duplicatedItem = {
-  type: 'error',
-  message: 'Selected product is identical to the previous one',
-}
-const replacedItem = {
-  type: 'success',
-  message: 'Cart updated',
+const messages = {
+  addedToCart: {
+    type: 'success',
+    message: 'Added to cart',
+  },
+  notEnoughStockRemaining: {
+    type: 'error',
+    message: 'Sorry, there is not enough stock remaining for this size',
+  },
+  duplicatedItem: {
+    type: 'error',
+    message: 'Selected product is identical to the previous one',
+  },
+  replacedItem: {
+    type: 'success',
+    message: 'Cart updated',
+  },
+  productRemoved: {
+    type: 'success',
+    message: 'Product removed from cart',
+  }
 }
 
 export default {
@@ -40,15 +46,14 @@ export default {
     changeQtyItemExistedInCart: (state, { updatedQty, itemIndex }) => {
       state.cart[itemIndex].quantity = updatedQty;
     },
-    detachCart: (state, productId) => {
-      if (state.cart.includes(productId)) {
-        state.cart = state.cart.filter(id => id !== productId)
-      }
+    detachCart: (state, itemIndexToUpdate) => {
+      state.cart.splice(itemIndexToUpdate, 1)
     },
     replaceItemInCart: (state, { itemIndexToUpdate, replacingItem }) => {
       state.cart.splice(itemIndexToUpdate, 1, ...[replacingItem].filter(Boolean));
+      // Rest parameter syntax, the last param is optional, make it as undefined in case of just removing the product
+      // then use .filter(Boolean) to remove that falsy value
     }
-
   },
 
   actions: {
@@ -57,11 +62,17 @@ export default {
         ? commit('detachWishlist', productId)
         : commit('appendWishlist', productId)
     },
-
     updateCart: ({ dispatch, commit, state, getters, }, { isUpdatingCart, itemIndexToUpdate, productPayload, }) => {
+      /*
+      - itemIndexToUpdate: the item being edited
+      - indexOfPayload: check if the selected product (payload) existed in cart or not
+      */
       const { variantColor, quantity, sizeName, sizeStock } = productPayload;
+      const indexOfPayload = getters.itemIndexInCart(variantColor, sizeName)
+      const isItemExistedInCart = indexOfPayload !== -1;
+      let updatedQuantity = isItemExistedInCart ? state.cart[indexOfPayload].quantity + quantity : undefined;
 
-      if (isUpdatingCart) {
+      if (isUpdatingCart) { // Case 1: editing cart
         const updatingItem = state.cart[itemIndexToUpdate];
         let replacingItem = productPayload;
 
@@ -71,41 +82,33 @@ export default {
           (updatingItem.quantity === replacingItem.quantity)
 
         if (isUpdatingAndNewItemsIdentical) {
-          dispatch('notification/showNotification', duplicatedItem, { root: true })
+          dispatch('notification/showNotification', messages.duplicatedItem, { root: true })
         } else {
-          // Check if selected item already exists in cart
-          const index = getters.itemIndexInCart(variantColor, sizeName)
-          const isItemExistedInCart = (index !== -1);
-
           if (isItemExistedInCart) {
-            let updatedQuantity = state.cart[index].quantity + quantity;
+            /* Replace current item to other item already existed in cart:
+            Increase the existing item's quantity and delete editing item
+            */
             if (updatedQuantity > sizeStock) {
               updatedQuantity = sizeStock
             }
-            if (itemIndexToUpdate !== index) replacingItem = undefined;
-            commit('changeQtyItemExistedInCart', { updatedQty: updatedQuantity, itemIndex: index })
+            if (itemIndexToUpdate !== indexOfPayload) replacingItem = undefined;
+            commit('changeQtyItemExistedInCart', { updatedQty: updatedQuantity, itemIndex: indexOfPayload })
           }
 
           commit('replaceItemInCart', { itemIndexToUpdate: itemIndexToUpdate, replacingItem: replacingItem })
-          dispatch('notification/showNotification', replacedItem, { root: true })
+          dispatch('notification/showNotification', messages.replacedItem, { root: true })
         }
-      } else {
-        const index = getters.itemIndexInCart(variantColor, sizeName)
-        const isItemExistedInCart = index !== -1;
-
-        /* Case: Add to cart */
-        // Check if selected item already exists in cart
-        if (isItemExistedInCart) { // If existed, check stock then update quantity in cart
-          const updatedQuantity = state.cart[index].quantity + quantity;
+      } else { // Case 2: add new item to cart
+        if (isItemExistedInCart) { // If existed, check stock then increase quantity in cart
           if (updatedQuantity > sizeStock) {
-            dispatch('notification/showNotification', errorPayload, { root: true })
+            dispatch('notification/showNotification', messages.notEnoughStockRemaining, { root: true })
           } else {
-            commit('changeQtyItemExistedInCart', { updatedQty: updatedQuantity, itemIndex: index })
-            dispatch('notification/showNotification', successPayload, { root: true })
+            commit('changeQtyItemExistedInCart', { updatedQty: updatedQuantity, itemIndex: indexOfPayload })
+            dispatch('notification/showNotification', messages.addedToCart, { root: true })
           }
         } else { // If not existed then add product to cart
           commit('appendCart', productPayload)
-          dispatch('notification/showNotification', successPayload, { root: true })
+          dispatch('notification/showNotification', messages.addedToCart, { root: true })
         }
       }
     },
@@ -121,7 +124,11 @@ export default {
     isProductIdInCart: (state) => (id) => {
       return state.cart.find(item => item.productId === id)
     },
-    cartTotal: ({ cart }) => cart.length,
     cart: ({ cart }) => cart.sort((a, b) => a.productId - b.productId),
+    cartLength: ({ cart }) => cart.length,
+    cartSubtotal: ({ cart }) => cart.reduce((subtotal, { quantity, price }) => {
+      subtotal += (quantity * price)
+      return subtotal
+    }, 0),
   },
 }

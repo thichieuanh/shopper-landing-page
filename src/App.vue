@@ -6,7 +6,7 @@
       <router-view />
     </v-main>
 
-    <!-- fix snackbar, tự code lại -->
+    <!-- fix snackbar, tự code lại, lỗi mất animation khi thông báo ẩn đi -->
     <v-snackbar
       v-show="isShowNotification"
       :value="isShowNotification"
@@ -189,6 +189,10 @@ export default {
       () => (this.isShowSearchDrawer = !this.isShowSearchDrawer)
     );
     this.eventHub.$on('closeSearch', () => (this.isShowSearchDrawer = false));
+  },
+
+  async mounted() {
+    await this.$store.dispatch('products/getProducts');
   },
 
   beforeDestroy() {

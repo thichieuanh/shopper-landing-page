@@ -48,11 +48,11 @@
         style="font-size: 1rem"
       >
         <span :class="{ 'old-price': isSale(productDetails) }">
-          {{ productDetails.pricing.price }}</span
+          {{ productDetails.pricing.price | currencyFormatter }}</span
         >
-        <span v-if="isSale(productDetails)" class="text-primary">{{
-          productDetails.pricing.priceAfterDiscount
-        }}</span>
+        <span v-if="isSale(productDetails)" class="text-primary">
+          {{ productDetails.pricing.priceAfterDiscount | currencyFormatter }}
+        </span>
       </v-card-subtitle>
     </v-card>
   </v-hover>

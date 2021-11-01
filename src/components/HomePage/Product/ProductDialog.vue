@@ -41,7 +41,9 @@
             <h4 class="mb-3">{{ productDetails.name }}</h4>
             <div class="mb-7 d-flex align-baseline">
               <h5 class="mr-1">
-                {{ productDetails.pricing.priceAfterDiscount }}
+                {{
+                  productDetails.pricing.priceAfterDiscount | currencyFormatter
+                }}
               </h5>
               <span>({{ getVariantStock }})</span>
             </div>

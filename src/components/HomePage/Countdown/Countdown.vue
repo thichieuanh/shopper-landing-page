@@ -1,12 +1,7 @@
 <template>
   <div class="ma-0 text-center d-flex">
-    <template v-for="data in timeData">
-      <div
-        :key="data.label"
-        class="flip-clock__piece"
-        :id="data.elementId"
-        v-show="data.show"
-      >
+    <div v-for="data in timeData" :key="data.label">
+      <div class="flip-clock__piece" :id="data.elementId" v-show="data.show">
         <span class="flip-card">
           {{ data.current | twoDigits }}
         </span>
@@ -20,7 +15,7 @@
       >
         :
       </div>
-    </template>
+    </div>
   </div>
 </template>
 

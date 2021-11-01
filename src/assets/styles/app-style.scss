@@ -544,3 +544,9 @@ input[type='search']::-webkit-search-decoration {
 .modal-body {
   padding: 2rem;
 }
+
+.v-navigation-drawer__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
