@@ -24,7 +24,7 @@
             style="max-height: 100%"
           >
             <img class="product-dialog-img" :src="productDetails.images.img" />
-            <button class="btn btn-block btn-primary">
+            <button class="btn btn-block btn-primary" @click="close">
               <router-link :to="{ name: 'ProductPage' }">
                 More Product Info
                 <Icon
