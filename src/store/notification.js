@@ -21,10 +21,6 @@ export default {
   actions: {
     showNotification({ commit }, payload) {
       commit('showNotification', payload)
-
-      // setTimeout(() => {
-      //   commit('hideNotification');
-      // }, 2000);
     },
 
   },

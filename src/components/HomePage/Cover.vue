@@ -41,37 +41,18 @@
       </v-row>
     </article>
 
-    <!-- FEATURES -->
-    <article>
-      <v-container class="mx-auto pt-7 px-0 container-control">
-        <v-row class="feature-row pb-7">
-          <v-col v-for="(item, index) in features" :key="index" cols="3">
-            <div class="d-flex">
-              <Icon
-                :icon="item.icon"
-                width="20.25"
-                color="ff6f61"
-                :inline="true"
-                class="mr-3"
-              />
-              <div class="ml-6">
-                <h6 class="heading-xxs mb-1">{{ item.title }}</h6>
-                <p class="font-size-sm text-muted">{{ item.text }}</p>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </article>
+    <div class="py-7 container-control border-bottom">
+      <Features></Features>
+    </div>
   </section>
 </template>
 
 <script>
-import { Icon } from '@iconify/vue2';
+import Features from '@/components/Features';
 
 export default {
   name: 'Cover',
-  components: { Icon },
+  components: { Features },
 
   data: () => ({
     coverTitles: ['Women', 'Men', 'Kids'],

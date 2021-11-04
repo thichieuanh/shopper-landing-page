@@ -6,7 +6,7 @@
     <countdown-banner></countdown-banner>
     <reviews></reviews>
     <brands></brands>
-    <home-footer></home-footer>
+    <HomeFooter></HomeFooter>
   </v-main>
 </template>
 

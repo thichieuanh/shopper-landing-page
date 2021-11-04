@@ -10,7 +10,7 @@
   >
     <div class="search-wrapper">
       <!-- Header -->
-      <div class="modal-header font-size-lg border-bottom mx-auto text-center">
+      <div class="modal-header border-bottom">
         Search Products
 
         <!-- Close -->
@@ -171,28 +171,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.input-group {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  width: 100%;
-}
-
-.input-group-append {
-  margin-left: -1px;
-  display: flex;
-}
-
-.input-group-merge {
-  border: 1px solid #e5e5e5;
-  transition-property: border-color;
-  transition: all 0.1s ease-in-out;
-  &:focus-within {
-    border-color: #555;
-  }
-}
-
 .search-btn {
   padding: 0.875rem 1.75rem;
 }

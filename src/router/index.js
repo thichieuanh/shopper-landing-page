@@ -15,12 +15,18 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      breadCrumb: 'Home'
+    }
   },
   {
     path: '/account-orders',
     name: 'AccountOrders',
-    component: AccountOrders
+    component: AccountOrders,
+    meta: {
+      breadCrumb: 'My Account'
+    }
   },
   {
     path: '/account-wishlist',
@@ -38,13 +44,13 @@ const routes = [
     component: ProductPage
   },
   {
-    path: '/checkout',
+    path: '/shopping-cart/checkout',
     name: 'Checkout',
     component: Checkout
   },
   {
     path: '/shopping-cart',
-    name: 'ShoppingCart',
+    name: 'Shopping Cart',
     component: ShoppingCart
   },
   {

@@ -10,10 +10,10 @@
     class="font-size-sm"
   >
     <!-- Header -->
-    <div class="modal-header font-size-lg border-bottom mx-auto text-center">
+    <div class="modal-header border-bottom">
       Your Cart ({{ cart.length }})
 
-      <button class="close" @click="eventHub.$emit('closeCart')">
+      <button class="close" @click="close">
         <Icon icon="clarity:close-line" width="27" :inline="true" />
       </button>
     </div>
@@ -23,10 +23,7 @@
       <div class="mb-5">
         Your shopping bag is empty... but it doesn't have to be 🤩!
       </div>
-      <button
-        class="btn btn-block btn-dark"
-        @click="eventHub.$emit('closeCart')"
-      >
+      <button class="btn btn-block btn-dark" @click="close">
         <router-link :to="{ name: 'ProductPage' }">
           SHOP NEW ARRIVALS
         </router-link>
@@ -40,7 +37,7 @@
         :key="index"
         class="cart-item border-top font-size-sm"
       >
-        <v-col class="pa-0 col-4">
+        <v-col class="col-4">
           <img :src="item.image" alt="" class="img-fluid" />
         </v-col>
 
@@ -106,7 +103,7 @@
 
     <div
       class="
-        cart-footer
+        cart-subtotal
         bg-light
         d-flex
         align-center
@@ -119,14 +116,19 @@
       <span>{{ cartSubtotal | currencyFormatter }}</span>
     </div>
 
-    <div class="modal-body d-flex flex-column">
-      <button class="btn btn-dark btn-block">
-        <router-link :to="{ name: 'Checkout' }">
+    <div class="cart-footer d-flex flex-column align-center justify-center">
+      <router-link :to="{ name: 'Checkout' }" class="w-100">
+        <button
+          role="link"
+          :class="checkoutButtonClass"
+          :disabled="!cart.length"
+        >
           Continue to Checkout
-        </router-link>
-      </button>
-      <button class="btn btn-outline-dark btn-block">
-        <router-link :to="{ name: 'ShoppingCart' }"> View Cart </router-link>
+        </button>
+      </router-link>
+
+      <button class="btn btn-outline-dark btn-block mt-3">
+        <router-link :to="{ name: 'Shopping Cart' }"> View Cart </router-link>
       </button>
     </div>
   </v-navigation-drawer>
@@ -153,6 +155,10 @@ export default {
       itemIndexInCart: 'productPrivateStore/itemIndexInCart',
       cartSubtotal: 'productPrivateStore/cartSubtotal',
     }),
+
+    checkoutButtonClass() {
+      return ['btn btn-dark btn-block', { disableBtn: !this.cart.length }];
+    },
   },
 
   methods: {
@@ -188,15 +194,21 @@ export default {
         message: 'Product removed from cart',
       });
     },
+
+    close() {
+      console.log('thi check');
+      this.eventHub.$emit('closeCart');
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .cart-list {
-  max-height: 600px;
-  min-height: 600px;
+  max-height: 60vh;
+  min-height: 400px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .cart-item {
@@ -206,7 +218,13 @@ export default {
   }
 }
 
+.cart-subtotal {
+  padding: 0 2rem;
+  height: 8vh;
+}
+
 .cart-footer {
-  padding: 1.5rem 2rem;
+  height: 24vh;
+  padding: 2rem;
 }
 </style>

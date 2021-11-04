@@ -35,8 +35,8 @@
                   v-for="(icon, socialIconsIdx) in socialIcons"
                   :key="socialIconsIdx"
                 >
-                  <a href="" class="detail-link mr-2">
-                    <font-awesome-icon :icon="icon.spec" class="btn" />
+                  <a href="" class="social-link mr-2 text-left">
+                    <Icon :icon="icon.spec" width="20" :inline="true" />
                   </a>
                 </li>
               </ul>
@@ -50,13 +50,13 @@
                   cols="3"
                   class="pa-0"
                 >
-                  <h6 class="mb-4">{{ content.title }}</h6>
+                  <h6 class="mb-4 heading-xxs">{{ content.title }}</h6>
                   <ul class="pa-0">
                     <li
                       :key="detailIdx"
                       v-for="(detail, detailIdx) in content.details"
                     >
-                      <a :href="detail.href" class="detail-link btn">
+                      <a :href="detail.href" class="social-link">
                         {{ detail.article }}
                       </a>
                     </li>
@@ -92,28 +92,33 @@
 </template>
 
 <script>
+import { Icon } from '@iconify/vue2';
 export default {
+  components: {
+    Icon,
+  },
+
   data: () => ({
     socialIcons: [
       {
         href: 'https://www.facebook.com/maytrongdem/',
-        spec: ['fab', 'facebook-f'],
+        spec: 'la:facebook-f',
+      },
+      {
+        href: 'https://www.facebook.com/maytrongdem/',
+        spec: 'akar-icons:youtube-fill',
       },
       {
         href: '#',
-        spec: ['fab', 'youtube'],
+        spec: 'akar-icons:twitter-fill',
       },
       {
         href: '#',
-        spec: ['fab', 'twitter'],
+        spec: 'akar-icons:instagram-fill',
       },
       {
         href: '#',
-        spec: ['fab', 'instagram'],
-      },
-      {
-        href: '#',
-        spec: ['fab', 'medium'],
+        spec: 'ant-design:medium-square-filled',
       },
     ],
     contactDetails: [
@@ -183,9 +188,5 @@ export default {
 .subcribe-button {
   background: #525252;
   padding: 0 10px;
-}
-
-.detail-link {
-  color: #bababa !important;
 }
 </style>

@@ -9,7 +9,7 @@
 
     <div :class="modalClass" v-show="isOpen">
       <div class="modal-dialog">
-        <button class="close" @click="close">
+        <button class="btn close" @click="close">
           <Icon icon="clarity:close-line" width="27" :inline="true" />
         </button>
 
@@ -109,7 +109,6 @@
 
             <!-- Quantity & Buttons -->
             <v-row>
-              <!-- <v-col class="col-12 col-lg-2 px-md-0" v-if="!isUpdatingCart"> -->
               <!-- Qty dropdown -->
               <v-col class="col-12 col-lg-2 px-md-0">
                 <select
@@ -406,7 +405,4 @@ export default {
   cursor: not-allowed;
 }
 
-.disableBtn {
-  cursor: not-allowed;
-}
 </style>

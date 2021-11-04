@@ -19,7 +19,7 @@
           <div style="width: 50%">
             <ul class="dropdown px-0 d-flex">
               <li
-                class="dropdown-link d-flex"
+                class="dropdown-link d-flex font-weight-medium"
                 v-for="(dropdownVal, dropdownKey) in dropdownOptions"
                 :key="dropdownKey"
               >
@@ -98,8 +98,8 @@
                 v-for="(icon, socialIconsIdx) in socialIcons"
                 :key="socialIconsIdx"
               >
-                <a href="" class="detail-link">
-                  <font-awesome-icon :icon="icon.spec" class="btn" />
+                <a href="" class="social-link nav-link py-0">
+                  <Icon :icon="icon.spec" width="16" :inline="true" />
                 </a>
               </li>
             </ul>
@@ -263,19 +263,19 @@ export default {
     socialIcons: [
       {
         href: 'https://www.facebook.com/maytrongdem/',
-        spec: ['fab', 'facebook-f'],
+        spec: 'la:facebook-f',
       },
       {
         href: '#',
-        spec: ['fab', 'twitter'],
+        spec: 'akar-icons:twitter-fill',
       },
       {
         href: '#',
-        spec: ['fab', 'instagram'],
+        spec: 'akar-icons:instagram-fill',
       },
       {
         href: '#',
-        spec: ['fab', 'medium'],
+        spec: 'ant-design:medium-square-filled',
       },
     ],
     functionalIcons: [
@@ -336,7 +336,6 @@ export default {
 }
 
 .dropdown-content {
-  font-size: 0.875rem !important;
 }
 
 .promo {
@@ -400,8 +399,7 @@ export default {
   max-width: 100vw !important;
 }
 
-.detail-link {
-  color: #a6a6a6 !important;
-  padding: 9px;
+.nav-link {
+  padding: 0.5rem;
 }
 </style>

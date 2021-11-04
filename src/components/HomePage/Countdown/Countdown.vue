@@ -1,6 +1,6 @@
 <template>
-  <div class="ma-0 text-center d-flex">
-    <div v-for="data in timeData" :key="data.label">
+  <div class="ma-0 d-flex text-center">
+    <div v-for="data in timeData" :key="data.label" class="d-flex">
       <div class="flip-clock__piece" :id="data.elementId" v-show="data.show">
         <span class="flip-card">
           {{ data.current | twoDigits }}
