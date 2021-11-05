@@ -6,7 +6,6 @@
     <countdown-banner></countdown-banner>
     <reviews></reviews>
     <brands></brands>
-    <HomeFooter></HomeFooter>
   </v-main>
 </template>
 
@@ -17,7 +16,6 @@ import TopSellers from '@/components/HomePage/TopSellers.vue';
 import CountdownBanner from '@/components/HomePage/Countdown/CountdownBanner.vue';
 import Reviews from '@/components/HomePage/Reviews.vue';
 import Brands from '@/components/HomePage/Brands.vue';
-import HomeFooter from '@/components/HomePage/HomeFooter.vue';
 
 export default {
   name: 'Home',
@@ -29,7 +27,6 @@ export default {
     CountdownBanner,
     Reviews,
     Brands,
-    HomeFooter,
   },
 
   data: () => ({}),

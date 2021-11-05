@@ -95,7 +95,8 @@
                 </v-list-item-content>
               </v-list-item>
             </v-row>
-            <div class="pa-0 shop-button" style="font-size: 1.125rem">
+
+            <div class="pa-0 shop-button font-size-lg">
               <router-link :to="{ name: 'ProductPage' }">
                 View All
                 <v-icon class="shop-icon ml-3" size="1.125rem">

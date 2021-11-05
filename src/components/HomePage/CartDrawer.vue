@@ -21,7 +21,7 @@
     <!-- Body: Empty -->
     <div v-if="!cart.length" class="text-center modal-body">
       <div class="mb-5">
-        Your shopping bag is empty... but it doesn't have to be 🤩!
+        Your cart is empty... but it doesn't have to be 🤩!
       </div>
       <button class="btn btn-block btn-dark" @click="close">
         <router-link :to="{ name: 'ProductPage' }">
@@ -84,6 +84,7 @@
               />
               Edit
             </button>
+
             <button
               class="d-flex align-center font-size-xs update-cart-btn"
               @click="removeCart(item)"

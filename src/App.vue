@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <NavBars></NavBars>
-
     <v-main class="pa-0">
       <router-view />
     </v-main>
@@ -44,6 +43,8 @@
       :isHiddenWhenDialogShown="isUpdatingCart"
     ></CartDrawer>
     <!-- Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components -->
+
+    <HomeFooter></HomeFooter>
   </v-app>
 </template>
 
@@ -54,6 +55,7 @@ import NavBars from '@/components/NavBars';
 import SearchDrawer from '@/components/HomePage/SearchDrawer';
 import CartDrawer from '@/components/HomePage/CartDrawer';
 import { Icon } from '@iconify/vue2';
+import HomeFooter from '@/components/HomePage/HomeFooter.vue';
 
 export default {
   name: 'App',
@@ -61,6 +63,7 @@ export default {
   components: {
     Icon,
     NavBars,
+    HomeFooter,
     ProductDialog,
     SearchDrawer,
     CartDrawer,

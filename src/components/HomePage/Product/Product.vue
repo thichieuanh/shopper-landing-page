@@ -197,10 +197,4 @@ export default {
   background: black;
   color: white;
 }
-
-.old-price {
-  text-decoration: line-through;
-  font-size: 1rem;
-  color: #a6a6a6 !important;
-}
 </style>

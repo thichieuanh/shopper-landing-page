@@ -1,3 +1,5 @@
+import { random, round } from 'lodash'
+
 const messages = {
   addedToCart: {
     type: 'success',
@@ -27,6 +29,10 @@ export default {
   state: () => ({
     wishlist: [],
     cart: [],
+    // cart: [{ productId: 1, image: '/img/products/women/product1a.jpeg', name: 'Leather mid-heel Sandals', variantColor: 'White', sizeName: '11.5', quantity: 1, sizeStock: 3, price: 40 }, { productId: 4, image: '/img/products/women/product4a.jpeg', name: 'Baby Angel oversized full-zip sweatshirt with hood', variantColor: 'White', sizeName: 'L', quantity: 1, sizeStock: 2, price: 174.57 }],
+    isCouponApplied: false,
+    discountRateForCoupon: 0,
+    coupon: ''
   }),
 
   mutations: {
@@ -53,6 +59,15 @@ export default {
       state.cart.splice(itemIndexToUpdate, 1, ...[replacingItem].filter(Boolean));
       // Rest parameter syntax, the last param is optional, make it as undefined in case of just removing the product
       // then use .filter(Boolean) to remove that falsy value
+    },
+    applyCoupon: (state, text) => {
+      state.isCouponApplied = true;
+      state.discountRateForCoupon = round(random(0.1, 0.7), 2);
+      state.coupon = text
+    },
+    removeCoupon: (state) => {
+      state.isCouponApplied = false;
+      state.discountRateForCoupon = 0;
     }
   },
 
@@ -124,6 +139,7 @@ export default {
     isProductIdInCart: (state) => (id) => {
       return state.cart.find(item => item.productId === id)
     },
+    discountRateForCoupon: (state) => state.isCouponApplied ? round(random(0.1, 0.7), 2) : 0,
     cart: ({ cart }) => cart.sort((a, b) => a.productId - b.productId),
     cartLength: ({ cart }) => cart.length,
     cartSubtotal: ({ cart }) => cart.reduce((subtotal, { quantity, price }) => {
