@@ -271,6 +271,7 @@ export default {
         type: 'success',
         message: 'Product removed from cart',
       });
+      this.removeCoupon();
     },
 
     applyCoupon() {
