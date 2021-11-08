@@ -20,7 +20,7 @@
           :md="n === 2 || n === 3 ? 7 : 5"
           :lg="n === 2 || n === 3 ? 8 : 4"
         >
-          <div class="card bg-hover">
+          <div class="card bg-hover mb-7">
             <!-- Card background -->
             <div
               class="card-bg"
