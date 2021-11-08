@@ -23,7 +23,10 @@
             class="px-0 py-5 text-left"
             style="max-height: 100%"
           >
-            <img class="product-dialog-img" :src="productDetails.images.img" />
+            <img
+              class="product-dialog-img"
+              :src="productDetails.variants[selectedVariant].variantImage"
+            />
             <button class="btn btn-block btn-primary" @click="close">
               <router-link :to="{ name: 'ProductPage' }">
                 More Product Info
@@ -60,7 +63,8 @@
                   v-for="(variant, index) in productDetails.variants"
                   :key="index"
                   tile
-                  size="70"
+                  height="6vh"
+                  width="5vh"
                   :class="[
                     'mr-3',
                     'product-thumb',
@@ -68,10 +72,7 @@
                   ]"
                   @click="eventHub.$emit('selectVariant', index)"
                 >
-                  <img
-                    :src="productDetails.variants[selectedVariant].variantImage"
-                    alt="product thumb"
-                  />
+                  <img :src="variant.variantImage" alt="product thumb" />
                 </v-avatar>
               </div>
             </div>
@@ -404,5 +405,4 @@ export default {
   text-decoration: line-through;
   cursor: not-allowed;
 }
-
 </style>

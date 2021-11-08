@@ -18,7 +18,7 @@
             <div class="mb-5">
               Your cart is empty 🥺... but it doesn't have to be 🤩!
             </div>
-            <button class="btn btn-dark" @click="close">
+            <button class="btn btn-dark">
               <router-link :to="{ name: 'ProductPage' }">
                 SHOP NEW ARRIVALS
               </router-link>
@@ -118,13 +118,19 @@
                     required
                     class="form-control"
                     v-model="couponText"
-                    title="Type anything in here then click Apply or press Enter"
+                    title="Type anything
+                  in here then click Apply or press Enter"
                     @keyup.enter="applyCoupon"
+                    :disabled="!cart.length"
                   />
                 </v-col>
 
                 <v-col cols="4">
-                  <button class="btn btn-dark" @click="applyCoupon">
+                  <button
+                    class="btn btn-dark"
+                    @click="applyCoupon"
+                    :disabled="!cart.length"
+                  >
                     Apply
                   </button>
                 </v-col>
@@ -282,7 +288,6 @@ export default {
 
     removeCoupon() {
       this.$store.commit('productPrivateStore/removeCoupon');
-      this.currentlyAppliedCoupon = '';
       this.couponText = '';
     },
   },
