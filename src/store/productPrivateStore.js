@@ -29,7 +29,6 @@ export default {
   state: () => ({
     wishlist: [],
     cart: [],
-    // cart: [{ productId: 1, image: '/img/products/women/product1a.jpeg', name: 'Leather mid-heel Sandals', variantColor: 'White', sizeName: '11.5', quantity: 1, sizeStock: 3, price: 40 }, { productId: 4, image: '/img/products/women/product4a.jpeg', name: 'Baby Angel oversized full-zip sweatshirt with hood', variantColor: 'White', sizeName: 'L', quantity: 1, sizeStock: 2, price: 174.57 }],
     isCouponApplied: false,
     discountRateForCoupon: 0,
     coupon: ''
@@ -91,10 +90,7 @@ export default {
         const updatingItem = state.cart[itemIndexToUpdate];
         let replacingItem = productPayload;
 
-        const isUpdatingAndNewItemsIdentical =
-          (updatingItem.sizeName === replacingItem.sizeName) &&
-          (updatingItem.variantColor === replacingItem.variantColor) &&
-          (updatingItem.quantity === replacingItem.quantity)
+        const isUpdatingAndNewItemsIdentical = (updatingItem.sizeName === replacingItem.sizeName) && (updatingItem.variantColor === replacingItem.variantColor) && (updatingItem.quantity === replacingItem.quantity)
 
         if (isUpdatingAndNewItemsIdentical) {
           dispatch('notification/showNotification', messages.duplicatedItem, { root: true })

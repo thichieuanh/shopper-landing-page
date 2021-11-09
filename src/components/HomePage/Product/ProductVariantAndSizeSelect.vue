@@ -118,15 +118,7 @@ import { mapGetters, mapActions } from 'vuex';
 import { Icon } from '@iconify/vue2';
 
 export default {
-  props: {
-    productDetails: { type: Object, default: () => {} },
-    productId: { type: Number },
-    isUpdatingCart: { type: Boolean, default: false },
-    selectedVariant: { type: Number, default: 0 },
-    selectedSize: { type: Object, default: () => {} },
-    selectedQuantity: { type: Number },
-    itemIndexToUpdate: { type: Number },
-  },
+  props: {},
 
   components: {
     Icon,
@@ -207,8 +199,6 @@ export default {
       if (!this.isSizeOutOfStock(item)) {
         this.eventHub.$emit('selectSize', { size: item, quantity: quantity });
       }
-
-      console.log('selectedSize', this.selectedSize);
     },
 
     sizeClass(size) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="THITHI">
+  <div v-if="productId" class="THITHI">
     <div
       class="modal-overlay"
       style="display: block"
@@ -70,7 +70,7 @@
                     'product-thumb',
                     { 'active-thumb': selectedVariant === index },
                   ]"
-                  @click="eventHub.$emit('selectVariant', index)"
+                  @click="selectedVariant = index"
                 >
                   <img :src="variant.variantImages[0]" alt="product thumb" />
                 </v-avatar>
@@ -112,7 +112,7 @@
             <v-row>
               <!-- Qty dropdown -->
               <v-col class="col-12 col-lg-2 px-md-0">
-                <select
+                <!-- <select
                   name="orderQty"
                   id="orderQty"
                   class="custom-select form-control mb-0"
@@ -120,6 +120,22 @@
                   @input="
                     $emit('update:selectedQuantity', +$event.target.value)
                   "
+                >
+                  <option
+                    v-for="n in selectedSizeStock"
+                    :value="n"
+                    :key="n"
+                    :selected="n === selectedQuantity"
+                  >
+                    {{ n }}
+                  </option>
+                </select> -->
+
+                <select
+                  name="orderQty"
+                  id="orderQty"
+                  class="custom-select form-control mb-0"
+                  @change="selectedQuantity = +$event.target.value"
                 >
                   <option
                     v-for="n in selectedSizeStock"
@@ -171,15 +187,24 @@ export default {
   components: { Icon },
   props: {
     isOpen: { type: Boolean, default: false },
-    productId: { type: Number },
-    isUpdatingCart: { type: Boolean, default: false },
-    selectedVariant: { type: Number, default: 0 },
-    selectedSize: { type: Object, default: () => {} },
-    selectedQuantity: { type: Number },
-    itemIndexToUpdate: { type: Number },
   },
 
-  data: () => ({}),
+  data: () => ({
+    selectedVariant: 0,
+    selectedSize: undefined,
+    selectedQuantity: undefined,
+    isUpdatingCart: false,
+    productId: undefined,
+    defaultVariantIdx: 0,
+    defaultSize: undefined,
+    defaultQuantity: undefined,
+    updatingItemInCart: {
+      itemIndexToUpdate: undefined,
+      sizeName: undefined,
+      variantColor: undefined,
+      quantity: undefined,
+    },
+  }),
 
   computed: {
     ...mapState('productPrivateStore', ['cart']),
@@ -272,7 +297,8 @@ export default {
             : newSizeStock;
       }
       if (!this.isSizeOutOfStock(item)) {
-        this.eventHub.$emit('selectSize', { size: item, quantity: quantity });
+        this.selectedSize = item;
+        this.selectedQuantity = quantity;
       }
     },
 
@@ -309,13 +335,69 @@ export default {
 
         this.$store.dispatch('productPrivateStore/updateCart', {
           isUpdatingCart: this.isUpdatingCart,
-          itemIndexToUpdate: this.itemIndexToUpdate,
+          itemIndexToUpdate: this.updatingItemInCart.itemIndexToUpdate,
           productPayload: payload,
         });
 
         if (this.isUpdatingCart) this.close();
       }
     },
+
+    onShowProductDialog({
+      isUpdatingCart,
+      productId,
+      variantColor,
+      sizeName,
+      quantity,
+      itemIndexToUpdate,
+    }) {
+      this.productId = productId;
+      this.isUpdatingCart = isUpdatingCart;
+      if (isUpdatingCart) {
+        this.updatingItemInCart.variantColor = variantColor;
+        this.updatingItemInCart.sizeName = sizeName;
+        this.updatingItemInCart.quantity = quantity;
+        this.updatingItemInCart.itemIndexToUpdate = itemIndexToUpdate;
+        this.$nextTick(this.getDefaultItemInDialog());
+      }
+    },
+
+    onCloseProductDialog() {
+      this.selectedVariant = 0;
+      this.selectedSize = undefined;
+      this.selectedQuantity = 1;
+      this.isUpdatingCart = false;
+    },
+
+    getDefaultItemInDialog() {
+      if (this.isUpdatingCart) {
+        const {
+          updatingItemInCart: { sizeName, variantColor, quantity },
+          productDetails,
+        } = this;
+
+        const updatingVariantIdx = productDetails.variants.findIndex(
+          (variant) => variant.variantColor === variantColor
+        );
+
+        const updatingSize = productDetails.variants[
+          updatingVariantIdx
+        ].stock.find((item) => Object.keys(item)[0] === sizeName);
+
+        this.selectedVariant = updatingVariantIdx;
+        this.selectedSize = updatingSize;
+        this.selectedQuantity = quantity;
+      }
+    },
+  },
+
+  created() {
+    this.eventHub.$on('showProductDialog', this.onShowProductDialog);
+    this.eventHub.$on('closeProductDialog', this.onCloseProductDialog);
+  },
+
+  beforeDestroy() {
+    this.eventHub.$off();
   },
 };
 </script>
