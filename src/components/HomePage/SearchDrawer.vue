@@ -81,7 +81,7 @@
 
                   <v-list-item-title>
                     <router-link
-                      :to="{ name: 'ProductPage' }"
+                      :to="{}"
                       :class="
                         'stretched-link ' +
                         (isSale(product) ? 'text-primary' : 'text-muted')
@@ -97,7 +97,7 @@
             </v-row>
 
             <div class="pa-0 shop-button font-size-lg">
-              <router-link :to="{ name: 'ProductPage' }">
+              <router-link :to="{}">
                 View All
                 <v-icon class="shop-icon ml-3" size="1.125rem">
                   mdi-arrow-right

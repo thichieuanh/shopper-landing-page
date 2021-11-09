@@ -251,7 +251,7 @@
               "
             >
               <div>
-                <router-link :to="{ name: 'ProductPage' }">
+                <router-link :to="{}">
                   <div>{{ item.name }}</div>
                 </router-link>
                 <div class="text-muted">

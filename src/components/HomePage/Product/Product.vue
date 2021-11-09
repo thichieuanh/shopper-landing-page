@@ -1,24 +1,33 @@
 <template>
   <v-hover v-slot:default="{ hover }">
-    <v-card tile flat class="mx-auto" max-width="344">
+    <div>
       <div class="image-wrapper">
-        <v-img :src="productDetails.images.img" aspect-ratio="0.85"></v-img>
         <v-img
-          :src="productDetails.images.imgOnHover"
+          :src="productDetails.variants[0].variantImages[0]"
           aspect-ratio="0.85"
-          class="image-hover"
         >
-          <div class="product-button-group d-flex justify-center ma-0">
-            <div
-              @click="iconClicked(functionalIconsIdx)"
-              v-for="(item, functionalIconsIdx) in functionalIcons"
-              :key="functionalIconsIdx"
-              :class="buttonClass(hover, functionalIconsIdx, item.type)"
-            >
-              <Icon :icon="item.spec" width="16.875" :inline="true" />
-            </div>
-          </div>
         </v-img>
+
+        <router-link :to="`/product/${productDetails.id}`">
+          <v-img
+            :src="productDetails.variants[0].variantImages[1]"
+            aspect-ratio="0.85"
+            class="image-hover"
+          >
+          </v-img>
+        </router-link>
+
+        <div class="product-button-group d-flex justify-center ma-0">
+          <div
+            @click="iconClicked(functionalIconsIdx)"
+            v-for="(item, functionalIconsIdx) in functionalIcons"
+            :key="functionalIconsIdx"
+            :class="buttonClass(hover, functionalIconsIdx)"
+          >
+            <Icon :icon="item.spec" width="16.875" :inline="true" />
+          </div>
+        </div>
+
         <div
           :class="[
             { new: productDetails.isNew },
@@ -48,13 +57,13 @@
         style="font-size: 1rem"
       >
         <span :class="{ 'old-price': isSale(productDetails) }">
-          {{ productDetails.pricing.price | currencyFormatter }}</span
-        >
+          {{ productDetails.pricing.price | currencyFormatter }}
+        </span>
         <span v-if="isSale(productDetails)" class="text-primary">
           {{ productDetails.pricing.priceAfterDiscount | currencyFormatter }}
         </span>
       </v-card-subtitle>
-    </v-card>
+    </div>
   </v-hover>
 </template>
 
@@ -114,7 +123,7 @@ export default {
       if (product.pricing.discount) return true;
     },
 
-    buttonClass(isHover, index, type) {
+    buttonClass(isHover, index) {
       let state = '';
       if (index === 1 && this.isProductIdInCart(this.productDetails.id)) {
         state = 'added-to-cart';
@@ -137,12 +146,14 @@ export default {
 
 <style lang="scss" scoped>
 .product-button-group {
+  z-index: 100;
   width: 100%;
   position: absolute;
-  bottom: 0.5em;
+  bottom: 0.5rem;
 }
 
 .product-button {
+  z-index: 100;
   background: #fff;
   width: 2.5rem;
   height: 2.5rem;
@@ -162,8 +173,6 @@ export default {
 
 .image-wrapper {
   position: relative;
-  width: 100%;
-  height: 100%;
 }
 .image-hover {
   position: absolute;
@@ -173,10 +182,10 @@ export default {
   height: 100%;
   opacity: 0;
   transition: opacity 0.4s ease;
-}
 
-.image-hover:hover {
-  opacity: 1;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .product-badge {

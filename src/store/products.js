@@ -33,7 +33,8 @@ export default {
   },
   getters: {
     getAllProducts: state => [...state.womenProducts, ...state.menProducts, ...state.kidsProducts],
-    getProductById: (state, getters) => (id) => {
+
+    getProductById: (_state, getters) => (id) => {
       return getters.getAllProducts.find(product => product.id === id);
     },
   },

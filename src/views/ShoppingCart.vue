@@ -19,9 +19,7 @@
               Your cart is empty 🥺... but it doesn't have to be 🤩!
             </div>
             <button class="btn btn-dark">
-              <router-link :to="{ name: 'ProductPage' }">
-                SHOP NEW ARRIVALS
-              </router-link>
+              <router-link :to="{}"> SHOP NEW ARRIVALS </router-link>
             </button>
           </div>
 
@@ -57,7 +55,7 @@
                   mb-2
                 "
               >
-                <router-link :to="{ name: 'ProductPage' }">
+                <router-link :to="{}">
                   <div>{{ item.name }}</div>
                 </router-link>
                 <div>
@@ -209,7 +207,7 @@
           </router-link>
 
           <div class="px-0 shop-button font-size-sm">
-            <router-link :to="{ name: 'ProductPage' }">
+            <router-link :to="{}">
               <v-icon class="arrow-move-left shop-icon mr-3" size="1.125rem">
                 mdi-arrow-left
               </v-icon>

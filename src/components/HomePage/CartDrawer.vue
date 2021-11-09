@@ -24,9 +24,7 @@
         Your cart is empty... but it doesn't have to be 🤩!
       </div>
       <button class="btn btn-block btn-dark" @click="close">
-        <router-link :to="{ name: 'ProductPage' }">
-          SHOP NEW ARRIVALS
-        </router-link>
+        <router-link :to="{}"> SHOP NEW ARRIVALS </router-link>
       </button>
     </div>
 
@@ -44,7 +42,7 @@
         <v-col
           class="py-0 pr-0 d-flex flex-column align-start justify-space-between"
         >
-          <router-link :to="{ name: 'ProductPage' }" class="font-weight-medium">
+          <router-link :to="{}" class="font-weight-medium">
             <div>{{ item.name }}</div>
             <div class="text-muted font-size-xs">
               {{ item.price | currencyFormatter }}
@@ -197,7 +195,6 @@ export default {
     },
 
     close() {
-      console.log('thi check');
       this.eventHub.$emit('closeCart');
     },
   },

@@ -25,10 +25,10 @@
           >
             <img
               class="product-dialog-img"
-              :src="productDetails.variants[selectedVariant].variantImage"
+              :src="productDetails.variants[selectedVariant].variantImages[0]"
             />
             <button class="btn btn-block btn-primary" @click="close">
-              <router-link :to="{ name: 'ProductPage' }">
+              <router-link :to="`/product/${productDetails.id}`">
                 More Product Info
                 <Icon
                   icon="ant-design:info-circle-outlined"
@@ -72,7 +72,7 @@
                   ]"
                   @click="eventHub.$emit('selectVariant', index)"
                 >
-                  <img :src="variant.variantImage" alt="product thumb" />
+                  <img :src="variant.variantImages[0]" alt="product thumb" />
                 </v-avatar>
               </div>
             </div>
@@ -165,6 +165,7 @@
 <script>
 import { Icon } from '@iconify/vue2';
 import { mapGetters, mapActions, mapState } from 'vuex';
+// import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
 
 export default {
   components: { Icon },
@@ -297,7 +298,7 @@ export default {
       if (this.selectedSize) {
         const payload = {
           productId: productId,
-          image: productDetails.images.img,
+          image: productDetails.variants[selectedVariant].variantImages[0],
           name: productDetails.name,
           variantColor: productDetails.variants[selectedVariant].variantColor,
           sizeName: selectedSizeName,
@@ -366,43 +367,5 @@ export default {
   max-height: 100%;
   max-width: 100%;
   margin-bottom: -1rem;
-}
-.product-thumb {
-  opacity: 0.8;
-  cursor: pointer;
-}
-
-.active-thumb {
-  position: relative;
-  opacity: 1;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    border-top: 2px solid #111;
-  }
-}
-
-.size-item {
-  cursor: pointer;
-  min-width: 3rem;
-  padding: 0.5rem;
-  margin: 0 1rem 0.5rem 0;
-  text-align: center;
-  border: 1px solid #ddd;
-}
-
-.active-size {
-  color: #111;
-  border: 1px solid #111;
-}
-
-.out-of-stock {
-  background: var(--main-grey);
-  text-decoration: line-through;
-  cursor: not-allowed;
 }
 </style>

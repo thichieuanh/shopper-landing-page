@@ -133,15 +133,21 @@ export default {
     isWishlisted: (state) => (productId) => {
       return state.wishlist.includes(productId);
     },
+
     itemIndexInCart: (state) => (variantColor, sizeName) => {
       return state.cart.findIndex(item => item.variantColor === variantColor && item.sizeName === sizeName)
     },
+
     isProductIdInCart: (state) => (id) => {
       return state.cart.find(item => item.productId === id)
     },
+
     discountRateForCoupon: (state) => state.isCouponApplied ? round(random(0.1, 0.7), 2) : 0,
+
     cart: ({ cart }) => cart.sort((a, b) => a.productId - b.productId),
+
     cartLength: ({ cart }) => cart.length,
+
     cartSubtotal: ({ cart }) => cart.reduce((subtotal, { quantity, price }) => {
       subtotal += (quantity * price)
       return subtotal
