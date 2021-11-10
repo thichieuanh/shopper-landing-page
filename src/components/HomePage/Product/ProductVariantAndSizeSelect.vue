@@ -12,7 +12,9 @@
     <div class="form-group">
       <p class="mb-6">
         Color:
-        {{ productDetails.variants[selectedVariant].variantColor }}
+        <span class="font-weight-medium">
+          {{ productDetails.variants[selectedVariant].variantColor }}</span
+        >
       </p>
 
       <div class="d-flex mb-8">
@@ -40,8 +42,9 @@
       <v-row v-else class="mb-6">
         <v-col class="pa-0">
           <div>
-            Size: {{ selectedSizeName }}
-            <span v-if="showSizeRegion">US</span>
+            Size:
+            <span class="font-weight-medium"> {{ selectedSizeName }} </span>
+            <span class="font-weight-medium" v-if="showSizeRegion">US</span>
           </div>
         </v-col>
         <v-col class="pa-0">

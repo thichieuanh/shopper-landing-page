@@ -44,7 +44,7 @@
         >
           <router-link :to="{}" class="font-weight-medium">
             <div>{{ item.name }}</div>
-            <div class="text-muted font-size-xs">
+            <div class="text-muted font-size-sm">
               {{ item.price | currencyFormatter }}
             </div>
             <div class="text-muted font-size-xs">
