@@ -3,23 +3,16 @@
     <h4 class="mb-3">{{ productDetails.name }}</h4>
     <div class="mb-7 d-flex align-baseline">
       <h5 class="mr-1">
-        <span :class="{ 'old-price': isSale(productDetails) }">
-          {{ productDetails.pricing.price | currencyFormatter }}
-        </span>
-        <span v-if="isSale(productDetails)" class="text-primary ml-1">
-          {{ productDetails.pricing.priceAfterDiscount | currencyFormatter }}
-        </span>
+        {{ productDetails.pricing.priceAfterDiscount | currencyFormatter }}
       </h5>
-      <span> ({{ stockState }}) </span>
+      <span>({{ stockState }})</span>
     </div>
 
     <!-- Colors -->
     <div class="form-group">
       <p class="mb-6">
         Color:
-        <span class="font-weight-medium">
-          {{ productDetails.variants[selectedVariant].variantColor }}
-        </span>
+        {{ productDetails.variants[selectedVariant].variantColor }}
       </p>
 
       <div class="d-flex mb-8">
@@ -34,7 +27,7 @@
             'product-thumb',
             { 'active-thumb': selectedVariant === index },
           ]"
-          @click="eventHub.$emit('selectVariant', index)"
+          @click="selectedVariant = index"
         >
           <img :src="variant.variantImages[0]" alt="product thumb" />
         </v-avatar>
@@ -79,8 +72,7 @@
           name="orderQty"
           id="orderQty"
           class="custom-select form-control mb-0"
-          :value="selectedQuantity"
-          @input="$emit('update:selectedQuantity', +$event.target.value)"
+          @change="selectedQuantity = +$event.target.value"
         >
           <option
             v-for="n in selectedSizeStock"
@@ -118,16 +110,40 @@ import { mapGetters, mapActions } from 'vuex';
 import { Icon } from '@iconify/vue2';
 
 export default {
-  props: {},
+  props: {
+    productDetails: { type: Object, default: () => ({}) },
+    productId: { type: Number },
+  },
 
   components: {
     Icon,
   },
 
+  data: () => ({
+    selectedSize: undefined,
+    selectedQuantity: undefined,
+    isUpdatingCart: undefined,
+    updatingItemInCart: {
+      itemIndexToUpdate: undefined,
+      sizeName: undefined,
+      variantColor: undefined,
+      quantity: undefined,
+    },
+  }),
+
   computed: {
     ...mapGetters({
       isWishlisted: 'productPrivateStore/isWishlisted',
     }),
+
+    selectedVariant: {
+      get() {
+        return this.getSelectedVariant();
+      },
+      set(newValue) {
+        this.setSelectedVariant(newValue);
+      },
+    },
 
     stockState() {
       return getVariantStock(this.productDetails, this.selectedVariant);
@@ -171,6 +187,8 @@ export default {
     },
   },
 
+  inject: ['getSelectedVariant', 'setSelectedVariant'], // ref: https://codepen.io/fimion/pen/BxxpxZ?editors=1010
+
   methods: {
     ...mapActions({
       updateWishList: 'productPrivateStore/updateWishList',
@@ -195,9 +213,9 @@ export default {
             ? this.selectedQuantity
             : newSizeStock;
       }
-
       if (!this.isSizeOutOfStock(item)) {
-        this.eventHub.$emit('selectSize', { size: item, quantity: quantity });
+        this.selectedSize = item;
+        this.selectedQuantity = quantity;
       }
     },
 
@@ -234,13 +252,64 @@ export default {
 
         this.$store.dispatch('productPrivateStore/updateCart', {
           isUpdatingCart: this.isUpdatingCart,
-          itemIndexToUpdate: this.itemIndexToUpdate,
+          itemIndexToUpdate: this.updatingItemInCart.itemIndexToUpdate,
           productPayload: payload,
         });
-
-        if (this.isUpdatingCart) this.close();
       }
     },
+
+    onShowProductDialog({
+      isUpdatingCart,
+      variantColor,
+      sizeName,
+      quantity,
+      itemIndexToUpdate,
+    }) {
+      this.isUpdatingCart = isUpdatingCart;
+      if (isUpdatingCart) {
+        this.updatingItemInCart.variantColor = variantColor;
+        this.updatingItemInCart.sizeName = sizeName;
+        this.updatingItemInCart.quantity = quantity;
+        this.updatingItemInCart.itemIndexToUpdate = itemIndexToUpdate;
+        this.$nextTick(this.getDefaultItemInDialog());
+      }
+    },
+
+    onCloseProductDialog() {
+      this.selectedVariant = 0;
+      this.selectedSize = undefined;
+      this.isUpdatingCart = false;
+    },
+
+    getDefaultItemInDialog() {
+      if (this.isUpdatingCart) {
+        const {
+          updatingItemInCart: { sizeName, variantColor, quantity },
+          productDetails,
+        } = this;
+
+        const updatingVariantIdx = productDetails.variants.findIndex(
+          (variant) => variant.variantColor === variantColor
+        );
+
+        const updatingSize = productDetails.variants[
+          updatingVariantIdx
+        ].stock.find((item) => Object.keys(item)[0] === sizeName);
+
+        this.selectedVariant = updatingVariantIdx;
+        this.selectedSize = updatingSize;
+        this.selectedQuantity = quantity;
+      }
+    },
+  },
+
+  created() {
+    this.eventHub.$on('showProductDialog', this.onShowProductDialog);
+    this.eventHub.$on('closeProductDialog', this.onCloseProductDialog);
+  },
+
+  beforeDestroy() {
+    this.eventHub.$off();
   },
 };
 </script>

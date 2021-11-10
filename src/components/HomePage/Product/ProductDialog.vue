@@ -41,136 +41,10 @@
 
           <!-- Product info -->
           <v-col cols="12" md="6" lg="7" class="px-md-9 py-9 text-left">
-            <h4 class="mb-3">{{ productDetails.name }}</h4>
-            <div class="mb-7 d-flex align-baseline">
-              <h5 class="mr-1">
-                {{
-                  productDetails.pricing.priceAfterDiscount | currencyFormatter
-                }}
-              </h5>
-              <span>({{ getVariantStock }})</span>
-            </div>
-
-            <!-- Colors -->
-            <div class="form-group">
-              <p class="mb-6">
-                Color:
-                {{ productDetails.variants[selectedVariant].variantColor }}
-              </p>
-
-              <div class="d-flex mb-8">
-                <v-avatar
-                  v-for="(variant, index) in productDetails.variants"
-                  :key="index"
-                  tile
-                  height="6vh"
-                  width="5vh"
-                  :class="[
-                    'mr-3',
-                    'product-thumb',
-                    { 'active-thumb': selectedVariant === index },
-                  ]"
-                  @click="selectedVariant = index"
-                >
-                  <img :src="variant.variantImages[0]" alt="product thumb" />
-                </v-avatar>
-              </div>
-            </div>
-
-            <!-- Sizes -->
-            <div class="form-group">
-              <p v-if="!selectedSize">Select size</p>
-              <v-row v-else class="mb-6">
-                <v-col class="pa-0">
-                  <div>
-                    Size: {{ selectedSizeName }}
-                    <span v-if="showSizeRegion">US</span>
-                  </div>
-                </v-col>
-                <v-col class="pa-0">
-                  <div>Stock: {{ selectedSizeStock }}</div>
-                </v-col>
-              </v-row>
-
-              <div>
-                <ul class="d-flex flex-wrap pa-0 mb-2">
-                  <li
-                    v-for="(size, sizeIdx) in productDetails.variants[
-                      selectedVariant
-                    ].stock"
-                    :key="sizeIdx"
-                    :class="sizeClass(size)"
-                    @click="selectSize(size)"
-                  >
-                    {{ Object.keys(size)[0] }}
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <!-- Quantity & Buttons -->
-            <v-row>
-              <!-- Qty dropdown -->
-              <v-col class="col-12 col-lg-2 px-md-0">
-                <!-- <select
-                  name="orderQty"
-                  id="orderQty"
-                  class="custom-select form-control mb-0"
-                  :value="selectedQuantity"
-                  @input="
-                    $emit('update:selectedQuantity', +$event.target.value)
-                  "
-                >
-                  <option
-                    v-for="n in selectedSizeStock"
-                    :value="n"
-                    :key="n"
-                    :selected="n === selectedQuantity"
-                  >
-                    {{ n }}
-                  </option>
-                </select> -->
-
-                <select
-                  name="orderQty"
-                  id="orderQty"
-                  class="custom-select form-control mb-0"
-                  @change="selectedQuantity = +$event.target.value"
-                >
-                  <option
-                    v-for="n in selectedSizeStock"
-                    :value="n"
-                    :key="n"
-                    :selected="n === selectedQuantity"
-                  >
-                    {{ n }}
-                  </option>
-                </select>
-              </v-col>
-
-              <!-- Cart button -->
-              <v-col class="col-12 col-lg-5 px-0 px-lg-3">
-                <button :class="cartButtonClass" @click="onUpdateCart">
-                  {{ cartButtonInfo.text }}
-                  <Icon :icon="cartButtonInfo.icon" width="18" :inline="true" />
-                </button>
-              </v-col>
-
-              <!-- Wishlist button -->
-              <v-col
-                class="col-12 col-lg-5 px-0"
-                @click="updateWishList(productId)"
-              >
-                <button class="btn btn-block btn-outline-dark">
-                  {{ wishlistButtonInfo.text }}
-                  <Icon
-                    :icon="wishlistButtonInfo.icon"
-                    width="18"
-                    :inline="true"
-                  />
-                </button>
-              </v-col>
-            </v-row>
+            <ProductVariantAndSizeSelect
+              :productDetails="productDetails"
+              :productId="productId"
+            ></ProductVariantAndSizeSelect>
           </v-col>
         </v-row>
       </div>
@@ -181,29 +55,17 @@
 <script>
 import { Icon } from '@iconify/vue2';
 import { mapGetters, mapActions, mapState } from 'vuex';
-// import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
+import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
 
 export default {
-  components: { Icon },
+  components: { Icon, ProductVariantAndSizeSelect },
   props: {
     isOpen: { type: Boolean, default: false },
   },
 
   data: () => ({
     selectedVariant: 0,
-    selectedSize: undefined,
-    selectedQuantity: undefined,
-    isUpdatingCart: false,
     productId: undefined,
-    defaultVariantIdx: 0,
-    defaultSize: undefined,
-    defaultQuantity: undefined,
-    updatingItemInCart: {
-      itemIndexToUpdate: undefined,
-      sizeName: undefined,
-      variantColor: undefined,
-      quantity: undefined,
-    },
   }),
 
   computed: {
@@ -218,57 +80,8 @@ export default {
       return this.getProductById(this.productId);
     },
 
-    showSizeRegion() {
-      return (
-        (this.productDetails.category === 'Shoes' ||
-          this.productDetails.category === 'Sneaker') &&
-        this.selectedSize !== undefined
-      );
-    },
-
-    selectedSizeName() {
-      return this.selectedSize ? Object.keys(this.selectedSize)[0] : undefined;
-    },
-
-    selectedSizeStock() {
-      return this.selectedSize
-        ? Object.values(this.selectedSize)[0]
-        : undefined;
-    },
-
-    getVariantStock() {
-      const stockArray =
-        this.productDetails.variants[this.selectedVariant].stock;
-
-      const totalStock = stockArray.reduce((sum, size) => {
-        const sizeQty = Object.values(size)[0];
-        sum += sizeQty;
-        return sum;
-      }, 0);
-      return totalStock ? 'In Stock' : 'Sold Out';
-    },
-
-    cartButtonInfo() {
-      return this.isUpdatingCart
-        ? { text: 'Update cart', icon: 'bi:cart' }
-        : { text: 'Add to cart', icon: 'bi:cart' };
-    },
-
-    wishlistButtonInfo() {
-      return this.isWishlisted(this.productId)
-        ? { text: 'Remove from wishlist', icon: 'mdi:heart-minus-outline' }
-        : { text: 'Add to wishlist', icon: 'ph:heart-straight' };
-    },
-
     modalClass() {
       return this.isOpen ? 'fade modal show' : 'fade modal';
-    },
-
-    cartButtonClass() {
-      return [
-        'btn btn-block btn-outline-dark',
-        { disableBtn: !this.selectedSizeStock },
-      ];
     },
   },
 
@@ -278,122 +91,32 @@ export default {
       showNotification: 'notification/showNotification',
     }),
 
+    getSelectedVariant() {
+      return this.selectedVariant;
+    },
+
+    setSelectedVariant(data) {
+      this.selectedVariant = data;
+    },
+
     close() {
       this.eventHub.$emit('closeProductDialog');
     },
 
-    isSizeOutOfStock(item) {
-      return Object.values(item)[0] === 0;
-    },
-
-    selectSize(item) {
-      let quantity = 1; // for case add new item to cart
-
-      if (this.isUpdatingCart) {
-        const newSizeStock = Object.values(item)[0];
-        quantity =
-          this.selectedQuantity < newSizeStock
-            ? this.selectedQuantity
-            : newSizeStock;
-      }
-      if (!this.isSizeOutOfStock(item)) {
-        this.selectedSize = item;
-        this.selectedQuantity = quantity;
-      }
-    },
-
-    sizeClass(size) {
-      return [
-        'size-item',
-        'text-muted',
-        { 'active-size': this.selectedSize === size },
-        { 'out-of-stock': this.isSizeOutOfStock(size) },
-      ];
-    },
-
-    onUpdateCart() {
-      const {
-        productDetails,
-        selectedSizeName,
-        selectedQuantity,
-        selectedSizeStock,
-        selectedVariant,
-        productId,
-      } = this;
-
-      if (this.selectedSize) {
-        const payload = {
-          productId: productId,
-          image: productDetails.variants[selectedVariant].variantImages[0],
-          name: productDetails.name,
-          variantColor: productDetails.variants[selectedVariant].variantColor,
-          sizeName: selectedSizeName,
-          quantity: selectedQuantity,
-          sizeStock: selectedSizeStock,
-          price: productDetails.pricing.priceAfterDiscount,
-        };
-
-        this.$store.dispatch('productPrivateStore/updateCart', {
-          isUpdatingCart: this.isUpdatingCart,
-          itemIndexToUpdate: this.updatingItemInCart.itemIndexToUpdate,
-          productPayload: payload,
-        });
-
-        if (this.isUpdatingCart) this.close();
-      }
-    },
-
-    onShowProductDialog({
-      isUpdatingCart,
-      productId,
-      variantColor,
-      sizeName,
-      quantity,
-      itemIndexToUpdate,
-    }) {
+    onShowProductDialog({ productId }) {
       this.productId = productId;
-      this.isUpdatingCart = isUpdatingCart;
-      if (isUpdatingCart) {
-        this.updatingItemInCart.variantColor = variantColor;
-        this.updatingItemInCart.sizeName = sizeName;
-        this.updatingItemInCart.quantity = quantity;
-        this.updatingItemInCart.itemIndexToUpdate = itemIndexToUpdate;
-        this.$nextTick(this.getDefaultItemInDialog());
-      }
     },
+  },
 
-    onCloseProductDialog() {
-      this.selectedVariant = 0;
-      this.selectedSize = undefined;
-      this.selectedQuantity = 1;
-      this.isUpdatingCart = false;
-    },
-
-    getDefaultItemInDialog() {
-      if (this.isUpdatingCart) {
-        const {
-          updatingItemInCart: { sizeName, variantColor, quantity },
-          productDetails,
-        } = this;
-
-        const updatingVariantIdx = productDetails.variants.findIndex(
-          (variant) => variant.variantColor === variantColor
-        );
-
-        const updatingSize = productDetails.variants[
-          updatingVariantIdx
-        ].stock.find((item) => Object.keys(item)[0] === sizeName);
-
-        this.selectedVariant = updatingVariantIdx;
-        this.selectedSize = updatingSize;
-        this.selectedQuantity = quantity;
-      }
-    },
+  provide() {
+    return {
+      getSelectedVariant: this.getSelectedVariant,
+      setSelectedVariant: this.setSelectedVariant,
+    };
   },
 
   created() {
     this.eventHub.$on('showProductDialog', this.onShowProductDialog);
-    this.eventHub.$on('closeProductDialog', this.onCloseProductDialog);
   },
 
   beforeDestroy() {
