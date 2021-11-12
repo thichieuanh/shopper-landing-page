@@ -76,6 +76,7 @@ export default {
         ? commit('detachWishlist', productId)
         : commit('appendWishlist', productId)
     },
+
     updateCart: ({ dispatch, commit, state, getters, }, { isUpdatingCart, itemIndexToUpdate, productPayload, }) => {
       /*
       - itemIndexToUpdate: the item being edited

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import products from './products'
 import productPrivateStore from './productPrivateStore'
 import notification from './notification'
+import reviews from './reviews'
 
 Vue.use(Vuex)
 
@@ -10,6 +11,7 @@ export default new Vuex.Store({
   modules: {
     products,
     productPrivateStore,
-    notification
+    notification,
+    reviews
   }
 })

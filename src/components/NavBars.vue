@@ -28,6 +28,7 @@
                   offset-y
                   open-on-hover
                   content-class="dropdown-content"
+                  :nudge-bottom="10"
                 >
                   <template v-slot:activator="{ on, attrs }" elevation="0">
                     <a v-bind="attrs" v-on="on" class="d-flex align-center">
@@ -48,25 +49,25 @@
                   </template>
 
                   <v-list class="pa-0">
-                    <div
+                    <v-list-item
+                      link
+                      class="border-top dropdown-item"
                       v-for="(country, countryIdx) in dropdownVal"
                       :key="countryIdx"
                     >
-                      <v-list-item link>
-                        <a
-                          href=""
-                          class="d-flex align-center font-weight-regular"
-                        >
-                          <img
-                            v-if="dropdownKey === 'countries'"
-                            :src="country.imgUrl"
-                            alt="flag image"
-                            class="ma-2"
-                          />
-                          {{ country.title }}
-                        </a>
-                      </v-list-item>
-                    </div>
+                      <a
+                        href=""
+                        class="d-flex align-center font-weight-regular"
+                      >
+                        <img
+                          v-if="dropdownKey === 'countries'"
+                          :src="country.imgUrl"
+                          alt="flag image"
+                          class="ma-2"
+                        />
+                        {{ country.title }}
+                      </a>
+                    </v-list-item>
                   </v-list>
                 </v-menu>
                 <v-divider

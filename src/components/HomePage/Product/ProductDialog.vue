@@ -42,6 +42,7 @@
           <!-- Product info -->
           <v-col cols="12" md="6" lg="7" class="px-md-9 py-9 text-left">
             <ProductVariantAndSizeSelect
+              v-if="productId"
               :productDetails="productDetails"
               :productId="productId"
             ></ProductVariantAndSizeSelect>
@@ -119,9 +120,6 @@ export default {
     this.eventHub.$on('showProductDialog', this.onShowProductDialog);
   },
 
-  beforeDestroy() {
-    this.eventHub.$off();
-  },
 };
 </script>
 <style scoped lang="scss">

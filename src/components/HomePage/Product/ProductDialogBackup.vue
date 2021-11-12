@@ -307,7 +307,7 @@ export default {
         'size-item',
         'text-muted',
         { 'active-size': this.selectedSize === size },
-        { 'out-of-stock': this.isSizeOutOfStock(size) },
+        { 'size-out-of-stock': this.isSizeOutOfStock(size) },
       ];
     },
 

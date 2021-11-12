@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="container-control">
+    <div class="container-control" v-if="productDetails">
       <Breadcrumbs></Breadcrumbs>
 
+      <!-- PRODUCT DETAILS -->
       <v-row>
         <!-- Image -->
         <v-col cols="12" sm="6">
@@ -46,112 +47,314 @@
                 </template>
               </v-rating>
 
-              <span class="ml-3">Reviews ({{ reviewCount }})</span>
+              <a href="#reviews" class="ml-3">Reviews ({{ reviewCount }})</a>
             </div>
           </div>
 
-          <!-- Name -->
-          <h3 class="mb-2">{{ productDetails.name }}</h3>
+          <ProductVariantAndSizeSelect
+            v-if="productId"
+            :productDetails="productDetails"
+            :productId="productId"
+            :isRenderedInModal="false"
+          ></ProductVariantAndSizeSelect>
 
-          <!-- Price -->
-          <div class="mb-7 d-flex align-baseline">
-            <h5 class="mr-1">
-              {{
-                productDetails.pricing.priceAfterDiscount | currencyFormatter
-              }}
-            </h5>
-            <span> ({{ stockState }}) </span>
+          <div class="mb-7">
+            <span class="text-gray-500"> Is your size/color sold out?</span>
+            <span class="underline-hover ml-2">Join the Wait List! </span>
           </div>
 
-          <!-- Colors -->
-          <div class="form-group">
-            <p class="mb-6">
-              Color:
-              {{ productDetails.variants[selectedVariant].variantColor }}
-            </p>
-
-            <div class="d-flex mb-8">
-              <v-avatar
-                v-for="(variant, index) in productDetails.variants"
-                :key="index"
-                tile
-                height="6vh"
-                width="5vh"
-                :class="[
-                  'mr-3',
-                  'product-thumb',
-                  { 'active-thumb': selectedVariant === index },
-                ]"
-                @click="eventHub.$emit('selectVariant', index)"
+          <!-- Share -->
+          <div class="d-flex">
+            <span class="mr-4">Share:</span>
+            <ul class="d-flex pa-0">
+              <li
+                v-for="(icon, socialIconsIdx) in socialIcons"
+                :key="socialIconsIdx"
+                class="
+                  text-gray-350
+                  d-flex
+                  align-center
+                  justify-center
+                  btn-circle btn-xxs btn-light
+                  mr-2
+                "
               >
-                <img :src="variant.variantImages[0]" alt="product thumb" />
-              </v-avatar>
-            </div>
-          </div>
-
-          <!-- Sizes -->
-          <div class="form-group">
-            <p v-if="!selectedSize">Select size</p>
-            <v-row v-else class="mb-6">
-              <v-col class="pa-0">
-                <div>
-                  Size: {{ selectedSizeName }}
-                  <span v-if="showSizeRegion">US</span>
-                </div>
-              </v-col>
-              <v-col class="pa-0">
-                <div>Stock: {{ selectedSizeStock }}</div>
-              </v-col>
-            </v-row>
-
-            <div>
-              <ul class="d-flex flex-wrap pa-0 mb-2">
-                <li
-                  v-for="(size, sizeIdx) in productDetails.variants[
-                    selectedVariant
-                  ].stock"
-                  :key="sizeIdx"
-                  :class="sizeClass(size)"
-                  @click="selectSize(size)"
-                >
-                  {{ Object.keys(size)[0] }}
-                </li>
-              </ul>
-            </div>
+                <a href="">
+                  <Icon :icon="icon.spec" width="16" :inline="true" />
+                </a>
+              </li>
+            </ul>
           </div>
         </v-col>
-        <div>{{ productDetails }}</div>
       </v-row>
+
+      <!-- TABS -->
+      <section class="pt-11">
+        <div class="nav-tabs text-center border-bottom py-4">
+          <span
+            v-for="(tab, tabIndex) in tabItems"
+            :key="tabIndex"
+            :class="[
+              'tab-list py-4 px-10 font-weight-medium',
+              { active: selectedTabIndex === tabIndex },
+            ]"
+            @click="selectedTabIndex = tabIndex"
+          >
+            {{ tab }}
+          </span>
+        </div>
+
+        <v-row class="justify-center py-9">
+          <v-col cols="12" md="10" lg="8">
+            <transition name="fade" mode="out-in">
+              <component :is="currentTab"></component>
+            </transition>
+          </v-col>
+        </v-row>
+      </section>
+
+      <!-- RECOMMENDATION -->
+      <section>
+        <h4 class="mb-10 text-center">You might also like</h4>
+        <v-row>
+          <v-col
+            v-for="(product, productIdx) in recommendedProducts"
+            :key="productIdx"
+            cols="6"
+            md="3"
+          >
+            <Product :productDetails="product"></Product>
+          </v-col>
+        </v-row>
+      </section>
+
+      <!-- REVIEWS -->
+      <section id="reviews">
+        <!-- Header -->
+        <h4 class="mb-10 text-center">Customer Reviews</h4>
+        <v-row class="align-center">
+          <v-col>
+            <v-menu
+              transition="scroll-y-reverse-transition"
+              offset-y
+              content-class="dropdown-content"
+              :nudge-bottom="10"
+            >
+              <template v-slot:activator="{ on, attrs }" elevation="0">
+                <a v-bind="attrs" v-on="on" class="d-flex align-center">
+                  Sort by:
+                  <Icon
+                    icon="jam:chevron-down"
+                    width="18"
+                    :inline="true"
+                    class="ml-1"
+                  />
+                </a>
+              </template>
+
+              <v-list class="pa-0">
+                <v-list-item class="border-top dropdown-item">
+                  Newest
+                </v-list-item>
+                <v-list-item class="border-top dropdown-item">
+                  Oldest
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-col>
+
+          <v-col cols="8" class="d-flex align-center justify-center">
+            <v-rating :value="3">
+              <template v-slot:item="props">
+                <Icon
+                  width="30"
+                  icon="eva:star-fill"
+                  :inline="true"
+                  :style="{
+                    color: props.isFilled ? '#111' : '#bdbdbd',
+                  }"
+                />
+              </template>
+            </v-rating>
+
+            <span class="ml-3"> Reviews ({{ reviewCount }}) </span>
+          </v-col>
+
+          <v-col class="text-right px-0">
+            <button
+              class="btn btn-dark"
+              @click="isShowReviewForm = !isShowReviewForm"
+            >
+              Write Review
+            </button>
+          </v-col>
+        </v-row>
+
+        <!-- Review Form -->
+        <div v-if="isShowReviewForm" class="border-top mt-8">
+          <form @submit.prevent="reviewSubmit">
+            <v-row>
+              <!-- Rating form -->
+              <v-col
+                cols="12"
+                class="d-flex flex-column align-center justify-center mb-6"
+              >
+                <p class="mb-1 mt-8">Score:</p>
+                <v-rating v-model="rating">
+                  <template v-slot:item="props">
+                    <div @click="props.click">
+                      <Icon
+                        width="30"
+                        icon="eva:star-fill"
+                        :inline="true"
+                        :style="{
+                          color: props.isFilled ? '#111' : '#bdbdbd',
+                        }"
+                      />
+                    </div>
+                  </template>
+                </v-rating>
+              </v-col>
+
+              <!-- Input fields -->
+              <v-col
+                v-for="(reviewDetail, reviewIndex) in reviewDetails"
+                :key="reviewIndex"
+                cols="12"
+                :md="reviewDetail.mdWidth"
+                class="form-group"
+              >
+                <input
+                  :type="reviewDetail.type"
+                  :placeholder="reviewDetail.placeholder"
+                  required
+                  class="form-control form-control-sm"
+                  v-model="formData[reviewDetail.key]"
+                />
+              </v-col>
+
+              <v-col cols="12" class="form-group">
+                <textarea
+                  class="form-control form-control-sm font-size-xs"
+                  rows="5"
+                  placeholder="Review *"
+                  spellcheck="false"
+                ></textarea>
+              </v-col>
+
+              <v-col cols="12" class="text-center">
+                <button type="submit" class="btn btn-outline-dark">
+                  Post Review
+                </button>
+              </v-col>
+            </v-row>
+          </form>
+        </div>
+
+        <!-- Review list -->
+        <div class="mt-8">
+          <div
+            v-for="(review, reviewIndex) in reviews"
+            :key="reviewIndex"
+            class="review"
+          >
+            <ReviewCart :review="review"></ReviewCart>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
-
 <script>
-import Breadcrumbs from '@/components/Breadcrumbs';
-import { Icon } from '@iconify/vue2';
-import { mapGetters } from 'vuex';
 import getVariantStock from '@/utils/getVariantStock';
+import Breadcrumbs from '@/components/Breadcrumbs';
+import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
+import Description from '@/components/ProductPage/Description';
+import SizeAndFit from '@/components/ProductPage/SizeAndFit';
+import ShippingAndReturn from '@/components/ProductPage/ShippingAndReturn';
+import ReviewCart from '@/components/ProductPage/ReviewCart.vue';
+import Product from '@/components/HomePage/Product/Product.vue';
+
+import { Icon } from '@iconify/vue2';
+import { mapGetters, mapState } from 'vuex';
+import { random } from 'lodash';
 
 export default {
   data: () => ({
     selectedVariant: 0,
-    reviewCount: 0,
+    reviewCount: undefined,
     selectedSize: undefined,
+    productDetails: undefined,
+    socialIcons: [
+      {
+        href: '#',
+        spec: 'akar-icons:twitter-fill',
+      },
+      {
+        href: 'https://www.facebook.com/maytrongdem/',
+        spec: 'la:facebook-f',
+      },
+      {
+        href: '#',
+        spec: 'dashicons:pinterest',
+      },
+    ],
+    tabItems: ['Description', 'Size & Fit', 'Shipping & Return'],
+    selectedTabIndex: 0,
+    isShowReviewForm: false,
+    rating: 5,
+    formData: {
+      score: undefined,
+      name: '',
+      email: '',
+      title: '',
+      text: '',
+    },
+    reviewDetails: [
+      {
+        type: 'text',
+        placeholder: 'Your Name *',
+        mdWidth: 6,
+        key: 'name',
+      },
+      {
+        type: 'email',
+        placeholder: 'Your Email *',
+        mdWidth: 6,
+        key: 'email',
+      },
+      {
+        type: 'text',
+        placeholder: 'Review Title *',
+        mdWidth: 12,
+        key: 'title',
+      },
+    ],
   }),
 
   components: {
     Breadcrumbs,
+    ProductVariantAndSizeSelect,
+    Description,
+    SizeAndFit,
+    ShippingAndReturn,
+    Product,
+    ReviewCart,
     Icon,
   },
 
   computed: {
     ...mapGetters({
       getProductById: 'products/getProductById',
+      getAllProducts: 'products/getAllProducts',
     }),
 
-    productId() {
-      return +this.$route.params.id;
-    },
+    ...mapState({
+      womenProducts: (state) => state.products.womenProducts,
+      menProducts: (state) => state.products.menProducts,
+      kidsProducts: (state) => state.products.kidsProducts,
+      reviews: (state) => state.reviews.reviews,
+    }),
 
     stockState() {
       return getVariantStock(this.productDetails, this.selectedVariant);
@@ -174,25 +377,100 @@ export default {
         ? Object.values(this.selectedSize)[0]
         : undefined;
     },
+
+    currentTab() {
+      switch (this.selectedTabIndex) {
+        case 0:
+          return 'Description';
+        case 1:
+          return 'SizeAndFit';
+        default:
+          return 'ShippingAndReturn';
+      }
+    },
+
+    recommendedProducts() {
+      const indexes = [];
+      let index;
+      let filteringArray;
+      let result;
+
+      if (this.productDetails) {
+        switch (this.productDetails.productGroup) {
+          case 'women':
+            filteringArray = this.womenProducts;
+            break;
+          case 'men':
+            filteringArray = this.menProducts;
+            break;
+          case 'kids':
+            filteringArray = this.kidsProducts;
+            break;
+        }
+
+        while (indexes.length < 4) {
+          index = random(0, 7);
+          if (!indexes.includes(index) & (index !== this.productId - 1)) {
+            indexes.push(index);
+          }
+        }
+
+        result = filteringArray.filter((_product, index) =>
+          indexes.includes(index)
+        );
+      }
+
+      return result;
+    },
   },
+
+  watch: {
+    getAllProducts: {
+      immediate: true,
+      handler() {
+        this.productId = +this.$route.params.id;
+        const product = this.getProductById(this.productId);
+        this.productDetails = product;
+        if (product) {
+          this.$store.commit('reviews/getProductReviewList', product);
+          this.reviewCount = this.reviews.length;
+        }
+      },
+    },
+  },
+
   methods: {
+    getSelectedVariant() {
+      return this.selectedVariant;
+    },
+
+    setSelectedVariant(data) {
+      this.selectedVariant = data;
+    },
+
     sizeClass(size) {
       return [
         'size-item',
         'text-muted',
         { 'active-size': this.selectedSize === size },
-        { 'out-of-stock': this.isSizeOutOfStock(size) },
+        { 'size-out-of-stock': this.isSizeOutOfStock(size) },
       ];
     },
 
     isSizeOutOfStock(item) {
       return Object.values(item)[0] === 0;
     },
+
+    reviewSubmit() {
+      console.log('submitted');
+    },
   },
 
-  created() {
-    const product = this.getProductById(this.productId);
-    this.productDetails = product;
+  provide() {
+    return {
+      getSelectedVariant: this.getSelectedVariant,
+      setSelectedVariant: this.setSelectedVariant,
+    };
   },
 };
 </script>
@@ -201,5 +479,15 @@ export default {
 .img-slider {
   height: 12.5%;
   width: 100%;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

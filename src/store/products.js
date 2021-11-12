@@ -10,11 +10,13 @@ export default {
     kidsProducts: [],
     reviews
   }),
+
   mutations: {
     womenProducts: (state, womenProducts) => state.womenProducts = womenProducts,
     menProducts: (state, menProducts) => state.menProducts = menProducts,
     kidsProducts: (state, kidsProducts) => state.kidsProducts = kidsProducts,
   },
+
   actions: {
     async getProducts({ commit }) {
       try {
@@ -31,6 +33,7 @@ export default {
       }
     },
   },
+
   getters: {
     getAllProducts: state => [...state.womenProducts, ...state.menProducts, ...state.kidsProducts],
 

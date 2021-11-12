@@ -94,9 +94,11 @@ export default {
       },
     ],
   }),
+
   props: {
     productDetails: { type: Object, default: () => ({}) },
   },
+
   computed: {
     ...mapGetters('productPrivateStore', ['isProductIdInCart', 'isWishlisted']),
   },

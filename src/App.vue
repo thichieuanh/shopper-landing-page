@@ -23,17 +23,6 @@
     </v-snackbar>
 
     <!-- PRODUCT DIALOG -->
-    <!-- <ProductDialog
-      v-if="productId"
-      :productId="productId"
-      :isOpen="isDialogOpen"
-      :isUpdatingCart="isUpdatingCart"
-      :selectedVariant="defaultVariantIdx"
-      :selectedSize="defaultSize"
-      :selectedQuantity.sync="defaultQuantity"
-      :itemIndexToUpdate="updatingItemInCart.itemIndexToUpdate"
-    ></ProductDialog> -->
-
     <ProductDialog :isOpen="isDialogOpen"></ProductDialog>
 
     <!-- DRAWERS -->
@@ -104,21 +93,18 @@ export default {
     hideNotification() {
       this.$store.commit('notification/hideNotification');
     },
-
-    onShowProductDialog({ isUpdatingCart }) {
-      this.isDialogOpen = true;
-      this.isUpdatingCart = isUpdatingCart;
-    },
-
-    onCloseProductDialog() {
-      this.isDialogOpen = false;
-      this.isUpdatingCart = false;
-    },
   },
 
   created() {
-    this.eventHub.$on('showProductDialog', this.onShowProductDialog);
-    this.eventHub.$on('closeProductDialog', this.onCloseProductDialog);
+    this.eventHub.$on('showProductDialog', ({ isUpdatingCart }) => {
+      this.isDialogOpen = true;
+      this.isUpdatingCart = isUpdatingCart;
+    });
+
+    this.eventHub.$on('closeProductDialog', () => {
+      this.isDialogOpen = false;
+      this.isUpdatingCart = false;
+    });
 
     this.eventHub.$on(
       'cartClicked',
@@ -133,12 +119,12 @@ export default {
     this.eventHub.$on('closeSearch', () => (this.isShowSearchDrawer = false));
   },
 
-  async mounted() {
-    await this.$store.dispatch('products/getProducts');
-  },
-
   beforeDestroy() {
     this.eventHub.$off();
+  },
+
+  mounted() {
+    this.$store.dispatch('products/getProducts');
   },
 };
 </script>

@@ -44,34 +44,7 @@
 
           <!-- Shipping Details -->
           <h6 class="mb-7">Shipping Details</h6>
-          <table class="w-100 tablesm mb-6">
-            <tbody>
-              <tr
-                v-for="(shippingDetail, shippingIndex) in shippingDetails"
-                :key="shippingIndex"
-              >
-                <td class="custom-control">
-                  <input
-                    type="radio"
-                    :id="shippingDetail.forAndIdAtrrs"
-                    :name="shippingDetail.name"
-                    :value="shippingDetail.value"
-                    v-model="shippingMethod"
-                  />
-                  <label
-                    :for="shippingDetail.forAndIdAtrrs"
-                    class="custom-control-label"
-                  >
-                    {{ shippingDetail.label }}
-                  </label>
-                </td>
-                <td>{{ shippingDetail.deliveryDetails }}</td>
-                <td class="text-center">
-                  {{ shippingDetail.deliveryPrice | currencyFormatter }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <ShippingTable></ShippingTable>
 
           <div class="mb-9">
             <input
@@ -323,6 +296,7 @@
 <script>
 import Breadcrumbs from '@/components/Breadcrumbs';
 import Features from '@/components/Features';
+import ShippingTable from '@/components/ShippingTable';
 import { mapGetters, mapState } from 'vuex';
 import { Icon } from '@iconify/vue2';
 
@@ -330,6 +304,7 @@ export default {
   components: {
     Breadcrumbs,
     Features,
+    ShippingTable,
     Icon,
   },
   data: () => ({
@@ -406,47 +381,10 @@ export default {
       },
     ],
 
-    shippingDetails: [
-      {
-        forAndIdAtrrs: 'checkoutShippingStandard',
-        name: 'shipping',
-        label: 'Standard Shipping',
-        value: 'standardShipping',
-        deliveryDetails: 'Delivery in 5 - 7 working days',
-        deliveryPrice: 8,
-      },
-      {
-        forAndIdAtrrs: 'checkoutShippingExpress',
-        name: 'shipping',
-        label: 'Express Shipping',
-        value: 'expressShipping',
-        deliveryDetails: 'Delivery in 3-5 working days',
-        deliveryPrice: 12,
-      },
-      {
-        forAndIdAtrrs: 'checkoutShippingShort',
-        name: 'shipping',
-        value: 'shortShipping',
-        label: '1-2 Shipping',
-        deliveryDetails: 'Delivery in 1-2 working days',
-        deliveryPrice: 18,
-      },
-      {
-        forAndIdAtrrs: 'checkoutShippingFree',
-        name: 'shipping',
-        label: 'Free Shipping',
-        value: 'freeShipping',
-        deliveryDetails:
-          "Living won't the He one every subdue meat replenish face was you morning firmament darkness.",
-        deliveryPrice: 0,
-      },
-    ],
-
     isShippedToDifferentAddress: false,
     months: ['January', 'February', 'March'],
     year: ['2019', '2020', '2021'],
     paymentMethod: undefined,
-    shippingMethod: undefined,
   }),
 
   computed: {

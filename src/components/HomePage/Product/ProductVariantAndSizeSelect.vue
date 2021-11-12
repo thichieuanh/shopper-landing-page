@@ -1,8 +1,25 @@
 <template>
   <div>
     <h4 class="mb-3">{{ productDetails.name }}</h4>
-    <div class="mb-7 d-flex align-baseline">
-      <h5 class="mr-1">
+    <div
+      :class="[
+        'mb-7 d-flex align-baseline',
+        { 'text-gray-400': isWaitListNeeded },
+      ]"
+    >
+      <h5
+        :class="[
+          ' font-weight-medium mr-2',
+          { 'font-size-lg old-price': isSale(productDetails) },
+        ]"
+      >
+        {{ productDetails.pricing.price | currencyFormatter }}
+      </h5>
+
+      <h5
+        v-if="isSale(productDetails)"
+        class="text-primary font-weight-medium mr-2"
+      >
         {{ productDetails.pricing.priceAfterDiscount | currencyFormatter }}
       </h5>
       <span>({{ stockState }})</span>
@@ -38,7 +55,7 @@
 
     <!-- Sizes -->
     <div class="form-group">
-      <p v-if="!selectedSize">Select size</p>
+      <p v-if="!selectedSize" class="mb-6">Select size</p>
       <v-row v-else class="mb-6">
         <v-col class="pa-0">
           <div>
@@ -67,37 +84,73 @@
       </div>
     </div>
 
-    <!-- Quantity & Buttons -->
-    <v-row>
-      <!-- Qty dropdown -->
-      <v-col class="col-12 col-lg-2 px-md-0">
-        <select
-          name="orderQty"
-          id="orderQty"
-          class="custom-select form-control mb-0"
-          @change="selectedQuantity = +$event.target.value"
-        >
-          <option
-            v-for="n in selectedSizeStock"
-            :value="n"
-            :key="n"
-            :selected="n === selectedQuantity"
-          >
-            {{ n }}
-          </option>
-        </select>
-      </v-col>
+    <!-- Size chart -->
+    <div class="mb-8 d-flex">
+      <img src="/img/icons/icon-ruler.svg" alt="" />
+      <p class="ml-3 underline-hover">Size chart</p>
+    </div>
 
-      <!-- Cart button -->
-      <v-col class="col-12 col-lg-5 px-0 px-lg-3">
-        <button :class="cartButtonClass" @click="onUpdateCart">
-          {{ cartButtonInfo.text }}
-          <Icon :icon="cartButtonInfo.icon" width="18" :inline="true" />
-        </button>
+    <!-- Quantity & Buttons -->
+    <v-row class="mb-7">
+      <v-col
+        :class="[
+          'col-12 px-0',
+          isRenderedInModal ? 'col-lg-8' : isWaitListNeeded ? 'col-lg-6' : '',
+        ]"
+      >
+        <v-row v-if="isWaitListNeeded">
+          <v-col class="col-12 px-0 pr-lg-2 mb-2">
+            <button class="btn btn-dark btn-block">
+              <Icon icon="radix-icons:envelope-closed" :inline="true" />
+              Wait List
+            </button>
+          </v-col>
+        </v-row>
+        <v-row v-else>
+          <!-- Qty dropdown -->
+          <v-col
+            :class="[
+              'col-12 px-md-0 mb-2',
+              isRenderedInModal ? 'col-lg-4' : 'col-lg-3',
+            ]"
+          >
+            <select
+              name="orderQty"
+              id="orderQty"
+              class="custom-select form-control mb-0"
+              @change="selectedQuantity = +$event.target.value"
+            >
+              <option
+                v-for="n in selectedSizeStock"
+                :value="n"
+                :key="n"
+                :selected="n === selectedQuantity"
+              >
+                {{ n }}
+              </option>
+            </select>
+          </v-col>
+
+          <!-- Cart button -->
+          <v-col
+            :class="[
+              'col-12 px-0 px-lg-3 mb-2',
+              isRenderedInModal ? 'col-lg-8' : 'col-lg-9',
+            ]"
+          >
+            <button :class="cartButtonClass" @click="onUpdateCart">
+              {{ cartButtonInfo.text }}
+              <Icon :icon="cartButtonInfo.icon" width="18" :inline="true" />
+            </button>
+          </v-col>
+        </v-row>
       </v-col>
 
       <!-- Wishlist button -->
-      <v-col class="col-12 col-lg-5 px-0" @click="updateWishList(productId)">
+      <v-col
+        :class="['col-12 px-0', isRenderedInModal ? 'col-lg-4' : 'col-lg-6']"
+        @click="updateWishList(productId)"
+      >
         <button class="btn btn-block btn-outline-dark">
           {{ wishlistButtonInfo.text }}
           <Icon :icon="wishlistButtonInfo.icon" width="18" :inline="true" />
@@ -116,6 +169,7 @@ export default {
   props: {
     productDetails: { type: Object, default: () => ({}) },
     productId: { type: Number },
+    isRenderedInModal: { type: Boolean, default: true },
   },
 
   components: {
@@ -150,6 +204,10 @@ export default {
 
     stockState() {
       return getVariantStock(this.productDetails, this.selectedVariant);
+    },
+
+    isWaitListNeeded() {
+      return this.stockState === 'Out of Stock';
     },
 
     cartButtonClass() {
@@ -227,7 +285,7 @@ export default {
         'size-item',
         'text-muted',
         { 'active-size': this.selectedSize === size },
-        { 'out-of-stock': this.isSizeOutOfStock(size) },
+        { 'size-out-of-stock': this.isSizeOutOfStock(size) },
       ];
     },
 
@@ -309,10 +367,6 @@ export default {
   created() {
     this.eventHub.$on('showProductDialog', this.onShowProductDialog);
     this.eventHub.$on('closeProductDialog', this.onCloseProductDialog);
-  },
-
-  beforeDestroy() {
-    this.eventHub.$off();
   },
 };
 </script>

@@ -124,25 +124,4 @@ export default {
     width: 0%;
   }
 }
-
-.tab-list {
-  padding: 9px 18px;
-  cursor: pointer;
-  &:hover {
-    color: #ff6f61;
-  }
-}
-
-.active {
-  color: #ff6f61;
-  position: relative;
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0.75rem;
-    right: 0.75rem;
-    bottom: 0.25rem;
-    border-top: 1px solid #ff6f61;
-  }
-}
 </style>
