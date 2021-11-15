@@ -1,27 +1,5 @@
 import { random, round } from 'lodash'
-
-const messages = {
-  addedToCart: {
-    type: 'success',
-    message: 'Added to cart',
-  },
-  notEnoughStockRemaining: {
-    type: 'error',
-    message: 'Sorry, there is not enough stock remaining for this size',
-  },
-  duplicatedItem: {
-    type: 'error',
-    message: 'Selected product is identical to the previous one',
-  },
-  replacedItem: {
-    type: 'success',
-    message: 'Cart updated',
-  },
-  productRemoved: {
-    type: 'success',
-    message: 'Product removed from cart',
-  }
-}
+import messages from '@/assets/data/notiMessages';
 
 export default {
   namespaced: true,
@@ -40,30 +18,37 @@ export default {
         state.wishlist = [...state.wishlist, productId]
       }
     },
+
     detachWishlist: (state, productId) => {
       if (state.wishlist.includes(productId)) {
         state.wishlist = state.wishlist.filter(id => id !== productId)
       }
     },
+
     appendCart: (state, payload) => {
       state.cart = [...state.cart, payload]
     },
+
     changeQtyItemExistedInCart: (state, { updatedQty, itemIndex }) => {
       state.cart[itemIndex].quantity = updatedQty;
     },
+
     detachCart: (state, itemIndexToUpdate) => {
       state.cart.splice(itemIndexToUpdate, 1)
     },
+
     replaceItemInCart: (state, { itemIndexToUpdate, replacingItem }) => {
       state.cart.splice(itemIndexToUpdate, 1, ...[replacingItem].filter(Boolean));
       // Rest parameter syntax, the last param is optional, make it as undefined in case of just removing the product
       // then use .filter(Boolean) to remove that falsy value
     },
+
     applyCoupon: (state, text) => {
       state.isCouponApplied = true;
       state.discountRateForCoupon = round(random(0.1, 0.7), 2);
       state.coupon = text
     },
+
     removeCoupon: (state) => {
       state.isCouponApplied = false;
       state.discountRateForCoupon = 0;

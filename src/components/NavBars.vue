@@ -29,6 +29,7 @@
                   open-on-hover
                   content-class="dropdown-content"
                   :nudge-bottom="10"
+                  close-delay="100"
                 >
                   <template v-slot:activator="{ on, attrs }" elevation="0">
                     <a v-bind="attrs" v-on="on" class="d-flex align-center">

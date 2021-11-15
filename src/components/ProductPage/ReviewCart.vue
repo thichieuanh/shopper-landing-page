@@ -21,7 +21,8 @@
         </v-rating>
 
         <p class="font-size-xs text-muted mb-6">
-          {{ review.reviewer }} , {{ review.date }}
+          {{ review.reviewer }} ,
+          {{ new Date(review.date).toDateString().slice(4) }}
         </p>
 
         <p class="font-size-lg font-weight-medium mb-2">{{ review.title }}</p>

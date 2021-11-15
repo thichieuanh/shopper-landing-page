@@ -9,20 +9,31 @@
         <v-col cols="12" sm="6">
           <v-row>
             <v-col cols="2">
-              <img
+              <v-avatar
                 v-for="(image, idx) in productDetails.variants[selectedVariant]
                   .variantImages"
                 :key="idx"
-                :src="image"
-                alt=""
-                class="img-slider"
-              />
+                tile
+                height="12.5%"
+                width="100%"
+                :class="[
+                  'product-thumb',
+                  { 'active-thumb': mainImageIndex === idx },
+                ]"
+                @click="mainImageIndex = idx"
+              >
+                <img :src="image" alt="" class="img-slider" />
+              </v-avatar>
             </v-col>
 
             <v-col cols="10">
               <img
                 class="img-fluid"
-                :src="productDetails.variants[selectedVariant].variantImages[0]"
+                :src="
+                  productDetails.variants[selectedVariant].variantImages[
+                    mainImageIndex
+                  ]
+                "
                 alt=""
             /></v-col>
           </v-row>
@@ -34,14 +45,19 @@
             <span>{{ productDetails.category }}</span>
 
             <div class="d-flex">
-              <v-rating :value="3">
+              <v-rating :value="averageReviewScore" half-increments>
                 <template v-slot:item="props">
                   <Icon
                     width="20"
-                    icon="eva:star-fill"
+                    :icon="
+                      props.isHalfFilled ? 'uim:star-half-alt' : 'uim:star'
+                    "
                     :inline="true"
                     :style="{
-                      color: props.isFilled ? '#ff9736' : '#bdbdbd',
+                      color:
+                        props.isFilled || props.isHalfFilled
+                          ? '#111'
+                          : '#bdbdbd',
                     }"
                   />
                 </template>
@@ -141,8 +157,12 @@
               :nudge-bottom="10"
             >
               <template v-slot:activator="{ on, attrs }" elevation="0">
-                <a v-bind="attrs" v-on="on" class="d-flex align-center">
-                  Sort by:
+                <a
+                  v-bind="attrs"
+                  v-on="on"
+                  class="d-flex align-center font-weight-medium"
+                >
+                  Sort by: {{ sortBy }}
                   <Icon
                     icon="jam:chevron-down"
                     width="18"
@@ -153,25 +173,29 @@
               </template>
 
               <v-list class="pa-0">
-                <v-list-item class="border-top dropdown-item">
-                  Newest
-                </v-list-item>
-                <v-list-item class="border-top dropdown-item">
-                  Oldest
+                <v-list-item
+                  v-for="option in sortOptions"
+                  :key="option"
+                  link
+                  class="border-top dropdown-item"
+                  @click="sortReview(option)"
+                >
+                  {{ option }}
                 </v-list-item>
               </v-list>
             </v-menu>
           </v-col>
 
           <v-col cols="8" class="d-flex align-center justify-center">
-            <v-rating :value="3">
+            <v-rating :value="averageReviewScore" half-increments>
               <template v-slot:item="props">
                 <Icon
                   width="30"
-                  icon="eva:star-fill"
+                  :icon="props.isHalfFilled ? 'uim:star-half-alt' : 'uim:star'"
                   :inline="true"
                   :style="{
-                    color: props.isFilled ? '#111' : '#bdbdbd',
+                    color:
+                      props.isFilled || props.isHalfFilled ? '#111' : '#bdbdbd',
                   }"
                 />
               </template>
@@ -200,7 +224,7 @@
                 class="d-flex flex-column align-center justify-center mb-6"
               >
                 <p class="mb-1 mt-8">Score:</p>
-                <v-rating v-model="rating">
+                <v-rating v-model="formData.rating">
                   <template v-slot:item="props">
                     <div @click="props.click">
                       <Icon
@@ -239,6 +263,8 @@
                   rows="5"
                   placeholder="Review *"
                   spellcheck="false"
+                  v-model="formData.text"
+                  required
                 ></textarea>
               </v-col>
 
@@ -282,7 +308,7 @@ import { random } from 'lodash';
 export default {
   data: () => ({
     selectedVariant: 0,
-    reviewCount: undefined,
+    mainImageIndex: 0,
     selectedSize: undefined,
     productDetails: undefined,
     socialIcons: [
@@ -302,20 +328,12 @@ export default {
     tabItems: ['Description', 'Size & Fit', 'Shipping & Return'],
     selectedTabIndex: 0,
     isShowReviewForm: false,
-    rating: 5,
-    formData: {
-      score: undefined,
-      name: '',
-      email: '',
-      title: '',
-      text: '',
-    },
     reviewDetails: [
       {
         type: 'text',
         placeholder: 'Your Name *',
         mdWidth: 6,
-        key: 'name',
+        key: 'reviewer',
       },
       {
         type: 'email',
@@ -330,6 +348,15 @@ export default {
         key: 'title',
       },
     ],
+    formData: {
+      rating: 5,
+      reviewer: '',
+      email: '',
+      title: '',
+      text: '',
+    },
+    sortOptions: ['Newest', 'Oldest'],
+    sortBy: 'Newest',
   }),
 
   components: {
@@ -422,24 +449,64 @@ export default {
 
       return result;
     },
+
+    reviewCount() {
+      return this.reviews.length;
+    },
+
+    averageReviewScore() {
+      return (
+        this.reviews.reduce((sum, review) => {
+          sum += review.rating;
+          return sum;
+        }, 0) / this.reviews.length
+      );
+    },
   },
 
   watch: {
     getAllProducts: {
       immediate: true,
       handler() {
-        this.productId = +this.$route.params.id;
-        const product = this.getProductById(this.productId);
-        this.productDetails = product;
-        if (product) {
-          this.$store.commit('reviews/getProductReviewList', product);
-          this.reviewCount = this.reviews.length;
-        }
+        this.init();
       },
+    },
+
+    $route() {
+      this.init();
+      this.mainImageIndex = 0;
+      this.selectedVariant = 0;
+    },
+
+    'reviews.length': function () {
+      this.sortReview(this.sortBy);
+    },
+
+    selectedVariant() {
+      this.mainImageIndex = 0;
     },
   },
 
   methods: {
+    init() {
+      this.productId = +this.$route.params.id;
+      const product = this.getProductById(this.productId);
+      this.productDetails = product;
+
+      if (product) {
+        this.$store.commit('reviews/getProductReviewList', product);
+      }
+    },
+
+    sortReview(opt) {
+      this.sortBy = opt;
+      this.reviews.sort((a, b) => {
+        return opt === 'Oldest'
+          ? new Date(a.date) - new Date(b.date)
+          : new Date(b.date) - new Date(a.date);
+      });
+    },
+
     getSelectedVariant() {
       return this.selectedVariant;
     },
@@ -462,7 +529,29 @@ export default {
     },
 
     reviewSubmit() {
-      console.log('submitted');
+      const { rating, reviewer, title, text } = this.formData;
+      const date = new Date();
+
+      const payload = {
+        date,
+        rating,
+        reviewer,
+        title,
+        text,
+        commentCount: 0,
+        likeCount: 0,
+        dislikeCount: 0,
+      };
+
+      this.$store.dispatch('reviews/addReview', payload);
+
+      this.formData = {
+        rating: 5,
+        reviewer: '',
+        email: '',
+        title: '',
+        text: '',
+      };
     },
   },
 
@@ -477,8 +566,12 @@ export default {
 
 <style lang="scss" scoped>
 .img-slider {
-  height: 12.5%;
+  height: 100%;
   width: 100%;
+}
+
+.product-thumb + .product-thumb {
+  margin-top: 10px;
 }
 
 .fade-enter-active,
