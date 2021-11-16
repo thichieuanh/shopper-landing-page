@@ -126,14 +126,17 @@ export default {
   props: {
     isOpen: { type: Boolean },
   },
+
   components: {
     Icon,
   },
+
   data: () => ({
     searchText: '',
     categories: ['All Categories', 'Women', 'Men', 'Kids'],
     selectedCategory: 'All Categories',
   }),
+
   computed: {
     ...mapState('products', ['womenProducts', 'menProducts', 'kidsProducts']),
     ...mapGetters('products', ['getAllProducts']),

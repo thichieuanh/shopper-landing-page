@@ -85,9 +85,11 @@
     </div>
 
     <!-- Size chart -->
-    <div class="mb-8 d-flex">
+    <div class="mb-8 d-flex" v-if="!isRenderedInModal">
       <img src="/img/icons/icon-ruler.svg" alt="" />
-      <p class="ml-3 underline-hover">Size chart</p>
+      <p class="ml-3 underline-hover" @click="eventHub.$emit('showSizeChart')">
+        Size chart
+      </p>
     </div>
 
     <!-- Quantity & Buttons -->

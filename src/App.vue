@@ -25,6 +25,9 @@
     <!-- PRODUCT DIALOG -->
     <ProductDialog :isOpen="isDialogOpen"></ProductDialog>
 
+    <!-- SIZE CHART -->
+    <SizeChart :isOpen="isSizeChartOpen"></SizeChart>
+
     <!-- DRAWERS -->
     <SearchDrawer :isOpen.sync="isShowSearchDrawer"></SearchDrawer>
     <!-- Docs: https://vuejs.org/v2/guide/components-custom-events.html#sync-Modifier -->
@@ -41,11 +44,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { Icon } from '@iconify/vue2';
 import ProductDialog from '@/components/HomePage/Product/ProductDialog.vue';
+import SizeChart from '@/components/ProductPage/SizeChart.vue';
 import NavBars from '@/components/NavBars';
 import SearchDrawer from '@/components/HomePage/SearchDrawer';
 import CartDrawer from '@/components/HomePage/CartDrawer';
-import { Icon } from '@iconify/vue2';
 import HomeFooter from '@/components/HomePage/HomeFooter.vue';
 
 export default {
@@ -58,10 +62,12 @@ export default {
     ProductDialog,
     SearchDrawer,
     CartDrawer,
+    SizeChart,
   },
 
   data: () => ({
     isDialogOpen: false,
+    isSizeChartOpen: false,
     isUpdatingCart: false,
     isShowSearchDrawer: false,
     isShowCartDrawer: false,
@@ -93,17 +99,53 @@ export default {
     hideNotification() {
       this.$store.commit('notification/hideNotification');
     },
+
+    onShowSizeChart() {
+      this.isSizeChartOpen = true;
+      document.getElementById('dialog').classList.add('show');
+      const scrollY =
+        document.documentElement.style.getPropertyValue('--scroll-y');
+      console.log('scrollY =', scrollY);
+      const body = document.body;
+      body.style.position = 'fixed';
+      body.style.top = `-${scrollY}`;
+    },
+
+    onCloseSizeChart() {
+      this.isSizeChartOpen = false;
+      const body = document.body;
+      const scrollY = body.style.top;
+      body.style.position = '';
+      body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      document.getElementById('dialog').classList.remove('show');
+    },
   },
 
   created() {
     this.eventHub.$on('showProductDialog', ({ isUpdatingCart }) => {
       this.isDialogOpen = true;
       this.isUpdatingCart = isUpdatingCart;
+
+      // document.getElementById('product-dialog').classList.add('show');
+      const scrollY =
+        document.documentElement.style.getPropertyValue('--scroll-y');
+      const body = document.body;
+      body.style.position = 'fixed';
+      body.style.top = `-${scrollY}`;
+      body.style.paddingRight = '15px';
     });
 
     this.eventHub.$on('closeProductDialog', () => {
       this.isDialogOpen = false;
       this.isUpdatingCart = false;
+
+      const body = document.body;
+      const scrollY = body.style.top;
+      body.style.position = '';
+      body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      // document.getElementById('dialog').classList.remove('show');
     });
 
     this.eventHub.$on(
@@ -116,7 +158,12 @@ export default {
       'searchClicked',
       () => (this.isShowSearchDrawer = !this.isShowSearchDrawer)
     );
+
     this.eventHub.$on('closeSearch', () => (this.isShowSearchDrawer = false));
+
+    this.eventHub.$on('showSizeChart', () => this.onShowSizeChart());
+
+    this.eventHub.$on('closeSizeChart', () => this.onCloseSizeChart());
   },
 
   beforeDestroy() {
@@ -125,6 +172,12 @@ export default {
 
   mounted() {
     this.$store.dispatch('products/getProducts');
+    window.addEventListener('scroll', () => {
+      document.documentElement.style.setProperty(
+        '--scroll-y',
+        `${window.scrollY}px`
+      );
+    });
   },
 };
 </script>

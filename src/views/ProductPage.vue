@@ -289,6 +289,9 @@
         </div>
       </section>
     </div>
+    <div class="bg-light py-9">
+      <Features></Features>
+    </div>
   </div>
 </template>
 <script>
@@ -300,6 +303,7 @@ import SizeAndFit from '@/components/ProductPage/SizeAndFit';
 import ShippingAndReturn from '@/components/ProductPage/ShippingAndReturn';
 import ReviewCart from '@/components/ProductPage/ReviewCart.vue';
 import Product from '@/components/HomePage/Product/Product.vue';
+import Features from '@/components/Features';
 
 import { Icon } from '@iconify/vue2';
 import { mapGetters, mapState } from 'vuex';
@@ -367,6 +371,7 @@ export default {
     ShippingAndReturn,
     Product,
     ReviewCart,
+    Features,
     Icon,
   },
 
