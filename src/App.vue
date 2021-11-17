@@ -100,25 +100,36 @@ export default {
       this.$store.commit('notification/hideNotification');
     },
 
-    hideBodyScrollBar() {
+    hideBodyScrollBar(elementId) {
       const scrollBarWidth = window.innerWidth - document.body.offsetWidth;
       document.body.style.marginRight = scrollBarWidth;
       document.body.classList.add('showing-modal');
+      this.$nextTick(function () {
+        console.log('check');
+        document.getElementById(elementId).style.overflow = 'auto';
+        if (elementId === 'product-modal-overlay') {
+          document.getElementById(elementId).style.paddingRight = '15px';
+        }
+      });
     },
 
-    showBodyScrollBar() {
+    showBodyScrollBar(elementId) {
       document.body.style.marginRight = '';
       document.body.classList.remove('showing-modal');
+      document.getElementById(elementId).style.overflow = 'hidden';
+      if (elementId === 'product-modal-overlay') {
+        document.getElementById(elementId).style.paddingRight = '0px';
+      }
     },
 
     onShowSizeChart() {
       this.isSizeChartOpen = true;
-      this.hideBodyScrollBar();
+      this.hideBodyScrollBar('sizeChart-modal-overlay');
     },
 
     onCloseSizeChart() {
       this.isSizeChartOpen = false;
-      this.showBodyScrollBar();
+      this.showBodyScrollBar('sizeChart-modal-overlay');
     },
   },
 
@@ -126,13 +137,13 @@ export default {
     this.eventHub.$on('showProductDialog', ({ isUpdatingCart }) => {
       this.isDialogOpen = true;
       this.isUpdatingCart = isUpdatingCart;
-      this.hideBodyScrollBar();
+      this.hideBodyScrollBar('product-modal-overlay');
     });
 
     this.eventHub.$on('closeProductDialog', () => {
       this.isDialogOpen = false;
       this.isUpdatingCart = false;
-      this.showBodyScrollBar();
+      this.showBodyScrollBar('product-modal-overlay');
     });
 
     this.eventHub.$on(

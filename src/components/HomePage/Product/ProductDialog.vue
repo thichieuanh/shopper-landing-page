@@ -1,48 +1,59 @@
 <template>
-  <div v-if="productId">
-    <div class="modal-overlay" v-show="isOpen" @click="close">
-      <div class="modal-dialog modal-xl" v-show="isOpen" @click.stop="">
-        <button class="close" @click="close">
-          <Icon icon="clarity:close-line" width="27" :inline="true" />
-        </button>
-
-        <!-- Modal content -->
-        <v-row class="product-dialog-content">
-          <!-- Image -->
-          <v-col
-            cols="12"
-            md="6"
-            lg="5"
-            class="px-0 py-5 text-left"
-            style="max-height: 100%"
-          >
-            <img
-              class="product-dialog-img"
-              :src="productDetails.variants[selectedVariant].variantImages[0]"
-            />
-            <button class="btn btn-block btn-primary" @click="close">
-              <router-link :to="`/product/${productDetails.id}`">
-                More Product Info
-                <Icon
-                  icon="ant-design:info-circle-outlined"
-                  width="18"
-                  :inline="true"
-                />
-              </router-link>
+  <div v-if="productId" class="productDialog">
+    <transition name="modal-fade" appear>
+      <div
+        class="modal-overlay"
+        id="product-modal-overlay"
+        v-show="isOpen"
+        @click="close"
+      >
+        <transition name="slide-fade" appear>
+          <div class="modal-dialog modal-xl" v-show="isOpen" @click.stop="">
+            <button class="close" @click="close">
+              <Icon icon="clarity:close-line" width="27" :inline="true" />
             </button>
-          </v-col>
 
-          <!-- Product info -->
-          <v-col cols="12" md="6" lg="7" class="px-md-9 py-9 text-left">
-            <ProductVariantAndSizeSelect
-              v-if="productId"
-              :productDetails="productDetails"
-              :productId="productId"
-            ></ProductVariantAndSizeSelect>
-          </v-col>
-        </v-row>
+            <!-- Modal content -->
+            <v-row class="product-dialog-content">
+              <!-- Image -->
+              <v-col
+                cols="12"
+                md="6"
+                lg="5"
+                class="px-0 py-5 text-left"
+                style="max-height: 100%"
+              >
+                <img
+                  class="product-dialog-img"
+                  :src="
+                    productDetails.variants[selectedVariant].variantImages[0]
+                  "
+                />
+                <button class="btn btn-block btn-primary" @click="close">
+                  <router-link :to="`/product/${productDetails.id}`">
+                    More Product Info
+                    <Icon
+                      icon="ant-design:info-circle-outlined"
+                      width="18"
+                      :inline="true"
+                    />
+                  </router-link>
+                </button>
+              </v-col>
+
+              <!-- Product info -->
+              <v-col cols="12" md="6" lg="7" class="px-md-9 py-9 text-left">
+                <ProductVariantAndSizeSelect
+                  v-if="productId"
+                  :productDetails="productDetails"
+                  :productId="productId"
+                ></ProductVariantAndSizeSelect>
+              </v-col>
+            </v-row>
+          </div>
+        </transition>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 

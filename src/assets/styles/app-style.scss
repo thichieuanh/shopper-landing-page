@@ -43,6 +43,7 @@ body {
   line-height: 1.5;
   color: #111 !important;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .v-application {
@@ -1051,22 +1052,25 @@ tbody tr {
   top: 0;
   left: 0;
   z-index: 30;
-  width: -webkit-fill-available;
-  height: -webkit-fill-available;
+  width: 100%;
+  height: 100%;
   background: black;
   background-color: rgba(0, 0, 0, 0.5);
-  overflow: auto;
-  padding: 0 20px;
+  padding-right: 0;
+}
+
+#product-modal-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-dialog {
   position: relative;
   margin: 1.75rem auto;
   background: #fff;
-  // width: 60vw;
   width: auto;
   max-width: 90vw;
-  overflow: auto;
   height: auto;
   text-align: center;
   box-sizing: border-box;
@@ -1078,7 +1082,7 @@ tbody tr {
 }
 
 .showing-modal {
-  overflow: hidden;
+  overflow-y: hidden;
   padding-right: 15px;
 }
 
@@ -1094,3 +1098,30 @@ tbody tr {
     max-width: 1140px;
   }
 }
+
+/* TRANSITIONS */
+
+.slide-fade-enter-active {
+  transition: all 0.4s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.4s ease-out;
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateY(-40px);
+  opacity: 0;
+}
+
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.4s;
+}
+
+.modal-fade-enter,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
+/* END OF TRANSITIONS */

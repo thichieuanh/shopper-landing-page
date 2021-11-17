@@ -1,105 +1,51 @@
 <template>
-  <div class="THITHI">
-    <div class="modal-overlay" v-show="isOpen" @click="close">
-      <div class="modal-dialog modal-lg" v-show="isOpen" @click.stop="">
-        <!-- Header -->
-        <div class="modal-header border-bottom">
-          Size Chart
+  <div class="sizeChart">
+    <transition name="modal-fade">
+      <div
+        class="modal-overlay"
+        id="sizeChart-modal-overlay"
+        v-show="isOpen"
+        @click="close"
+      >
+        <transition name="slide-fade">
+          <div class="modal-dialog modal-lg" v-show="isOpen" @click.stop="">
+            <!-- Header -->
+            <div class="modal-header border-bottom">
+              Size Chart
 
-          <!-- Close -->
-          <button class="close" @click="close">
-            <Icon icon="clarity:close-line" width="27" :inline="true" />
-          </button>
-        </div>
-
-        <!-- Body -->
-        <!-- Clothing table -->
-        <div class="modal-body border-bottom">
-          <!-- Body Heading -->
-          <div class="d-flex mb-7 justify-space-between">
-            <h5>Clothing</h5>
-            <div class="font-size-xxxs font-weight-medium">
-              <button
-                v-for="unit in units"
-                :key="unit"
-                :class="[
-                  'btn-square btn-xxs btn-outline-dark ml-2',
-                  { 'btn-dark': clothingUnit === unit },
-                ]"
-                @click="clothingUnit = unit"
-              >
-                {{ unit }}
+              <!-- Close -->
+              <button class="close" @click="close">
+                <Icon icon="clarity:close-line" width="27" :inline="true" />
               </button>
             </div>
-          </div>
 
-          <!-- Tables -->
-          <table class="w-100 tablesm mb-6">
-            <thead>
-              <tr>
-                <th
-                  v-for="(header, headerIndex) in clothingTableHeaders"
-                  :key="headerIndex"
-                >
-                  {{ header }}
-                </th>
-              </tr>
-            </thead>
+            <!-- Body -->
+            <!-- Clothing table -->
+            <div class="modal-body border-bottom">
+              <!-- Body Heading -->
+              <div class="d-flex mb-7 justify-space-between">
+                <h5>Clothing</h5>
+                <div class="font-size-xxxs font-weight-medium">
+                  <button
+                    v-for="unit in units"
+                    :key="unit"
+                    :class="[
+                      'btn-square btn-xxs btn-outline-dark ml-2',
+                      { 'btn-dark': clothingUnit === unit },
+                    ]"
+                    @click="clothingUnit = unit"
+                  >
+                    {{ unit }}
+                  </button>
+                </div>
+              </div>
 
-            <tbody>
-              <tr
-                v-for="(dimension, dimensionIndex) in clothingDimensions(
-                  clothingUnit
-                )"
-                :key="dimensionIndex"
-              >
-                <td>
-                  {{ dimension.size }}
-                </td>
-                <td>
-                  {{ dimension.US }}
-                </td>
-                <td>{{ dimension.bust[0] }} - {{ dimension.bust[1] }}</td>
-                <td>{{ dimension.waist[0] }} - {{ dimension.waist[1] }}</td>
-                <td>{{ dimension.hips[0] }} - {{ dimension.hips[1] }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Shoes table -->
-        <div class="modal-body border-bottom">
-          <!-- Body Heading -->
-          <div class="d-flex mb-7 justify-space-between">
-            <h5>Shoes</h5>
-            <div class="font-size-xxxs font-weight-medium">
-              <button
-                v-for="unit in units"
-                :key="unit"
-                :class="[
-                  'btn-square btn-xxs btn-outline-dark ml-2',
-                  { 'btn-dark': shoesUnit === unit },
-                ]"
-                @click="shoesUnit = unit"
-              >
-                {{ unit }}
-              </button>
-            </div>
-          </div>
-
-          <!-- Table -->
-          <v-row>
-            <v-col
-              cols="12"
-              md="6"
-              v-for="(table, index) in shoesFootLength(shoesUnit)"
-              :key="index"
-            >
+              <!-- Tables -->
               <table class="w-100 tablesm mb-6">
                 <thead>
                   <tr>
                     <th
-                      v-for="(header, headerIndex) in shoesTableHeaders"
+                      v-for="(header, headerIndex) in clothingTableHeaders"
                       :key="headerIndex"
                     >
                       {{ header }}
@@ -109,24 +55,87 @@
 
                 <tbody>
                   <tr
-                    v-for="(shoesSizeDetail, shoesSizeDetailIndex) in table"
-                    :key="shoesSizeDetailIndex"
+                    v-for="(dimension, dimensionIndex) in clothingDimensions(
+                      clothingUnit
+                    )"
+                    :key="dimensionIndex"
                   >
                     <td>
-                      {{ shoesSizeDetail.size }}
+                      {{ dimension.size }}
                     </td>
                     <td>
-                      {{ shoesSizeDetail.US }}
+                      {{ dimension.US }}
                     </td>
-                    <td>{{ shoesSizeDetail.length }}</td>
+                    <td>{{ dimension.bust[0] }} - {{ dimension.bust[1] }}</td>
+                    <td>{{ dimension.waist[0] }} - {{ dimension.waist[1] }}</td>
+                    <td>{{ dimension.hips[0] }} - {{ dimension.hips[1] }}</td>
                   </tr>
                 </tbody>
               </table>
-            </v-col>
-          </v-row>
-        </div>
+            </div>
+
+            <!-- Shoes table -->
+            <div class="modal-body border-bottom">
+              <!-- Body Heading -->
+              <div class="d-flex mb-7 justify-space-between">
+                <h5>Shoes</h5>
+                <div class="font-size-xxxs font-weight-medium">
+                  <button
+                    v-for="unit in units"
+                    :key="unit"
+                    :class="[
+                      'btn-square btn-xxs btn-outline-dark ml-2',
+                      { 'btn-dark': shoesUnit === unit },
+                    ]"
+                    @click="shoesUnit = unit"
+                  >
+                    {{ unit }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Table -->
+              <v-row>
+                <v-col
+                  cols="12"
+                  md="6"
+                  v-for="(table, index) in shoesFootLength(shoesUnit)"
+                  :key="index"
+                >
+                  <table class="w-100 tablesm mb-6">
+                    <thead>
+                      <tr>
+                        <th
+                          v-for="(header, headerIndex) in shoesTableHeaders"
+                          :key="headerIndex"
+                        >
+                          {{ header }}
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr
+                        v-for="(shoesSizeDetail, shoesSizeDetailIndex) in table"
+                        :key="shoesSizeDetailIndex"
+                      >
+                        <td>
+                          {{ shoesSizeDetail.size }}
+                        </td>
+                        <td>
+                          {{ shoesSizeDetail.US }}
+                        </td>
+                        <td>{{ shoesSizeDetail.length }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </v-col>
+              </v-row>
+            </div>
+          </div>
+        </transition>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
