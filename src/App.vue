@@ -100,36 +100,35 @@ export default {
       this.$store.commit('notification/hideNotification');
     },
 
-    hideBodyScrollBar(elementId) {
+    styleHandlingWhenShowingModal(overlayElementId) {
       const scrollBarWidth = window.innerWidth - document.body.offsetWidth;
       document.body.style.marginRight = scrollBarWidth;
       document.body.classList.add('showing-modal');
       this.$nextTick(function () {
-        console.log('check');
-        document.getElementById(elementId).style.overflow = 'auto';
-        if (elementId === 'product-modal-overlay') {
-          document.getElementById(elementId).style.paddingRight = '15px';
+        document.getElementById(overlayElementId).style.overflow = 'auto';
+        if (overlayElementId === 'product-modal-overlay') {
+          document.getElementById(overlayElementId).style.paddingRight = '15px';
         }
       });
     },
 
-    showBodyScrollBar(elementId) {
+    styleHandlingWhenClosingModal(overlayElementId) {
       document.body.style.marginRight = '';
       document.body.classList.remove('showing-modal');
-      document.getElementById(elementId).style.overflow = 'hidden';
-      if (elementId === 'product-modal-overlay') {
-        document.getElementById(elementId).style.paddingRight = '0px';
+      document.getElementById(overlayElementId).style.overflow = 'hidden';
+      if (overlayElementId === 'product-modal-overlay') {
+        document.getElementById(overlayElementId).style.paddingRight = '0px';
       }
     },
 
     onShowSizeChart() {
       this.isSizeChartOpen = true;
-      this.hideBodyScrollBar('sizeChart-modal-overlay');
+      this.styleHandlingWhenShowingModal('sizeChart-modal-overlay');
     },
 
     onCloseSizeChart() {
       this.isSizeChartOpen = false;
-      this.showBodyScrollBar('sizeChart-modal-overlay');
+      this.styleHandlingWhenClosingModal('sizeChart-modal-overlay');
     },
   },
 
@@ -137,13 +136,13 @@ export default {
     this.eventHub.$on('showProductDialog', ({ isUpdatingCart }) => {
       this.isDialogOpen = true;
       this.isUpdatingCart = isUpdatingCart;
-      this.hideBodyScrollBar('product-modal-overlay');
+      this.styleHandlingWhenShowingModal('product-modal-overlay');
     });
 
     this.eventHub.$on('closeProductDialog', () => {
       this.isDialogOpen = false;
       this.isUpdatingCart = false;
-      this.showBodyScrollBar('product-modal-overlay');
+      this.styleHandlingWhenClosingModal('product-modal-overlay');
     });
 
     this.eventHub.$on(
