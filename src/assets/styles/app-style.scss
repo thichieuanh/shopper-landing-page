@@ -658,7 +658,7 @@ input[type='search']::-webkit-search-decoration {
 }
 
 .close {
-  z-index: 51;
+  z-index: 20;
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
@@ -1050,23 +1050,23 @@ tbody tr {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 50;
+  z-index: 30;
   width: -webkit-fill-available;
   height: -webkit-fill-available;
-  opacity: 0.3;
   background: black;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  padding: 0 20px;
 }
 
 .modal-dialog {
-  z-index: 100;
-  position: absolute;
-  top: 10vh;
-  left: 20vw;
-  // transform: translate(-50%, -50%);
+  position: relative;
+  margin: 1.75rem auto;
   background: #fff;
-  width: 60vw;
+  // width: 60vw;
+  width: auto;
   max-width: 90vw;
-  overflow-x: auto;
+  overflow: auto;
   height: auto;
   text-align: center;
   box-sizing: border-box;
@@ -1075,4 +1075,22 @@ tbody tr {
 
 .modal-body {
   padding: 2rem;
+}
+
+.showing-modal {
+  overflow: hidden;
+  padding-right: 15px;
+}
+
+@media (min-width: 992px) {
+  .modal-lg,
+  .modal-xl {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .modal-xl {
+    max-width: 1140px;
+  }
 }

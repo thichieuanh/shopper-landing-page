@@ -148,14 +148,14 @@ export default {
 
 <style lang="scss" scoped>
 .product-button-group {
-  z-index: 100;
+  z-index: 10;
   width: 100%;
   position: absolute;
   bottom: 0.5rem;
 }
 
 .product-button {
-  z-index: 100;
+  z-index: 10;
   background: #fff;
   width: 2.5rem;
   height: 2.5rem;

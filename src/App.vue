@@ -100,25 +100,25 @@ export default {
       this.$store.commit('notification/hideNotification');
     },
 
+    hideBodyScrollBar() {
+      const scrollBarWidth = window.innerWidth - document.body.offsetWidth;
+      document.body.style.marginRight = scrollBarWidth;
+      document.body.classList.add('showing-modal');
+    },
+
+    showBodyScrollBar() {
+      document.body.style.marginRight = '';
+      document.body.classList.remove('showing-modal');
+    },
+
     onShowSizeChart() {
       this.isSizeChartOpen = true;
-      document.getElementById('dialog').classList.add('show');
-      const scrollY =
-        document.documentElement.style.getPropertyValue('--scroll-y');
-      console.log('scrollY =', scrollY);
-      const body = document.body;
-      body.style.position = 'fixed';
-      body.style.top = `-${scrollY}`;
+      this.hideBodyScrollBar();
     },
 
     onCloseSizeChart() {
       this.isSizeChartOpen = false;
-      const body = document.body;
-      const scrollY = body.style.top;
-      body.style.position = '';
-      body.style.top = '';
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      document.getElementById('dialog').classList.remove('show');
+      this.showBodyScrollBar();
     },
   },
 
@@ -126,26 +126,13 @@ export default {
     this.eventHub.$on('showProductDialog', ({ isUpdatingCart }) => {
       this.isDialogOpen = true;
       this.isUpdatingCart = isUpdatingCart;
-
-      // document.getElementById('product-dialog').classList.add('show');
-      const scrollY =
-        document.documentElement.style.getPropertyValue('--scroll-y');
-      const body = document.body;
-      body.style.position = 'fixed';
-      body.style.top = `-${scrollY}`;
-      body.style.paddingRight = '15px';
+      this.hideBodyScrollBar();
     });
 
     this.eventHub.$on('closeProductDialog', () => {
       this.isDialogOpen = false;
       this.isUpdatingCart = false;
-
-      const body = document.body;
-      const scrollY = body.style.top;
-      body.style.position = '';
-      body.style.top = '';
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      // document.getElementById('dialog').classList.remove('show');
+      this.showBodyScrollBar();
     });
 
     this.eventHub.$on(
@@ -172,12 +159,6 @@ export default {
 
   mounted() {
     this.$store.dispatch('products/getProducts');
-    window.addEventListener('scroll', () => {
-      document.documentElement.style.setProperty(
-        '--scroll-y',
-        `${window.scrollY}px`
-      );
-    });
   },
 };
 </script>

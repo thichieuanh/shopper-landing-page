@@ -1,20 +1,13 @@
 <template>
-  <div v-if="productId" class="THITHI">
-    <div
-      class="modal-overlay"
-      style="display: block"
-      v-show="isOpen"
-      @click="close"
-    ></div>
-
-    <div :class="modalClass" v-show="isOpen">
-      <div class="modal-dialog">
-        <button class="btn close" @click="close">
+  <div v-if="productId">
+    <div class="modal-overlay" v-show="isOpen" @click="close">
+      <div class="modal-dialog modal-xl" v-show="isOpen" @click.stop="">
+        <button class="close" @click="close">
           <Icon icon="clarity:close-line" width="27" :inline="true" />
         </button>
 
         <!-- Modal content -->
-        <v-row class="product-dialog">
+        <v-row class="product-dialog-content">
           <!-- Image -->
           <v-col
             cols="12"
@@ -80,10 +73,6 @@ export default {
     productDetails() {
       return this.getProductById(this.productId);
     },
-
-    modalClass() {
-      return this.isOpen ? 'fade modal show' : 'fade modal';
-    },
   },
 
   methods: {
@@ -119,49 +108,10 @@ export default {
   created() {
     this.eventHub.$on('showProductDialog', this.onShowProductDialog);
   },
-
 };
 </script>
 <style scoped lang="scss">
-.modal {
-  position: fixed;
-  background: transparent;
-  z-index: 100;
-  top: 8%;
-  left: 50%;
-  transform: translate(-50%);
-  width: 1140px;
-  min-height: calc(100% - 3.5rem);
-}
-
-.modal-dialog {
-  z-index: 100;
-  position: absolute;
-  top: 0;
-  background: #fff;
-  max-width: 90vw;
-  height: auto;
-  text-align: center;
-  box-sizing: border-box;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-
-  &.visible {
-    display: block;
-  }
-}
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 50;
-  width: -webkit-fill-available;
-  height: -webkit-fill-available;
-  opacity: 0.3;
-  background: black;
-}
-
-.product-dialog {
+.product-dialog-content {
   height: 100%;
   max-width: 100%;
 }
