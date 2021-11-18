@@ -150,133 +150,149 @@
         <!-- Header -->
         <h4 class="mb-10 text-center">Customer Reviews</h4>
         <v-row class="align-center">
-          <v-col>
-            <v-menu
-              transition="scroll-y-reverse-transition"
-              offset-y
-              content-class="dropdown-content"
-              :nudge-bottom="10"
-            >
-              <template v-slot:activator="{ on, attrs }" elevation="0">
-                <a
-                  v-bind="attrs"
-                  v-on="on"
-                  class="d-flex align-center font-weight-medium"
+          <v-col v-if="reviews.length" cols="10" class="px-0">
+            <v-row>
+              <v-col cols="3" class="px-0">
+                <v-menu
+                  transition="scroll-y-reverse-transition"
+                  offset-y
+                  content-class="dropdown-content"
+                  :nudge-bottom="10"
                 >
-                  Sort by: {{ sortBy }}
-                  <Icon
-                    icon="jam:chevron-down"
-                    width="18"
-                    :inline="true"
-                    class="ml-1"
-                  />
-                </a>
-              </template>
+                  <template v-slot:activator="{ on, attrs }" elevation="0">
+                    <a
+                      v-bind="attrs"
+                      v-on="on"
+                      class="d-flex align-center font-weight-medium"
+                    >
+                      Sort by: {{ sortBy }}
+                      <Icon
+                        icon="jam:chevron-down"
+                        width="18"
+                        :inline="true"
+                        class="ml-1"
+                      />
+                    </a>
+                  </template>
 
-              <v-list class="pa-0">
-                <v-list-item
-                  v-for="option in sortOptions"
-                  :key="option"
-                  link
-                  class="border-top dropdown-item"
-                  @click="sortReview(option)"
-                >
-                  {{ option }}
-                </v-list-item>
-              </v-list>
-            </v-menu>
+                  <v-list class="pa-0">
+                    <v-list-item
+                      v-for="option in sortOptions"
+                      :key="option"
+                      link
+                      class="border-top dropdown-item"
+                      @click="sortReview(option)"
+                    >
+                      {{ option }}
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-col>
+
+              <v-col cols="8" class="d-flex align-center justify-center px-0">
+                <v-rating :value="averageReviewScore" half-increments>
+                  <template v-slot:item="props">
+                    <Icon
+                      width="30"
+                      :icon="
+                        props.isHalfFilled ? 'uim:star-half-alt' : 'uim:star'
+                      "
+                      :inline="true"
+                      :style="{
+                        color:
+                          props.isFilled || props.isHalfFilled
+                            ? '#111'
+                            : '#bdbdbd',
+                      }"
+                    />
+                  </template>
+                </v-rating>
+
+                <span class="ml-3"> Reviews ({{ reviewCount }}) </span>
+              </v-col>
+            </v-row>
           </v-col>
 
-          <v-col cols="8" class="d-flex align-center justify-center">
-            <v-rating :value="averageReviewScore" half-increments>
-              <template v-slot:item="props">
-                <Icon
-                  width="30"
-                  :icon="props.isHalfFilled ? 'uim:star-half-alt' : 'uim:star'"
-                  :inline="true"
-                  :style="{
-                    color:
-                      props.isFilled || props.isHalfFilled ? '#111' : '#bdbdbd',
-                  }"
-                />
-              </template>
-            </v-rating>
-
-            <span class="ml-3"> Reviews ({{ reviewCount }}) </span>
-          </v-col>
-
-          <v-col class="text-right px-0">
-            <button
-              class="btn btn-dark"
-              @click="isShowReviewForm = !isShowReviewForm"
-            >
+          <v-col
+            :class="['px-0', reviews.length ? 'text-right' : 'text-center']"
+          >
+            <div v-if="!reviews.length">
+              <h1 class="mb-6">🙁</h1>
+              <p class="mb-6">
+                No reviews have been published. Place an order first now to
+                write a review.
+              </p>
+            </div>
+            <button class="btn btn-dark" @click="toggleReviewForm">
               Write Review
             </button>
           </v-col>
         </v-row>
 
         <!-- Review Form -->
-        <div v-if="isShowReviewForm" class="border-top mt-8">
-          <form @submit.prevent="reviewSubmit">
-            <v-row>
-              <!-- Rating form -->
-              <v-col
-                cols="12"
-                class="d-flex flex-column align-center justify-center mb-6"
-              >
-                <p class="mb-1 mt-8">Score:</p>
-                <v-rating v-model="formData.rating">
-                  <template v-slot:item="props">
-                    <div @click="props.click">
-                      <Icon
-                        width="30"
-                        icon="eva:star-fill"
-                        :inline="true"
-                        :style="{
-                          color: props.isFilled ? '#111' : '#bdbdbd',
-                        }"
-                      />
-                    </div>
-                  </template>
-                </v-rating>
-              </v-col>
 
-              <!-- Input fields -->
-              <v-col
-                v-for="(reviewDetail, reviewIndex) in reviewDetails"
-                :key="reviewIndex"
-                cols="12"
-                :md="reviewDetail.mdWidth"
-                class="form-group"
-              >
-                <input
-                  :type="reviewDetail.type"
-                  :placeholder="reviewDetail.placeholder"
-                  required
-                  class="form-control form-control-sm"
-                  v-model="formData[reviewDetail.key]"
-                />
-              </v-col>
+        <form
+          @submit.prevent="reviewSubmit"
+          class="border-top mt-8 collapsible"
+        >
+          <v-row>
+            <!-- Rating form -->
+            <v-col
+              cols="12"
+              class="d-flex flex-column align-center justify-center mb-6"
+            >
+              <p class="mb-1 mt-8">Score:</p>
+              <v-rating v-model="formData.rating">
+                <template v-slot:item="props">
+                  <div @click="props.click">
+                    <Icon
+                      width="30"
+                      icon="eva:star-fill"
+                      :inline="true"
+                      :style="{
+                        color: props.isFilled ? '#111' : '#bdbdbd',
+                      }"
+                    />
+                  </div>
+                </template>
+              </v-rating>
+            </v-col>
 
-              <v-col cols="12" class="form-group">
-                <textarea
-                  class="form-control form-control-sm font-size-xs"
-                  rows="5"
-                  placeholder="Review *"
-                  spellcheck="false"
-                  v-model="formData.text"
-                  required
-                ></textarea>
-              </v-col>
+            <!-- Input fields -->
+            <v-col
+              v-for="(reviewDetail, reviewIndex) in reviewDetails"
+              :key="reviewIndex"
+              cols="12"
+              :md="reviewDetail.mdWidth"
+              class="form-group"
+            >
+              <input
+                :type="reviewDetail.type"
+                :placeholder="reviewDetail.placeholder"
+                required
+                class="form-control form-control-sm"
+                v-model="formData[reviewDetail.key]"
+              />
+            </v-col>
 
-              <v-col cols="12" class="text-center">
-                <button type="submit" class="btn btn-outline-dark">
-                  Post Review
-                </button>
-              </v-col>
-            </v-row>
-          </form>
-        </div>
+            <v-col cols="12" class="form-group">
+              <textarea
+                class="form-control form-control-sm font-size-xs"
+                rows="5"
+                placeholder="Review *"
+                spellcheck="false"
+                v-model="formData.text"
+                required
+              ></textarea>
+            </v-col>
+
+            <v-col cols="12" class="text-center">
+              <button type="submit" class="btn btn-outline-dark">
+                Post Review
+              </button>
+            </v-col>
+          </v-row>
+        </form>
 
         <!-- Review list -->
         <div class="mt-8">
@@ -481,13 +497,6 @@ export default {
       immediate: true,
       handler() {
         this.init();
-
-        // this.$nextTick(function () {
-        //   if (!this.$el.querySelector('.thithi')) return;
-
-        //   const thi = this.$el.querySelector('.thithi').getClientRects();
-        //   console.log(thi[0].height);
-        // });
       },
     },
 
@@ -547,6 +556,20 @@ export default {
       return Object.values(item)[0] === 0;
     },
 
+    toggleReviewForm() {
+      this.isShowReviewForm = !this.isShowReviewForm;
+      const element = this.$el.querySelector('.collapsible');
+      const sectionHeight = element.scrollHeight;
+      // Get height of the content when fully expanded. Since 100% or auto doesn't work for this animation
+
+      /* The scrollHeight property returns the entire height of an element in pixels, including padding,
+      but not the border, scrollbar or margin. */
+
+      element.style.height = this.isShowReviewForm
+        ? `${sectionHeight}px`
+        : '0px';
+    },
+
     reviewSubmit() {
       const { rating, reviewer, title, text } = this.formData;
       const date = new Date();
@@ -587,7 +610,7 @@ export default {
 
 <style lang="scss" scoped>
 .image-slider-group {
-  height: 632px; // fixed height for image wrapper to prevent laggy when applying transition
+  height: 632px; // fixed height for image wrapper to prevent jerky when applying transition
 }
 .img-slider {
   height: 100%;

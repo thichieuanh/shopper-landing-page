@@ -56,6 +56,10 @@ body {
   color: #111;
 }
 
+h1 {
+  font-size: 2.75rem;
+}
+
 h2 {
   font-size: 2.25rem;
 }
@@ -1101,9 +1105,7 @@ tbody tr {
 
 /* TRANSITIONS */
 
-.slide-fade-enter-active {
-  transition: all 0.4s ease-in-out;
-}
+.slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.4s ease-in-out;
 }
@@ -1134,4 +1136,20 @@ tbody tr {
   opacity: 0;
 }
 
+.smooth-enter-active,
+.smooth-leave-active {
+  transition: height 0.5s;
+  overflow: hidden;
+}
+.smooth-enter,
+.smooth-leave-to {
+  height: 0;
+}
+
 /* END OF TRANSITIONS */
+.collapsible {
+  padding-bottom: 5px;
+  overflow: hidden;
+  height: 0;
+  transition: height 0.5s ease;
+}
