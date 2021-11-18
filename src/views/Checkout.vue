@@ -54,12 +54,19 @@
               value="checkoutShippingAddress"
               v-model="isShippedToDifferentAddress"
               class="mb-6"
+              @input="toggleDifferentAddressForm($event)"
             />
-            <label for="checkoutShippingAddress" class="custom-control-label">
+            <label
+              for="checkoutShippingAddress"
+              :class="[
+                'custom-control-label',
+                { 'text-muted': !isShippedToDifferentAddress },
+              ]"
+            >
               Ship to a different address?
             </label>
 
-            <v-row class="custom-row" v-show="isShippedToDifferentAddress">
+            <v-row class="custom-row collapsible" id="collapsedAddressForm">
               <v-col
                 v-for="(
                   shippingDetail, shippingIndex
@@ -92,13 +99,20 @@
           <!-- Payment -->
           <h6 class="mb-7">Payment</h6>
           <div class="list-group list-group-sm mb-7">
-            <div class="list-group-item d-flex align-center">
+            <div
+              :class="[
+                'list-group-item d-flex align-center',
+                { selected: paymentMethod === 'payByCard' },
+              ]"
+              id="creditCardRadio"
+            >
               <input
                 type="radio"
                 id="checkoutPaymentCard"
                 name="payment"
                 v-model="paymentMethod"
                 value="payByCard"
+                @input="togglePaymentForm($event)"
               />
               <label for="checkoutPaymentCard" class="custom-control-label">
                 Credit Card
@@ -106,8 +120,8 @@
               <img src="/img/payments/cards.svg" alt="cards" class="ml-2" />
             </div>
 
-            <div class="list-group-item" v-show="paymentMethod === 'payByCard'">
-              <v-row>
+            <div class="list-group-item collapsible" id="collapsedPaymentForm">
+              <v-row class="py-5">
                 <v-col cols="12">
                   <input
                     type="text"
@@ -127,7 +141,7 @@
                 </v-col>
 
                 <v-col cols="12" sm="4">
-                  <select class="custom-select form-control">
+                  <select class="custom-select form-control mb-0">
                     <option
                       v-for="(month, monthIndex) in months"
                       :value="month"
@@ -139,7 +153,7 @@
                 </v-col>
 
                 <v-col cols="12" sm="4">
-                  <select class="custom-select form-control">
+                  <select class="custom-select form-control mb-0">
                     <option
                       v-for="(year, yearIndex) in year"
                       :value="year"
@@ -185,6 +199,7 @@
                 name="payment"
                 value="payByPaypal"
                 v-model="paymentMethod"
+                @input="togglePaymentForm($event)"
               />
               <label for="checkoutPaymentPaypal" class="custom-control-label">
               </label>
@@ -294,6 +309,7 @@
 </template>
 
 <script>
+import toggleCollapsibleElement from '@/utils/toggleCollapsibleElement';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import Features from '@/components/Features';
 import ShippingTable from '@/components/ShippingTable';
@@ -426,7 +442,17 @@ export default {
       }
     },
   },
-  methods: {},
+  methods: {
+    toggleDifferentAddressForm(event) {
+      const nextState = !event.target.checked;
+      toggleCollapsibleElement(nextState, 'collapsedAddressForm');
+    },
+
+    togglePaymentForm(event) {
+      const isPaymentFormCollapsed = event.target.value !== 'payByCard';
+      toggleCollapsibleElement(isPaymentFormCollapsed, 'collapsedPaymentForm');
+    },
+  },
 };
 </script>
 
@@ -435,6 +461,13 @@ export default {
   padding: 2rem 0;
   &:first-child {
     border: 0;
+  }
+}
+
+#creditCardRadio {
+  transition: border-bottom-width 0.5s ease;
+  &:not(.selected) {
+    border-bottom-width: 0;
   }
 }
 </style>

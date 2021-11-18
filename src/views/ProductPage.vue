@@ -234,8 +234,9 @@
         <form
           @submit.prevent="reviewSubmit"
           class="border-top mt-8 collapsible"
+          id="collapsedReviewForm"
         >
-          <v-row>
+          <v-row class="py-2">
             <!-- Rating form -->
             <v-col
               cols="12"
@@ -313,6 +314,8 @@
 </template>
 <script>
 import getVariantStock from '@/utils/getVariantStock';
+import toggleCollapsibleElement from '@/utils/toggleCollapsibleElement';
+
 import Breadcrumbs from '@/components/Breadcrumbs';
 import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
 import Description from '@/components/ProductPage/Description';
@@ -516,6 +519,11 @@ export default {
   },
 
   methods: {
+    toggleReviewForm() {
+      this.isShowReviewForm = !this.isShowReviewForm;
+      toggleCollapsibleElement(!this.isShowReviewForm, 'collapsedReviewForm');
+    },
+
     init() {
       this.productId = +this.$route.params.id;
       const product = this.getProductById(this.productId);
@@ -554,20 +562,6 @@ export default {
 
     isSizeOutOfStock(item) {
       return Object.values(item)[0] === 0;
-    },
-
-    toggleReviewForm() {
-      this.isShowReviewForm = !this.isShowReviewForm;
-      const element = this.$el.querySelector('.collapsible');
-      const sectionHeight = element.scrollHeight;
-      // Get height of the content when fully expanded. Since 100% or auto doesn't work for this animation
-
-      /* The scrollHeight property returns the entire height of an element in pixels, including padding,
-      but not the border, scrollbar or margin. */
-
-      element.style.height = this.isShowReviewForm
-        ? `${sectionHeight}px`
-        : '0px';
     },
 
     reviewSubmit() {
