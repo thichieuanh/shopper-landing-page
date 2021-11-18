@@ -19,7 +19,9 @@
               Your cart is empty 🥺... but it doesn't have to be 🤩!
             </div>
             <button class="btn btn-dark">
-              <router-link :to="{}"> SHOP NEW ARRIVALS </router-link>
+              <router-link :to="{ name: 'Shop' }">
+                SHOP NEW ARRIVALS
+              </router-link>
             </button>
           </div>
 
@@ -32,7 +34,9 @@
           >
             <!-- Image  -->
             <v-col class="col-3 pl-0">
-              <img :src="item.image" alt="" class="cart-img" />
+              <router-link :to="`/product/${item.productId}`">
+                <img :src="item.image" alt="" class="cart-img" />
+              </router-link>
             </v-col>
 
             <!-- Item info -->
@@ -55,7 +59,7 @@
                   mb-2
                 "
               >
-                <router-link :to="{}">
+                <router-link :to="`/product/${item.productId}`">
                   <div>{{ item.name }}</div>
                 </router-link>
                 <div>
@@ -207,7 +211,7 @@
           </router-link>
 
           <div class="px-0 shop-button font-size-sm">
-            <router-link :to="{}">
+            <router-link :to="{ name: 'Shop' }">
               <v-icon class="arrow-move-left shop-icon mr-3" size="1.125rem">
                 mdi-arrow-left
               </v-icon>

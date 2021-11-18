@@ -24,7 +24,7 @@
         Your cart is empty... but it doesn't have to be 🤩!
       </div>
       <button class="btn btn-block btn-dark" @click="close">
-        <router-link :to="{}"> SHOP NEW ARRIVALS </router-link>
+        <router-link :to="{ name: 'Shop' }"> SHOP NEW ARRIVALS </router-link>
       </button>
     </div>
 
@@ -36,13 +36,21 @@
         class="cart-item border-top font-size-sm"
       >
         <v-col class="col-4">
-          <img :src="item.image" alt="" class="img-fluid" />
+          <router-link
+            :to="`/product/${item.productId}`"
+            class="font-weight-medium"
+          >
+            <img :src="item.image" alt="" class="img-fluid" />
+          </router-link>
         </v-col>
 
         <v-col
           class="py-0 pr-0 d-flex flex-column align-start justify-space-between"
         >
-          <router-link :to="{}" class="font-weight-medium">
+          <router-link
+            :to="`/product/${item.productId}`"
+            class="font-weight-medium"
+          >
             <div>{{ item.name }}</div>
             <div class="text-muted font-size-sm">
               {{ item.price | currencyFormatter }}

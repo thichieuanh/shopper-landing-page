@@ -68,7 +68,7 @@
             >
               <v-list-item class="pa-0 mb-6">
                 <v-list-item-avatar tile size="80" class="mr-8">
-                  <v-img :src="product.images.img"></v-img>
+                  <v-img :src="product.variants[0].variantImages[0]"></v-img>
                 </v-list-item-avatar>
 
                 <v-list-item-content>
@@ -97,7 +97,7 @@
             </v-row>
 
             <div class="pa-0 shop-button font-size-lg">
-              <router-link :to="{}">
+              <router-link :to="{ name: 'Shop' }">
                 View All
                 <v-icon class="shop-icon ml-3" size="1.125rem">
                   mdi-arrow-right

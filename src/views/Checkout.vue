@@ -224,7 +224,9 @@
             class="cart-item border-top font-size-sm"
           >
             <v-col class="col-4 pl-0">
-              <img :src="item.image" alt="" class="img-fluid" />
+              <router-link :to="`/product/${item.productId}`">
+                <img :src="item.image" alt="" class="img-fluid" />
+              </router-link>
             </v-col>
 
             <v-col
@@ -239,7 +241,7 @@
               "
             >
               <div>
-                <router-link :to="{}">
+                <router-link :to="`/product/${item.productId}`">
                   <div>{{ item.name }}</div>
                 </router-link>
                 <div class="text-muted">
