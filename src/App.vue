@@ -101,19 +101,32 @@ export default {
     },
 
     styleHandlingWhenShowingModal(overlayElementId) {
+      /*
+      - The offsetWidth property returns the viewable width of an element in pixels,
+      including padding, border and scrollbar, but not the margin.
+      (offsetWidth = elementWidth + padding + border)
+
+      - The innerWidth property returns the width of a window's content area.
+      (innerWidth = offsetWidth + margin + scrollbar)
+
+      - The outerWidth property returns the outer width of the browser window,
+      including all interface elements (like toolbars/scrollbars).
+      (outerWidth = innerWidth (including scrollbar) + devtool) */
+
       const scrollBarWidth = window.innerWidth - document.body.offsetWidth;
-      document.body.style.marginRight = scrollBarWidth;
       document.body.classList.add('showing-modal');
+
       this.$nextTick(function () {
         document.getElementById(overlayElementId).style.overflow = 'auto';
         if (overlayElementId === 'product-modal-overlay') {
-          document.getElementById(overlayElementId).style.paddingRight = '15px';
+          document.getElementById(
+            overlayElementId
+          ).style.paddingRight = `${scrollBarWidth}px`;
         }
       });
     },
 
     styleHandlingWhenClosingModal(overlayElementId) {
-      document.body.style.marginRight = '';
       document.body.classList.remove('showing-modal');
       document.getElementById(overlayElementId).style.overflow = 'hidden';
       if (overlayElementId === 'product-modal-overlay') {

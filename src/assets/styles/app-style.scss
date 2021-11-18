@@ -1083,7 +1083,7 @@ tbody tr {
 
 .showing-modal {
   overflow-y: hidden;
-  padding-right: 15px;
+  margin-right: 15px;
 }
 
 @media (min-width: 992px) {
@@ -1102,15 +1102,15 @@ tbody tr {
 /* TRANSITIONS */
 
 .slide-fade-enter-active {
-  transition: all 0.4s ease-out;
+  transition: all 0.4s ease-in-out;
 }
 .slide-fade-leave-active {
-  transition: all 0.4s ease-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .slide-fade-enter,
 .slide-fade-leave-to {
-  transform: translateY(-40px);
+  transform: translateY(-60px);
   opacity: 0;
 }
 
@@ -1121,6 +1121,16 @@ tbody tr {
 
 .modal-fade-enter,
 .modal-fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 

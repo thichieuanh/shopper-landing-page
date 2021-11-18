@@ -7,7 +7,7 @@
       <v-row>
         <!-- Image -->
         <v-col cols="12" sm="6">
-          <v-row>
+          <v-row class="image-slider-group">
             <v-col cols="2">
               <v-avatar
                 v-for="(image, idx) in productDetails.variants[selectedVariant]
@@ -26,16 +26,17 @@
               </v-avatar>
             </v-col>
 
-            <v-col cols="10">
-              <img
-                class="img-fluid"
-                :src="
-                  productDetails.variants[selectedVariant].variantImages[
-                    mainImageIndex
-                  ]
-                "
-                alt=""
-            /></v-col>
+            <v-col cols="10" class="thithi">
+              <transition name="fade" mode="out-in">
+                <img
+                  ref="mainImage"
+                  id="main-image"
+                  class="img-fluid"
+                  :src="mainImageUrl"
+                  :key="mainImageUrl"
+                />
+              </transition>
+            </v-col>
           </v-row>
         </v-col>
 
@@ -388,6 +389,12 @@ export default {
       reviews: (state) => state.reviews.reviews,
     }),
 
+    mainImageUrl() {
+      return this.productDetails.variants[this.selectedVariant].variantImages[
+        this.mainImageIndex
+      ];
+    },
+
     stockState() {
       return getVariantStock(this.productDetails, this.selectedVariant);
     },
@@ -474,6 +481,13 @@ export default {
       immediate: true,
       handler() {
         this.init();
+
+        // this.$nextTick(function () {
+        //   if (!this.$el.querySelector('.thithi')) return;
+
+        //   const thi = this.$el.querySelector('.thithi').getClientRects();
+        //   console.log(thi[0].height);
+        // });
       },
     },
 
@@ -566,10 +580,15 @@ export default {
       setSelectedVariant: this.setSelectedVariant,
     };
   },
+
+  mounted() {},
 };
 </script>
 
 <style lang="scss" scoped>
+.image-slider-group {
+  height: 632px; // fixed height for image wrapper to prevent laggy when applying transition
+}
 .img-slider {
   height: 100%;
   width: 100%;
@@ -577,15 +596,5 @@ export default {
 
 .product-thumb + .product-thumb {
   margin-top: 10px;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>
