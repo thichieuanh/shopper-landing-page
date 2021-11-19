@@ -1,11 +1,5 @@
 <template>
-  <v-footer
-    padless
-    dark
-    color="#1f1f1f"
-    id="home-footer"
-    class="d-flex flex-column"
-  >
+  <v-footer padless dark color="#1f1f1f" id="home-footer">
     <!-- FOOTER TOP -->
     <div class="py-12 mx-0 footer-top">
       <div class="container-control">
@@ -70,7 +64,7 @@
     </div>
 
     <!-- FOOTER BOTTOM -->
-    <div class="py-6 mx-0 footer-top">
+    <div class="py-6 mx-0">
       <div class="container-control">
         <v-row class="justify-space-between align-center">
           <v-col class="pa-0">
