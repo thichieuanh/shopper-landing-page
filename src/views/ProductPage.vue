@@ -504,6 +504,7 @@ export default {
     },
 
     $route() {
+      window.scrollTo(0, 0);
       this.init();
       this.mainImageIndex = 0;
       this.selectedVariant = 0;
@@ -598,7 +599,9 @@ export default {
     };
   },
 
-  mounted() {},
+  mounted() {
+    window.scrollTo(0, 0);
+  },
 };
 </script>
 
