@@ -8,7 +8,18 @@
         >
         </v-img>
 
-        <router-link :to="`/product/${productDetails.id}`">
+        <!-- <router-link :to="`/product/${productDetails.id}`">
+          <v-img
+            :src="productDetails.variants[0].variantImages[1]"
+            aspect-ratio="0.85"
+            class="image-hover"
+          >
+          </v-img>
+        </router-link> -->
+
+        <router-link
+          :to="{ name: 'ProductPage', params: { id: productDetails.id } }"
+        >
           <v-img
             :src="productDetails.variants[0].variantImages[1]"
             aspect-ratio="0.85"

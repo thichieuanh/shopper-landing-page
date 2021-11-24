@@ -1,12 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import AccountOrders from '../views/AccountOrders.vue'
-import Wishlist from '../views/Wishlist.vue'
+import Account from '../views/Account.vue'
 import Shop from '../views/Shop.vue'
 import ProductPage from '../views/ProductPage.vue'
 import Checkout from '../views/Checkout.vue'
 import ShoppingCart from '../views/ShoppingCart.vue'
+import Orders from '@/components/AccountPage/Orders/Orders.vue'
+import OrderDetails from '@/components/AccountPage/Orders/OrderDetails.vue'
+import Wishlist from '@/components/AccountPage/Wishlist.vue'
+import PersonalInfo from '@/components/AccountPage/PersonalInfo.vue'
+import Addresses from '@/components/AccountPage/Addresses.vue'
+import Payment from '@/components/AccountPage/Payment.vue'
 import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
@@ -16,22 +21,6 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    meta: {
-      breadCrumb: 'Home'
-    }
-  },
-  {
-    path: '/account-orders',
-    name: 'AccountOrders',
-    component: AccountOrders,
-    meta: {
-      breadCrumb: 'My Account'
-    }
-  },
-  {
-    path: '/account-wishlist',
-    name: 'Wishlist',
-    component: Wishlist
   },
   {
     path: '/shop',
@@ -52,6 +41,46 @@ const routes = [
     path: '/shopping-cart',
     name: 'Shopping Cart',
     component: ShoppingCart
+  },
+  {
+    path: '/account',
+    component: Account,
+    children: [
+      {
+        path: '/',
+        component: Orders,
+      },
+      {
+        path: 'orders',
+        name: 'AccountOrders',
+        component: Orders,
+      },
+      {
+        path: 'order-details/:orderNo',
+        name: 'OrderDetails',
+        component: OrderDetails
+      },
+      {
+        path: 'wishlist',
+        name: 'AccountWishlist',
+        component: Wishlist,
+      },
+      {
+        path: 'personal-info',
+        name: 'AccountPersonalInfo',
+        component: PersonalInfo,
+      },
+      {
+        path: 'addresses',
+        name: 'AccountAddresses',
+        component: Addresses,
+      },
+      {
+        path: 'payment-methods',
+        name: 'AccountPayment',
+        component: Payment,
+      },
+    ],
   },
   {
     path: '/test',

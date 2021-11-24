@@ -182,6 +182,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('products/getProducts');
+    this.$store.dispatch('orders/getOrders');
   },
 };
 </script>

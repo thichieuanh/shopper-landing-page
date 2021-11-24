@@ -171,6 +171,7 @@ section + section {
 .custom-row {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   margin: 0 -12px !important;
 }
 
@@ -217,10 +218,13 @@ section + section {
   transition: opacity 0.2s ease-in-out;
   cursor: pointer;
   padding: 0.875rem 1.75rem;
+  white-space: nowrap;
 }
 
 .btn-sm {
   height: calc(1.40625rem + 1.625rem + 2px);
+  padding: 0.8125rem 1.5rem;
+  font-size: 0.9375rem;
 }
 
 .btn-xs {
@@ -239,7 +243,6 @@ section + section {
 
 .btn-block {
   width: 100%;
-  white-space: nowrap;
 }
 
 .btn-block + .btn-block {
@@ -311,6 +314,10 @@ section + section {
   background: var(--main-grey);
 }
 
+.bg-dark {
+  background: #1f1f1f !important;
+}
+
 .disableBtn {
   cursor: not-allowed;
 }
@@ -327,6 +334,48 @@ section + section {
     padding-bottom: 0.75rem !important;
   }
 
+  .pa-3 {
+    padding: 0.75rem !important;
+  }
+
+  .py-4,
+  .pt-4 {
+    padding-top: 1rem !important;
+  }
+
+  .py-4,
+  .pb-4 {
+    padding-bottom: 1rem !important;
+  }
+
+  .pl-4,
+  .px-4 {
+    padding-left: 1rem !important;
+  }
+
+  .pr-4,
+  .px-4 {
+    padding-right: 1rem !important;
+  }
+
+  .pa-5 {
+    padding: 1rem !important;
+  }
+
+  .py-5,
+  .pt-5 {
+    padding-top: 1.25rem !important;
+  }
+
+  .py-5,
+  .pb-5 {
+    padding-bottom: 1.25rem !important;
+  }
+
+  .pa-5 {
+    padding: 1.25rem !important;
+  }
+
   .py-6,
   .pt-6 {
     padding-top: 1.5rem !important;
@@ -335,6 +384,10 @@ section + section {
   .py-6,
   .pb-6 {
     padding-bottom: 1.5rem !important;
+  }
+
+  .pa-6 {
+    padding: 1.5rem !important;
   }
 
   .py-7,
@@ -347,6 +400,10 @@ section + section {
     padding-bottom: 2rem !important;
   }
 
+  .pa-7 {
+    padding: 2rem !important;
+  }
+
   .pt-9,
   .py-9 {
     padding-top: 3rem !important;
@@ -357,9 +414,17 @@ section + section {
     padding-bottom: 3rem !important;
   }
 
+  .pa-9 {
+    padding: 3rem !important;
+  }
+
   .pl-md-10,
   .px-md-10 {
     padding-left: 4rem !important;
+  }
+
+  .pa-10 {
+    padding: 4rem !important;
   }
 
   .pt-11,
@@ -372,6 +437,10 @@ section + section {
     padding-bottom: 5rem !important;
   }
 
+  .pa-11 {
+    padding: 5rem !important;
+  }
+
   .py-12,
   .pt-12 {
     padding-top: 6rem !important;
@@ -380,6 +449,10 @@ section + section {
   .py-12,
   .pb-12 {
     padding-bottom: 6rem !important;
+  }
+
+  .pa-12 {
+    padding: 6rem !important;
   }
 
   /* MARGIN */
@@ -464,6 +537,15 @@ section + section {
   }
 }
 
+// Medium screen
+@media (min-width: 960px) {
+  .v-application {
+    .mb-md-0 {
+      margin-bottom: 0px !important;
+    }
+  }
+}
+
 .theme--light.v-icon {
   color: inherit;
 }
@@ -539,8 +621,8 @@ section + section {
 .col-xl-9,
 .col-xl-auto {
   position: relative;
-  // width: 100%;
-  padding: 0 12px;
+  // padding: 0 12px;
+  padding: 0 1rem;
 }
 
 .v-rating {
@@ -654,6 +736,10 @@ input[type='search']::-webkit-search-decoration {
   -webkit-appearance: searchfield-cancel-button !important;
 }
 
+.border {
+  border: 1px solid #e5e5e5;
+}
+
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
@@ -761,13 +847,17 @@ textarea.form-control {
   color: #767676;
 }
 
-.custom-control {
-  white-space: nowrap;
-}
-
 .custom-control-label {
   padding-left: 0.5rem;
   cursor: pointer;
+
+  &.payment-label {
+    display: flex;
+  }
+}
+
+.custom-control {
+  white-space: nowrap;
 }
 
 .w-auto {
@@ -775,6 +865,10 @@ textarea.form-control {
 }
 .w-100 {
   width: 100%;
+}
+
+.h-100 {
+  height: 100%;
 }
 
 .fade {
@@ -877,19 +971,52 @@ tbody tr {
   }
 }
 
-.list-group-item + .list-group-item {
-  border-top: none;
-}
-
-.list-group-sm .list-group-item {
-  padding: 1.25rem;
+.list-group {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
 }
 
 .list-group-item {
   border: 1px solid #e5e5e5;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+
   &.collapsible {
     padding: 0;
     border-top: none;
+  }
+
+  &--active {
+    color: #111 !important;
+    font-weight: 500;
+  }
+}
+
+.list-group-item + .list-group-item {
+  border-top: none;
+}
+
+.list-group-sm {
+  .list-group-item {
+    padding: 1.25rem;
+  }
+}
+
+.list-group-lg {
+  .list-group-item {
+    padding: 2rem;
+  }
+}
+
+.list-group-flush-x {
+  .list-group-item {
+    padding-left: 0;
+    padding-right: 0;
+    border-left: none;
+    border-right: none;
   }
 }
 
@@ -1156,4 +1283,18 @@ tbody tr {
   overflow: hidden;
   height: 0;
   transition: height 0.5s ease;
+}
+
+.thumbnails {
+  height: inherit;
+  width: auto;
+}
+
+.thumbnails-row {
+  height: 8.5vh;
+}
+
+.cart-img {
+  max-width: 100%;
+  max-height: 18vh;
 }

@@ -188,7 +188,7 @@
               <span>{{ (cartSubtotal * 0.1) | currencyFormatter }}</span>
             </div>
 
-            <div class="subtotal-details font-size-lg font-weight-bold">
+            <div class="subtotal-details font-size-lg font-weight-medium">
               <span>Total</span>
               <span>
                 {{ (cartSubtotal * 1.1) | currencyFormatter }}
@@ -303,10 +303,5 @@ export default {
 
 .cart-item + .cart-item {
   border-top: none;
-}
-
-.cart-img {
-  max-width: 100%;
-  max-height: 18vh;
 }
 </style>

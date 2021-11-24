@@ -184,7 +184,10 @@
             </router-link>
 
             <!-- Wishlist -->
-            <router-link :to="{ name: 'Wishlist' }" class="functional-icon">
+            <router-link
+              :to="{ name: 'AccountWishlist' }"
+              class="functional-icon"
+            >
               <Icon
                 icon="ph:heart-straight"
                 width="18"

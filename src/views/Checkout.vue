@@ -114,10 +114,13 @@
                 value="payByCard"
                 @input="togglePaymentForm($event)"
               />
-              <label for="checkoutPaymentCard" class="custom-control-label">
+              <label
+                for="checkoutPaymentCard"
+                class="payment-label custom-control-label"
+              >
                 Credit Card
+                <img src="/img/payments/cards.svg" alt="cards" class="ml-2" />
               </label>
-              <img src="/img/payments/cards.svg" alt="cards" class="ml-2" />
             </div>
 
             <div class="list-group-item collapsible" id="collapsedPaymentForm">
@@ -201,9 +204,12 @@
                 v-model="paymentMethod"
                 @input="togglePaymentForm($event)"
               />
-              <label for="checkoutPaymentPaypal" class="custom-control-label">
+              <label
+                for="checkoutPaymentPaypal"
+                class="payment-label custom-control-label"
+              >
+                <img src="/img/payments/paypal.svg" alt="paypal" />
               </label>
-              <img src="/img/payments/paypal.svg" alt="cards" class="ml-2" />
             </div>
           </div>
 
