@@ -22,6 +22,10 @@ const messages = {
   reviewPosted: {
     type: 'success',
     message: 'Your review has been posted',
+  },
+  incorrectPassword: {
+    type: 'error',
+    message: 'Incorrect password, please try again.',
   }
 }
 
