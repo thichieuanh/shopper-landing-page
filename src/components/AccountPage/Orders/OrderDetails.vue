@@ -1,10 +1,10 @@
 <template>
   <div v-if="order">
     <div class="border mb-5 pa-7 font-weight-medium">
-      <OrderCartTopSummary
+      <OrderCardTopSummary
         :order="order"
         :orderAmount="orderAmount"
-      ></OrderCartTopSummary>
+      ></OrderCardTopSummary>
 
       <!-- Items list -->
       <div class="pt-7">
@@ -126,12 +126,12 @@
 </template>
 
 <script>
-import OrderCartTopSummary from '@/components/AccountPage/Orders/OrderCartTopSummary.vue';
+import OrderCardTopSummary from '@/components/AccountPage/Orders/OrderCardTopSummary.vue';
 import { mapGetters, mapState } from 'vuex';
 
 export default {
   components: {
-    OrderCartTopSummary,
+    OrderCardTopSummary,
   },
 
   data: () => ({

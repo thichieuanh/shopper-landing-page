@@ -8,15 +8,6 @@
         >
         </v-img>
 
-        <!-- <router-link :to="`/product/${productDetails.id}`">
-          <v-img
-            :src="productDetails.variants[0].variantImages[1]"
-            aspect-ratio="0.85"
-            class="image-hover"
-          >
-          </v-img>
-        </router-link> -->
-
         <router-link
           :to="{ name: 'ProductPage', params: { id: productDetails.id } }"
         >
@@ -41,8 +32,8 @@
 
         <div
           :class="[
-            { new: productDetails.isNew },
-            { sale: isSale(productDetails) },
+            { 'new-badge': productDetails.isNew },
+            { 'sale-badge': isSale(productDetails) },
             'product-badge',
           ]"
         >
@@ -165,25 +156,6 @@ export default {
   bottom: 0.5rem;
 }
 
-.product-button {
-  z-index: 10;
-  background: #fff;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  cursor: pointer;
-
-  &.added-to-cart,
-  &.added-to-wishlist {
-    color: #ff4c3b;
-  }
-
-  &:hover {
-    background: #ff8a80;
-    color: white;
-  }
-}
-
 .image-wrapper {
   position: relative;
 }
@@ -199,24 +171,5 @@ export default {
   &:hover {
     opacity: 1;
   }
-}
-
-.product-badge {
-  position: absolute;
-  top: 5%;
-  left: 0;
-  text-align: center;
-  font-weight: 500;
-  font-size: 0.6875em;
-  padding: 0.5em 1em;
-}
-
-.new {
-  background: white;
-}
-
-.sale {
-  background: black;
-  color: white;
 }
 </style>

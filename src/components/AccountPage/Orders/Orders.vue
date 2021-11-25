@@ -5,10 +5,10 @@
       :key="orderIndex"
       class="border mb-5 pa-7 font-weight-medium"
     >
-      <OrderCartTopSummary
+      <OrderCardTopSummary
         :order="order"
         :orderAmount="orderAmount"
-      ></OrderCartTopSummary>
+      ></OrderCardTopSummary>
 
       <v-row class="pt-7">
         <v-row class="align-center">
@@ -85,11 +85,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import OrderCartTopSummary from '@/components/AccountPage/Orders/OrderCartTopSummary.vue';
+import OrderCardTopSummary from '@/components/AccountPage/Orders/OrderCardTopSummary.vue';
 
 export default {
   components: {
-    OrderCartTopSummary,
+    OrderCardTopSummary,
   },
 
   computed: {

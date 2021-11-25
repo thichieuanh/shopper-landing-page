@@ -97,7 +97,7 @@
       <v-col
         :class="[
           'col-12 px-0',
-          isRenderedInModal ? 'col-lg-8' : isWaitListNeeded ? 'col-lg-6' : '',
+          isRenderedInModal ? 'col-lg-7' : isWaitListNeeded ? 'col-lg-6' : '',
         ]"
       >
         <v-row v-if="isWaitListNeeded">
@@ -150,7 +150,7 @@
 
       <!-- Wishlist button -->
       <v-col
-        :class="['col-12 px-0', isRenderedInModal ? 'col-lg-4' : 'col-lg-6']"
+        :class="['col-12 px-0', isRenderedInModal ? 'col-lg-5' : 'col-lg-6']"
         @click="updateWishList(productId)"
       >
         <button class="btn btn-block btn-outline-dark">
