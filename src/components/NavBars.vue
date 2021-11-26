@@ -171,10 +171,7 @@
             </a>
 
             <!-- Acount -->
-            <router-link
-              :to="{ name: 'AccountOrders' }"
-              class="functional-icon"
-            >
+            <router-link :to="'/account'" class="functional-icon">
               <Icon
                 icon="feather:user"
                 width="18"
