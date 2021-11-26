@@ -323,6 +323,7 @@ import Features from '@/components/Features';
 import ShippingTable from '@/components/ShippingTable';
 import { mapGetters, mapState } from 'vuex';
 import { Icon } from '@iconify/vue2';
+import addressInputForm from '@/assets/data/addressInputForm';
 
 export default {
   components: {
@@ -332,83 +333,11 @@ export default {
     Icon,
   },
   data: () => ({
-    billingDetails: [
-      {
-        forAndIdAtrrs: 'checkoutBillingFirstName',
-        label: 'First name *',
-        inputType: 'text',
-        placeholder: 'First Name',
-        mdWidth: 6,
-      },
-      {
-        forAndIdAtrrs: 'checkoutBillingLastName',
-        label: 'Last name *',
-        inputType: 'text',
-        placeholder: 'Last Name',
-        mdWidth: 6,
-      },
-      {
-        forAndIdAtrrs: 'checkoutBillingEmail',
-        label: 'Email *',
-        inputType: 'email',
-        placeholder: 'Email',
-        mdWidth: 12,
-      },
-      {
-        forAndIdAtrrs: 'checkoutBillingCompany',
-        label: 'Company name',
-        inputType: 'text',
-        placeholder: 'Company name (optional)',
-        mdWidth: 12,
-      },
-      {
-        forAndIdAtrrs: 'checkoutBillingCountry',
-        label: 'Country *',
-        inputType: 'text',
-        placeholder: 'Country',
-        mdWidth: 12,
-      },
-      {
-        forAndIdAtrrs: 'checkoutBillingAddress',
-        label: 'Address Line 1 *',
-        inputType: 'text',
-        placeholder: 'Address Line 1',
-        mdWidth: 12,
-      },
-      {
-        forAndIdAtrrs: 'checkoutBillingAddressTwo',
-        label: 'Address Line 2 *',
-        inputType: 'text',
-        placeholder: 'Address Line 2 (Optional)',
-        mdWidth: 12,
-      },
-      {
-        forAndIdAtrrs: 'checkoutBillingTown',
-        label: 'Town / City *',
-        inputType: 'text',
-        placeholder: 'Town / City',
-        mdWidth: 6,
-      },
-      {
-        forAndIdAtrrs: 'checkoutBillingZip',
-        label: 'ZIP / Postcode *',
-        inputType: 'text',
-        placeholder: 'ZIP / Postcode',
-        mdWidth: 6,
-      },
-      {
-        forAndIdAtrrs: 'checkoutBillingPhone',
-        label: 'Mobile Phone *',
-        inputType: 'tel',
-        placeholder: 'Mobile Phone',
-        mdWidth: 12,
-      },
-    ],
-
     isShippedToDifferentAddress: false,
     months: ['January', 'February', 'March'],
     year: ['2019', '2020', '2021'],
     paymentMethod: undefined,
+    billingDetails: addressInputForm,
   }),
 
   computed: {

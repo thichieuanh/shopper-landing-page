@@ -10,7 +10,8 @@ import Orders from '@/components/AccountPage/Orders/Orders.vue'
 import OrderDetails from '@/components/AccountPage/Orders/OrderDetails.vue'
 import Wishlist from '@/components/AccountPage/Wishlist.vue'
 import PersonalInfo from '@/components/AccountPage/PersonalInfo.vue'
-import Addresses from '@/components/AccountPage/Addresses.vue'
+import Addresses from '@/components/AccountPage/Address/Addresses.vue'
+import EditAddress from '@/components/AccountPage/Address/EditAddress.vue'
 import Payment from '@/components/AccountPage/Payment.vue'
 import Test from '../views/Test.vue'
 
@@ -74,6 +75,11 @@ const routes = [
         path: 'addresses',
         name: 'AccountAddresses',
         component: Addresses,
+      },
+      {
+        path: 'addresses/edit',
+        name: 'EditAddress',
+        component: EditAddress,
       },
       {
         path: 'payment-methods',

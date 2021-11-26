@@ -172,7 +172,7 @@ section + section {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin: 0 -12px !important;
+  margin: 0 -1rem !important;
 }
 
 .font-size-xxxs {
@@ -289,6 +289,8 @@ section + section {
 
 .btn-outline-dark {
   border: 1px #1f1f1f solid;
+  transition: all 0.15s ease-in-out;
+
   &:hover {
     color: #fff;
     background-color: #1f1f1f;
@@ -298,6 +300,8 @@ section + section {
 
 .btn-outline-border {
   border: 1px #e5e5e5 solid;
+  transition: all 0.15s ease-in-out;
+
   &:hover {
     border-color: #1f1f1f;
   }
@@ -1321,6 +1325,7 @@ tbody tr {
   height: 2.5rem;
   border-radius: 50%;
   cursor: pointer;
+  transition: all 0.15s ease-in-out;
 
   &.added-to-cart,
   &.added-to-wishlist {

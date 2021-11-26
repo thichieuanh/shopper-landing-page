@@ -1,25 +1,28 @@
 <template>
   <div>
-    <form @submit.prevent="personalInfoUpdated">
+    <form
+      @submit.prevent="personalInfoUpdated"
+      @keyup.enter="personalInfoUpdated"
+    >
       <v-row>
         <v-col
-          v-for="(personalInfo, personalInfoIndex) in personalInfos"
+          v-for="(info, personalInfoIndex) in personalInfos"
           :key="personalInfoIndex"
           cols="12"
-          :md="personalInfo.mdWidth"
+          :md="info.mdWidth"
           class="form-group"
         >
-          <label> {{ personalInfo.label }} </label>
+          <label> {{ info.label }} </label>
           <input
-            :type="personalInfo.type"
+            :type="info.type"
             :placeholder="
-              personalInfo.key === 'currentPassword'
-                ? 'Hint: thixinhxinh'
-                : personalInfo.label
+              info.key === 'currentPassword'
+                ? `Hint: ${personalInfo.password}`
+                : info.label
             "
             class="form-control form-control-sm mt-2"
-            v-model="formData[personalInfo.key]"
-            :required="isInputRequired(personalInfo)"
+            v-model="formData[info.key]"
+            :required="isInputRequired(info)"
           />
         </v-col>
 
@@ -117,7 +120,7 @@ export default {
         key: 'newPassword',
       },
       {
-        label: 'Re-enter new password',
+        label: 'Re-enter password',
         type: 'password',
         mdWidth: 4,
         key: 'newPasswordRepeat',
