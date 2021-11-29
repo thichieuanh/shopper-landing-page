@@ -19,7 +19,6 @@ export default {
   },
 
   actions: {
-
     addReview: ({ commit, dispatch }, payload) => {
       commit('appendReview', payload)
       dispatch('notification/showNotification', messages.reviewPosted, { root: true })

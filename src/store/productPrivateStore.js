@@ -58,7 +58,6 @@ export default {
 
   actions: {
     updateWishList: ({ commit, getters }, productId) => {
-      console.log('check');
       getters.isWishlisted(productId)
         ? commit('detachWishlist', productId)
         : commit('appendWishlist', productId)

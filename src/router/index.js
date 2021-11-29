@@ -77,7 +77,12 @@ const routes = [
         component: Addresses,
       },
       {
-        path: 'addresses/edit',
+        path: 'addresses/new-address',
+        name: 'AddNewAddress',
+        component: EditAddress,
+      },
+      {
+        path: 'addresses/edit/:index',
         name: 'EditAddress',
         component: EditAddress,
       },

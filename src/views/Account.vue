@@ -49,9 +49,18 @@ export default {
 
   data: () => ({}),
 
+  watch: {
+    $route() {
+      window.scrollTo(0, 0);
+    },
+  },
+
   computed: {
     navbarItems() {
-      const paths = this.$route.fullPath.split('/');
+      let paths = this.$route.fullPath.split('/');
+      if (paths.length > 3) {
+        paths = paths.slice(0, 3);
+      }
       const mode = paths[paths.length - 1];
 
       const routes = [

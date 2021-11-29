@@ -26,6 +26,14 @@ const messages = {
   incorrectPassword: {
     type: 'error',
     message: 'Incorrect password, please try again.',
+  },
+  addedNewAddress: {
+    type: 'success',
+    message: 'New address added successfully',
+  },
+  editAddress: {
+    type: 'success',
+    message: 'Address updated successfully',
   }
 }
 

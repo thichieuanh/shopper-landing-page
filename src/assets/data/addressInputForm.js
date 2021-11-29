@@ -5,6 +5,7 @@ export default [
     inputType: 'text',
     placeholder: 'First Name',
     mdWidth: 6,
+    key: 'firstName'
   },
   {
     forAndIdAtrrs: 'checkoutBillingLastName',
@@ -12,6 +13,7 @@ export default [
     inputType: 'text',
     placeholder: 'Last Name',
     mdWidth: 6,
+    key: 'lastName'
   },
   {
     forAndIdAtrrs: 'checkoutBillingEmail',
@@ -19,6 +21,7 @@ export default [
     inputType: 'email',
     placeholder: 'Email',
     mdWidth: 12,
+    key: 'email'
   },
   {
     forAndIdAtrrs: 'checkoutBillingCompany',
@@ -26,6 +29,7 @@ export default [
     inputType: 'text',
     placeholder: 'Company name (optional)',
     mdWidth: 12,
+    key: 'companyName'
   },
   {
     forAndIdAtrrs: 'checkoutBillingCountry',
@@ -33,6 +37,7 @@ export default [
     inputType: 'text',
     placeholder: 'Country',
     mdWidth: 12,
+    key: 'country'
   },
   {
     forAndIdAtrrs: 'checkoutBillingAddress',
@@ -40,13 +45,15 @@ export default [
     inputType: 'text',
     placeholder: 'Address Line 1',
     mdWidth: 12,
+    key: 'addressLine1'
   },
   {
     forAndIdAtrrs: 'checkoutBillingAddressTwo',
-    label: 'Address Line 2 *',
+    label: 'Address Line 2',
     inputType: 'text',
     placeholder: 'Address Line 2 (Optional)',
     mdWidth: 12,
+    key: 'addressLine2'
   },
   {
     forAndIdAtrrs: 'checkoutBillingTown',
@@ -54,6 +61,7 @@ export default [
     inputType: 'text',
     placeholder: 'Town / City',
     mdWidth: 6,
+    key: 'city'
   },
   {
     forAndIdAtrrs: 'checkoutBillingZip',
@@ -61,6 +69,7 @@ export default [
     inputType: 'text',
     placeholder: 'ZIP / Postcode',
     mdWidth: 6,
+    key: 'zipCode'
   },
   {
     forAndIdAtrrs: 'checkoutBillingPhone',
@@ -68,5 +77,6 @@ export default [
     inputType: 'tel',
     placeholder: 'Mobile Phone',
     mdWidth: 12,
+    key: 'phone'
   },
 ]
