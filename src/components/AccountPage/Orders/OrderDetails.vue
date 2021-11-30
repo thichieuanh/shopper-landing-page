@@ -85,7 +85,6 @@
     </div>
 
     <!-- Billing and Shipping -->
-
     <div class="border pa-7">
       <h6 class="pb-7 ma-0">Billing & Shipping Details</h6>
 
@@ -93,11 +92,13 @@
         <v-col cols="12" sm="4" class="pl-0">
           <p class="mb-4 font-weight-medium">Billing Address</p>
           <ul class="pl-0 text-gray-500">
-            <li v-for="(item, index) in order.addresses.billing" :key="index">
-              {{ item
-              }}<span v-if="index !== order.addresses.billing.length - 1"
-                >,
-              </span>
+            <li
+              v-for="(value, key, index) in addressMainInfo(
+                order.addresses.billing
+              )"
+              :key="index"
+            >
+              {{ value }}<span v-if="key !== 'country'">,</span>
             </li>
           </ul>
         </v-col>
@@ -105,11 +106,13 @@
         <v-col cols="12" sm="4">
           <p class="mb-4 font-weight-medium">Shipping Address</p>
           <ul class="pl-0 text-gray-500">
-            <li v-for="(item, index) in order.addresses.shipping" :key="index">
-              {{ item
-              }}<span v-if="index !== order.addresses.shipping.length - 1"
-                >,
-              </span>
+            <li
+              v-for="(value, key, index) in addressMainInfo(
+                order.addresses.shipping
+              )"
+              :key="index"
+            >
+              {{ value }}<span v-if="key !== 'country'">,</span>
             </li>
           </ul>
         </v-col>
@@ -172,6 +175,27 @@ export default {
         0
       );
       return this.$options.filters.currencyFormatter(result);
+    },
+
+    addressMainInfo(address) {
+      const {
+        firstName,
+        lastName,
+        phone,
+        addressLine1,
+        city,
+        zipCode,
+        country,
+      } = address;
+
+      return {
+        fullName: firstName + ' ' + lastName,
+        phone,
+        addressLine1,
+        city,
+        zipCode,
+        country,
+      };
     },
   },
 

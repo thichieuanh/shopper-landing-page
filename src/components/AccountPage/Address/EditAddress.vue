@@ -1,8 +1,6 @@
 <template>
-  <form @submit.prevent="addressSubmitted">
-    <h6 class="mb-7">
-      {{ isEdittingAddress ? 'Edit Address' : 'Add Address' }}
-    </h6>
+  <form @submit.prevent="handleSubmit">
+    <h6 class="mb-7">{{ isEditting ? 'Edit' : 'Add' }} Address</h6>
     <v-row class="custom-row mb-9">
       <v-col
         v-for="(inputField, inputFieldIndex) in inputFields"
@@ -35,7 +33,7 @@
       </v-col>
       <v-col>
         <button class="btn btn-dark">
-          {{ isEdittingAddress ? 'Save changes' : 'Add Address' }}
+          {{ isEditting ? 'Save changes' : 'Add Address' }}
         </button>
       </v-col>
     </v-row>
@@ -48,9 +46,9 @@ import { mapState } from 'vuex';
 
 export default {
   data: () => ({
+    isEditting: undefined,
     inputFields: addressInputForm,
     addressIndex: undefined,
-    isEdittingAddress: undefined,
     isDefault: undefined,
     isDefaultSinceInit: true,
     formData: {},
@@ -62,9 +60,9 @@ export default {
 
   methods: {
     init() {
-      if (this.$route.path.includes('edit')) this.isEdittingAddress = true;
+      if (this.$route.path.includes('edit')) this.isEditting = true;
 
-      if (this.isEdittingAddress) {
+      if (this.isEditting) {
         this.addressIndex = +this.$route.params.index;
         this.isDefault = this.defaultAddress === this.addressIndex;
         this.isDefaultSinceInit = this.isDefault;
@@ -98,8 +96,8 @@ export default {
       }
     },
 
-    addressSubmitted() {
-      if (this.isEdittingAddress) {
+    handleSubmit() {
+      if (this.isEditting) {
         const defaultStateRemoved = this.isDefaultSinceInit !== this.isDefault;
         if (defaultStateRemoved) {
           this.$store.commit('accountInfo/setDefaultAddress', undefined);

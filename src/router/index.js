@@ -8,11 +8,14 @@ import Checkout from '../views/Checkout.vue'
 import ShoppingCart from '../views/ShoppingCart.vue'
 import Orders from '@/components/AccountPage/Orders/Orders.vue'
 import OrderDetails from '@/components/AccountPage/Orders/OrderDetails.vue'
-import Wishlist from '@/components/AccountPage/Wishlist.vue'
+import Wishlist from '@/components/AccountPage/Wishlist/Wishlist.vue'
 import PersonalInfo from '@/components/AccountPage/PersonalInfo.vue'
-import Addresses from '@/components/AccountPage/Address/Addresses.vue'
+import Address from '@/components/AccountPage/Address/Address.vue'
+import AddressList from '@/components/AccountPage/Address/AddressList.vue'
 import EditAddress from '@/components/AccountPage/Address/EditAddress.vue'
-import Payment from '@/components/AccountPage/Payment.vue'
+import Payment from '@/components/AccountPage/Payment/Payment.vue'
+import PaymentCards from '@/components/AccountPage/Payment/PaymentCards.vue'
+import EditPayment from '@/components/AccountPage/Payment/EditPayment.vue'
 import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
@@ -73,23 +76,45 @@ const routes = [
       },
       {
         path: 'addresses',
-        name: 'AccountAddresses',
-        component: Addresses,
-      },
-      {
-        path: 'addresses/new-address',
-        name: 'AddNewAddress',
-        component: EditAddress,
-      },
-      {
-        path: 'addresses/edit/:index',
-        name: 'EditAddress',
-        component: EditAddress,
+        component: Address,
+        children: [
+          {
+            path: '/',
+            name: 'AccountAddresses',
+            component: AddressList,
+          },
+          {
+            path: 'new-address',
+            name: 'AddNewAddress',
+            component: EditAddress,
+          },
+          {
+            path: 'edit/:index',
+            name: 'EditAddress',
+            component: EditAddress,
+          },
+        ]
       },
       {
         path: 'payment-methods',
-        name: 'AccountPayment',
         component: Payment,
+        children: [
+          {
+            path: '/',
+            name: 'AccountPayments',
+            component: PaymentCards,
+          },
+          {
+            path: 'new-card',
+            name: 'AddNewCard',
+            component: EditPayment,
+          },
+          {
+            path: 'edit/:index',
+            name: 'EditPayMent',
+            component: EditPayment,
+          },
+        ]
       },
     ],
   },
@@ -98,7 +123,6 @@ const routes = [
     name: 'Test',
     component: Test
   }
-
 ]
 
 const router = new VueRouter({

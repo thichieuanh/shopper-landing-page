@@ -34,6 +34,14 @@ const messages = {
   editAddress: {
     type: 'success',
     message: 'Address updated successfully',
+  },
+  addedNewPaymentCard: {
+    type: 'success',
+    message: 'New payment method added successfully',
+  },
+  editPaymentCard: {
+    type: 'success',
+    message: 'Payment method updated successfully',
   }
 }
 

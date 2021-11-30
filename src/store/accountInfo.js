@@ -1,4 +1,5 @@
 import messages from '@/assets/data/notiMessages';
+import faker from 'faker'
 
 export default {
 
@@ -13,7 +14,6 @@ export default {
       dateOfBirth: new Date(1995, 7, 26).toISOString().substr(0, 10),
       gender: 'Male'
     },
-
     addresses: [
       {
         firstName: 'Dale',
@@ -40,8 +40,15 @@ export default {
         companyName: 'Gleason - Ullrich',
       }
     ],
-
-    defaultAddress: undefined
+    defaultAddress: undefined,
+    paymentCards: [
+      {
+        cardNumber: faker.finance.creditCardNumber().split('-').join(' '),
+        expiryDate: new Date(faker.date.future()).toISOString().substr(0, 7),
+        nameOnCard: faker.name.findName(),
+      }
+    ],
+    defaultPaymentCard: undefined
   }),
 
   mutations: {
@@ -53,7 +60,15 @@ export default {
 
     editAddress: (state, { index, address }) => state.addresses[index] = address,
 
-    setDefaultAddress: (state, index) => state.defaultAddress = index
+    setDefaultAddress: (state, index) => state.defaultAddress = index,
+
+    appendPayment: (state, payment) => state.paymentCards = [...state.paymentCards, payment],
+
+    removePayment: (state, index) => state.paymentCards.splice(index, 1),
+
+    editPayment: (state, { index, payment }) => state.paymentCards[index] = payment,
+
+    setDefaultPayment: (state, index) => state.defaultPaymentCard = index
   },
 
   actions: {
@@ -65,6 +80,16 @@ export default {
     updateAddress: ({ commit, dispatch }, payload) => {
       commit('editAddress', payload)
       dispatch('notification/showNotification', messages.editAddress, { root: true })
+    },
+
+    addPayment: ({ commit, dispatch }, payload) => {
+      commit('appendPayment', payload)
+      dispatch('notification/showNotification', messages.addedNewPaymentCard, { root: true })
+    },
+
+    updatePayment: ({ commit, dispatch }, payload) => {
+      commit('editPayment', payload)
+      dispatch('notification/showNotification', messages.editPaymentCard, { root: true })
     },
   },
 

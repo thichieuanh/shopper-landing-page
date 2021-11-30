@@ -51,6 +51,7 @@
             <v-date-picker
               v-model="formData.dateOfBirth"
               no-title
+              color="black"
               @input="isShownDateMenu = false"
             ></v-date-picker>
           </v-menu>
@@ -131,10 +132,6 @@ export default {
 
   computed: {
     ...mapState('accountInfo', ['personalInfo']),
-
-    computedDateFormatted() {
-      return this.formatDate(this.date);
-    },
   },
 
   watch: {
