@@ -990,16 +990,6 @@ tbody tr {
   text-transform: capitalize;
   display: flex;
   align-items: center;
-
-  &.collapsible {
-    padding: 0;
-    border-top: none;
-  }
-
-  &--active {
-    color: #111 !important;
-    font-weight: 500;
-  }
 }
 
 .list-group-item + .list-group-item {
@@ -1024,6 +1014,17 @@ tbody tr {
     padding-right: 0;
     border-left: none;
     border-right: none;
+  }
+}
+
+.list-group-item {
+  &.collapsed {
+    border-top: none;
+  }
+
+  &--active {
+    color: #111 !important;
+    font-weight: 500;
   }
 }
 

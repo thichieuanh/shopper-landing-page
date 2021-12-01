@@ -123,7 +123,7 @@
               </label>
             </div>
 
-            <div class="list-group-item collapsible" id="collapsedPaymentForm">
+            <div class="collapsible" id="collapsedPaymentForm">
               <v-row class="py-5">
                 <v-col cols="12">
                   <input
@@ -388,6 +388,15 @@ export default {
     togglePaymentForm(event) {
       const isPaymentFormCollapsed = event.target.value !== 'payByCard';
       toggleCollapsibleElement(isPaymentFormCollapsed, 'collapsedPaymentForm');
+      if (isPaymentFormCollapsed) {
+        document
+          .getElementById('collapsedPaymentForm')
+          .classList.add('collapsed');
+      } else {
+        document
+          .getElementById('collapsedPaymentForm')
+          .classList.remove('collapsed');
+      }
     },
   },
 };
@@ -406,5 +415,10 @@ export default {
   &:not(.selected) {
     border-bottom-width: 0;
   }
+}
+
+#collapsedPaymentForm {
+  border-left: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5;
 }
 </style>
