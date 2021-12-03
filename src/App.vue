@@ -2,7 +2,9 @@
   <v-app>
     <NavBars></NavBars>
     <v-main class="pa-0">
-      <router-view />
+      <transition name="fade" mode="out-in" @after-leave="afterLeave">
+        <router-view :key="$route.fullPath" />
+      </transition>
     </v-main>
 
     <!-- fix snackbar, tự code lại, lỗi mất animation khi thông báo ẩn đi -->
@@ -142,6 +144,11 @@ export default {
     onCloseSizeChart() {
       this.isSizeChartOpen = false;
       this.styleHandlingWhenClosingModal('sizeChart-modal-overlay');
+    },
+
+    afterLeave() {
+      console.log('check');
+      this.$root.$emit('triggerScroll');
     },
   },
 

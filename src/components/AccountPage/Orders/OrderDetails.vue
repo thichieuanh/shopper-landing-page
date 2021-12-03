@@ -153,7 +153,7 @@ export default {
 
   watch: {
     $route() {
-      window.scrollTo(0, 0);
+      // window.scrollTo(0, 0);
       this.orderNo = this.$route.params.orderNo;
       this.order = this.getOrderByOrderNo(this.orderNo);
     },

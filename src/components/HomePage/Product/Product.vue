@@ -8,16 +8,17 @@
         >
         </v-img>
 
-        <router-link
+        <!-- <router-link
           :to="{ name: 'ProductPage', params: { id: productDetails.id } }"
+        > -->
+        <v-img
+          :src="productDetails.variants[0].variantImages[1]"
+          aspect-ratio="0.85"
+          class="image-hover pointer-cursor"
+          @click="goToProductDetails"
         >
-          <v-img
-            :src="productDetails.variants[0].variantImages[1]"
-            aspect-ratio="0.85"
-            class="image-hover"
-          >
-          </v-img>
-        </router-link>
+        </v-img>
+        <!-- </router-link> -->
 
         <div class="product-button-group d-flex justify-center ma-0">
           <div
@@ -143,6 +144,13 @@ export default {
           : ' animate__animated animate__fadeOutDown animate__faster' +
             ` animate__delay-${index}s`)
       );
+    },
+
+    goToProductDetails() {
+      this.$router.replace({
+        name: 'ProductPage',
+        params: { id: this.productDetails.id },
+      });
     },
   },
 };
