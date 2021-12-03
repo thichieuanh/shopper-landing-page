@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 
 export default {
   data: () => ({
@@ -131,7 +131,10 @@ export default {
   }),
 
   computed: {
-    ...mapState('accountInfo', ['personalInfo']),
+    // ...mapState('accountInfo', ['personalInfo']),
+    personalInfo() {
+      return this.$store.state.accountInfo.personalInfo;
+    },
   },
 
   watch: {
