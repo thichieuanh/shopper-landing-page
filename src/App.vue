@@ -147,7 +147,6 @@ export default {
     },
 
     afterLeave() {
-      console.log('check');
       this.$root.$emit('triggerScroll');
     },
   },
