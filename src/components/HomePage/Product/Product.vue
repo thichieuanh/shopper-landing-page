@@ -33,13 +33,17 @@
 
         <div
           :class="[
-            { 'new-badge': productDetails.isNew },
+            { 'new-badge': productDetails.isNewProduct },
             { 'sale-badge': isSale(productDetails) },
             'product-badge',
           ]"
         >
           {{
-            productDetails.isNew ? 'NEW' : isSale(productDetails) ? 'SALE' : ''
+            productDetails.isNewProduct
+              ? 'NEW'
+              : isSale(productDetails)
+              ? 'SALE'
+              : ''
           }}
         </div>
       </div>
