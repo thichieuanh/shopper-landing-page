@@ -311,8 +311,8 @@
     </div>
   </div>
 </template>
+
 <script>
-import getVariantStock from '@/utils/getVariantStock';
 import toggleCollapsibleElement from '@/utils/toggleCollapsibleElement';
 
 import Breadcrumbs from '@/components/Breadcrumbs';
@@ -329,59 +329,6 @@ import { mapGetters, mapState } from 'vuex';
 import { random } from 'lodash';
 
 export default {
-  data: () => ({
-    selectedVariant: 0,
-    mainImageIndex: 0,
-    selectedSize: undefined,
-    productDetails: undefined,
-    socialIcons: [
-      {
-        href: '#',
-        spec: 'akar-icons:twitter-fill',
-      },
-      {
-        href: 'https://www.facebook.com/maytrongdem/',
-        spec: 'la:facebook-f',
-      },
-      {
-        href: '#',
-        spec: 'dashicons:pinterest',
-      },
-    ],
-    tabItems: ['Description', 'Size & Fit', 'Shipping & Return'],
-    selectedTabIndex: 0,
-    isShowReviewForm: false,
-    reviewDetails: [
-      {
-        type: 'text',
-        placeholder: 'Your Name *',
-        mdWidth: 6,
-        key: 'reviewer',
-      },
-      {
-        type: 'email',
-        placeholder: 'Your Email *',
-        mdWidth: 6,
-        key: 'email',
-      },
-      {
-        type: 'text',
-        placeholder: 'Review Title *',
-        mdWidth: 12,
-        key: 'title',
-      },
-    ],
-    formData: {
-      rating: 5,
-      reviewer: '',
-      email: '',
-      title: '',
-      text: '',
-    },
-    sortOptions: ['Newest', 'Oldest'],
-    sortBy: 'Newest',
-  }),
-
   components: {
     Breadcrumbs,
     ProductVariantAndSizeSelect,
@@ -411,28 +358,6 @@ export default {
       return this.productDetails.variants[this.selectedVariant].variantImages[
         this.mainImageIndex
       ];
-    },
-
-    stockState() {
-      return getVariantStock(this.productDetails, this.selectedVariant);
-    },
-
-    showSizeRegion() {
-      return (
-        (this.productDetails.category === 'Shoes' ||
-          this.productDetails.category === 'Sneaker') &&
-        this.selectedSize !== undefined
-      );
-    },
-
-    selectedSizeName() {
-      return this.selectedSize ? Object.keys(this.selectedSize)[0] : undefined;
-    },
-
-    selectedSizeStock() {
-      return this.selectedSize
-        ? Object.values(this.selectedSize)[0]
-        : undefined;
     },
 
     currentTab() {
@@ -494,30 +419,58 @@ export default {
     },
   },
 
-  watch: {
-    getAllProducts: {
-      immediate: true,
-      handler() {
-        this.init();
+  data: () => ({
+    selectedVariant: 0,
+    mainImageIndex: 0,
+    selectedSize: undefined,
+    productDetails: undefined,
+    socialIcons: [
+      {
+        href: '#',
+        spec: 'akar-icons:twitter-fill',
       },
+      {
+        href: 'https://www.facebook.com/maytrongdem/',
+        spec: 'la:facebook-f',
+      },
+      {
+        href: '#',
+        spec: 'dashicons:pinterest',
+      },
+    ],
+    tabItems: ['Description', 'Size & Fit', 'Shipping & Return'],
+    selectedTabIndex: 0,
+    isShowReviewForm: false,
+    reviewDetails: [
+      {
+        type: 'text',
+        placeholder: 'Your Name *',
+        mdWidth: 6,
+        key: 'reviewer',
+      },
+      {
+        type: 'email',
+        placeholder: 'Your Email *',
+        mdWidth: 6,
+        key: 'email',
+      },
+      {
+        type: 'text',
+        placeholder: 'Review Title *',
+        mdWidth: 12,
+        key: 'title',
+      },
+    ],
+    formData: {
+      rating: 5,
+      reviewer: '',
+      email: '',
+      title: '',
+      text: '',
     },
-
-    $route() {
-      // window.scrollTo(0, 0);
-      console.log('route change');
-      this.init();
-      this.mainImageIndex = 0;
-      this.selectedVariant = 0;
-    },
-
-    'reviews.length': function () {
-      this.sortReview(this.sortBy);
-    },
-
-    selectedVariant() {
-      this.mainImageIndex = 0;
-    },
-  },
+    sortOptions: ['Newest', 'Oldest'],
+    sortBy: 'Newest',
+  }),
 
   methods: {
     toggleReviewForm() {
@@ -526,7 +479,7 @@ export default {
     },
 
     init() {
-      this.productId = +this.$route.params.id;
+      this.productId = this.$route.params.id;
       const product = this.getProductById(this.productId);
       this.productDetails = product;
 
@@ -550,19 +503,6 @@ export default {
 
     setSelectedVariant(data) {
       this.selectedVariant = data;
-    },
-
-    sizeClass(size) {
-      return [
-        'size-item',
-        'text-muted',
-        { 'active-size': this.selectedSize === size },
-        { 'size-out-of-stock': this.isSizeOutOfStock(size) },
-      ];
-    },
-
-    isSizeOutOfStock(item) {
-      return Object.values(item)[0] === 0;
     },
 
     reviewSubmit() {
@@ -599,9 +539,28 @@ export default {
     };
   },
 
-  // mounted() {
-  //   window.scrollTo(0, 0);
-  // },
+  watch: {
+    getAllProducts: {
+      immediate: true,
+      handler() {
+        this.init();
+      },
+    },
+
+    $route() {
+      this.init();
+      this.mainImageIndex = 0;
+      this.selectedVariant = 0;
+    },
+
+    'reviews.length': function () {
+      this.sortReview(this.sortBy);
+    },
+
+    selectedVariant() {
+      this.mainImageIndex = 0;
+    },
+  },
 };
 </script>
 

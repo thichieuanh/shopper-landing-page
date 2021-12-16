@@ -30,7 +30,7 @@
                   "
                 />
                 <button class="btn btn-block btn-primary" @click="close">
-                  <router-link :to="`/product/${productDetails.id}`">
+                  <router-link :to="`/product/${productDetails._id}`">
                     More Product Info
                     <Icon
                       icon="ant-design:info-circle-outlined"

@@ -10,7 +10,10 @@
       <button
         class="product-button card-action card-action-right"
         @click="
-          $store.commit('productPrivateStore/detachWishlist', productDetails.id)
+          $store.commit(
+            'productPrivateStore/detachWishlist',
+            productDetails._id
+          )
         "
       >
         <Icon icon="uim:multiply" :inline="true" />
@@ -20,7 +23,7 @@
         class="btn btn-block btn-dark btn-xs card-btn"
         @click="
           eventHub.$emit('showProductDialog', {
-            productId: productDetails.id,
+            productId: productDetails._id,
             isUpdatingCart: false,
           })
         "

@@ -9,7 +9,7 @@
         </v-img>
 
         <!-- <router-link
-          :to="{ name: 'ProductPage', params: { id: productDetails.id } }"
+          :to="{ name: 'ProductPage', params: { id: productDetails._id } }"
         > -->
         <v-img
           :src="productDetails.variants[0].variantImages[1]"
@@ -118,12 +118,12 @@ export default {
         case 0:
         case 1:
           this.eventHub.$emit('showProductDialog', {
-            productId: this.productDetails.id,
+            productId: this.productDetails._id,
             isUpdatingCart: false,
           });
           break;
         case 2:
-          this.updateWishList(this.productDetails.id);
+          this.updateWishList(this.productDetails._id);
           break;
       }
     },
@@ -134,10 +134,10 @@ export default {
 
     buttonClass(isHover, index) {
       let state = '';
-      if (index === 1 && this.isProductIdInCart(this.productDetails.id)) {
+      if (index === 1 && this.isProductIdInCart(this.productDetails._id)) {
         state = 'added-to-cart';
       }
-      if (index === 2 && this.isWishlisted(this.productDetails.id)) {
+      if (index === 2 && this.isWishlisted(this.productDetails._id)) {
         state = 'added-to-wishlist';
       }
       return (
@@ -153,7 +153,7 @@ export default {
     goToProductDetails() {
       this.$router.replace({
         name: 'ProductPage',
-        params: { id: this.productDetails.id },
+        params: { id: this.productDetails._id },
       });
     },
   },

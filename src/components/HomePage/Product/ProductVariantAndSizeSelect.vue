@@ -78,7 +78,7 @@
             :class="sizeClass(size)"
             @click="selectSize(size)"
           >
-            {{ Object.keys(size)[0] }}
+            {{ size.size }}
           </li>
         </ul>
       </div>
@@ -170,7 +170,7 @@ import { Icon } from '@iconify/vue2';
 export default {
   props: {
     productDetails: { type: Object, default: () => ({}) },
-    productId: { type: Number },
+    productId: { type: String },
     isRenderedInModal: { type: Boolean, default: true },
   },
 
@@ -240,13 +240,11 @@ export default {
     },
 
     selectedSizeName() {
-      return this.selectedSize ? Object.keys(this.selectedSize)[0] : undefined;
+      return this.selectedSize ? this.selectedSize.size : undefined;
     },
 
     selectedSizeStock() {
-      return this.selectedSize
-        ? Object.values(this.selectedSize)[0]
-        : undefined;
+      return this.selectedSize ? this.selectedSize.stock : undefined;
     },
   },
 
@@ -259,7 +257,7 @@ export default {
     }),
 
     isSizeOutOfStock(item) {
-      return Object.values(item)[0] === 0;
+      return item.stock === 0;
     },
 
     isSale(product) {
@@ -270,7 +268,7 @@ export default {
       let quantity = 1; // for case add new item to cart
 
       if (this.isUpdatingCart) {
-        const newSizeStock = Object.values(item)[0];
+        const newSizeStock = item.stock;
         quantity =
           this.selectedQuantity < newSizeStock
             ? this.selectedQuantity
@@ -357,7 +355,7 @@ export default {
 
         const updatingSize = productDetails.variants[
           updatingVariantIdx
-        ].stock.find((item) => Object.keys(item)[0] === sizeName);
+        ].stock.find((item) => item.size === sizeName);
 
         this.selectedVariant = updatingVariantIdx;
         this.selectedSize = updatingSize;

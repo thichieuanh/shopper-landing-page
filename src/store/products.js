@@ -20,14 +20,10 @@ export default {
   actions: {
     async getProducts({ commit }) {
       try {
-        // const womenProducts = await Api.getWomenProducts();
-        // const menProducts = await Api.getMenProducts();
-        // const kidsProducts = await Api.getKidsProducts();
         const products = await Api.getProducts();
         const womenProducts = products.filter(product => product.productGroup === 'women');
         const menProducts = products.filter(product => product.productGroup === 'men');
         const kidsProducts = products.filter(product => product.productGroup === 'kids');
-        console.log(kidsProducts)
 
         commit('womenProducts', womenProducts);
         commit('menProducts', menProducts);
@@ -43,7 +39,7 @@ export default {
     getAllProducts: state => [...state.womenProducts, ...state.menProducts, ...state.kidsProducts],
 
     getProductById: (_state, getters) => (id) => {
-      return getters.getAllProducts.find(product => product.id === id);
+      return getters.getAllProducts.find(product => product._id === id);
     },
   },
 }
