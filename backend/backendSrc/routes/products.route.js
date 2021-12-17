@@ -28,7 +28,6 @@ router.get('/product-reviews/:id', (req, res) => {
     if (error) {
       return next(error)
     } else {
-      console.log(data.reviews)
       res.json(data.reviews)
     }
   });
