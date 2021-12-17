@@ -23,18 +23,19 @@ router.get('/products', async (req, res) => {
   })
 })
 
-router.get('/product-reviews/:id', async (req, res) => {
-  await ProductModel.findById(req.params.id, (error, data) => {
+router.get('/product-reviews/:id', (req, res) => {
+  ProductModel.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error)
     } else {
+      console.log(data.reviews)
       res.json(data.reviews)
     }
-  }).clone();
+  });
 })
 
-router.post('/add-review/:id', async (req, res) => {
-  await ProductModel.findById(req.params.id, (error, data) => {
+router.post('/add-review/:id', (req, res) => {
+  ProductModel.findById(req.params.id, (error, data) => {
     if (error) return next(error);
     data.reviews.push(req.body);
     data.markModified('reviews');
