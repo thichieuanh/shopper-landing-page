@@ -19,7 +19,6 @@ connect(mongoURI, connectOptions, (err, db) => {
   console.log(`Connected to MongoDB`);
 });
 
-import { productsRoute as productsAPI } from './backendSrc/routes/products.route.js'
 const app = express();
 app.use(cors());
 
@@ -28,7 +27,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // API
-app.use('/products', productsAPI)
+import { router as productsAPI } from './backendSrc/routes/products.route.js'
+app.use('/', productsAPI)
 
 // Create port
 const port = process.env.PORT || 5000;

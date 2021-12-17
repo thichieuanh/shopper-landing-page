@@ -484,7 +484,7 @@ export default {
       this.productDetails = product;
 
       if (product) {
-        this.$store.commit('reviews/getProductReviewList', product);
+        this.$store.dispatch('reviews/getReviews', this.productId);
       }
     },
 
@@ -510,14 +510,17 @@ export default {
       const date = new Date();
 
       const payload = {
-        date,
-        rating,
-        reviewer,
-        title,
-        text,
-        commentCount: 0,
-        likeCount: 0,
-        dislikeCount: 0,
+        productId: this.productId,
+        reviewDetails: {
+          date,
+          rating,
+          reviewer,
+          title,
+          text,
+          commentCount: 0,
+          likeCount: 0,
+          dislikeCount: 0,
+        },
       };
 
       this.$store.dispatch('reviews/addReview', payload);

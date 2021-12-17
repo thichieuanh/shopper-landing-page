@@ -45,7 +45,6 @@
 </template>
 
 <script>
-// VUE_APP_API_BASE_URL=https://anhthichieu.github.io/shopperdb
 
 import { mapGetters } from 'vuex';
 import { Icon } from '@iconify/vue2';

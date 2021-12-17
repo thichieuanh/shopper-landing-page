@@ -1,4 +1,5 @@
 import messages from '@/assets/data/notiMessages';
+import Api from '@/api';
 
 export default {
   namespaced: true,
@@ -9,8 +10,8 @@ export default {
   }),
 
   mutations: {
-    getProductReviewList: (state, product) => {
-      state.reviews = product.reviews
+    getProductReviewList: (state, payload) => {
+      state.reviews = payload
     },
 
     appendReview: (state, payload) => {
@@ -19,9 +20,20 @@ export default {
   },
 
   actions: {
-    addReview: ({ commit, dispatch }, payload) => {
-      commit('appendReview', payload)
+    async getReviews({ commit }, productId) {
+      try {
+        const productReviews = await Api.getReviews(productId);
+        commit('getProductReviewList', productReviews)
+      } catch (e) {
+        console.error(e);
+        throw new Error('Error when fetching product reviews', e);
+      }
+    },
+
+    async addReview({ commit, dispatch }, payload) {
+      commit('appendReview', payload.reviewDetails)
       dispatch('notification/showNotification', messages.reviewPosted, { root: true })
+      await Api.addReview(payload);
     },
   },
 
