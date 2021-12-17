@@ -48,5 +48,6 @@ app.use(function (err, req, res, next) {
   res.status(err.statusCode).send(err.message);
 });
 
+
 import createData from './backendSrc/database/generateProducts.js'
 createData();

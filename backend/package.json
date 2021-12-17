@@ -2,7 +2,7 @@
   "name": "backend-for-shopper-landing-page",
   "version": "1.0.0",
   "description": "Backend code for my shopper",
-  "main": "app.js",
+  "main": "index.js",
   "repository": "https://github.com/anhthichieu/shopper-landing-page",
   "author": "anhthichieu",
   "license": "MIT",
@@ -18,8 +18,8 @@
     "mongoose": "^6.1.2"
   },
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "type": "module"
 }

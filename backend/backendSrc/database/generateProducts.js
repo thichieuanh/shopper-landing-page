@@ -153,7 +153,6 @@ export default async function createData() {
       // Use Array.entries() to iterate over both index and value of elements
       // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/entries
       const data = createProductData(key, product, i);
-      // console.log('data', data);
 
       // Check if the product is already existed in database
       const currentProduct = await ProductModel.findOne({ name: data.name }).exec();
@@ -165,5 +164,3 @@ export default async function createData() {
     }
   }
 }
-
-// createData();
