@@ -19,6 +19,14 @@ const messages = {
     type: 'success',
     message: 'Product removed from your cart',
   },
+  addedToWishlist: {
+    type: 'success',
+    message: 'Added to wishlist',
+  },
+  removedFromWishlist: {
+    type: 'success',
+    message: 'Removed from wishlist',
+  },
   reviewPosted: {
     type: 'success',
     message: 'Your review has been posted',
@@ -42,7 +50,8 @@ const messages = {
   editPaymentCard: {
     type: 'success',
     message: 'Payment method updated successfully',
-  }
+  },
+
 }
 
 export default messages;

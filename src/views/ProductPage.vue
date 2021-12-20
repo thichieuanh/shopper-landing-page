@@ -313,8 +313,8 @@
 </template>
 
 <script>
+import Api from '@/api';
 import toggleCollapsibleElement from '@/utils/toggleCollapsibleElement';
-
 import Breadcrumbs from '@/components/Breadcrumbs';
 import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
 import Description from '@/components/ProductPage/Description';
@@ -478,12 +478,12 @@ export default {
       toggleCollapsibleElement(!this.isShowReviewForm, 'collapsedReviewForm');
     },
 
-    init() {
+    async init() {
       this.productId = this.$route.params.id;
-      const product = this.getProductById(this.productId);
-      this.productDetails = product;
+      const data = await Api.getProduct(this.productId);
+      this.productDetails = data;
 
-      if (product) {
+      if (data) {
         this.$store.dispatch('reviews/getReviews', this.productId);
       }
     },

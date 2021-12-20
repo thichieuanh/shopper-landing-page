@@ -49,9 +49,9 @@
       </div>
 
       <v-card-subtitle class="pa-0 mt-4 mb-0">
-        <a href="" class="grey--text text--darken-2">{{
-          productDetails.category
-        }}</a>
+        <a href="" class="grey--text text--darken-2">
+          {{ productDetails.category }}
+        </a>
       </v-card-subtitle>
 
       <v-card-title class="pa-0 mt-1 mb-0">
@@ -77,7 +77,7 @@
 <script>
 import 'animate.css';
 import { Icon } from '@iconify/vue2';
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { Icon },
@@ -107,12 +107,13 @@ export default {
   },
 
   computed: {
-    ...mapGetters('productPrivateStore', ['isProductIdInCart', 'isWishlisted']),
+    ...mapGetters({
+      isProductIdInCart: 'productPrivateStore/isProductIdInCart',
+      isWishlisted: 'productPrivateStore/isWishlisted',
+    }),
   },
 
   methods: {
-    ...mapActions('productPrivateStore', ['updateWishList']),
-
     iconClicked(index) {
       switch (index) {
         case 0:
@@ -123,7 +124,10 @@ export default {
           });
           break;
         case 2:
-          this.updateWishList(this.productDetails._id);
+          this.$store.dispatch(
+            'productPrivateStore/updateProductWishlistState',
+            this.productDetails._id
+          );
           break;
       }
     },

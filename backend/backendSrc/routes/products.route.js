@@ -23,6 +23,16 @@ router.get('/products', async (req, res) => {
   })
 })
 
+router.get('/product/:id', (req, res) => {
+  ProductModel.findById(req.params.id, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  });
+})
+
 router.get('/product-reviews/:id', (req, res) => {
   ProductModel.findById(req.params.id, (error, data) => {
     if (error) {
@@ -39,10 +49,23 @@ router.post('/add-review/:id', (req, res) => {
     data.reviews.push(req.body);
     data.markModified('reviews');
 
-    data.save((err, updatedPerson) => {
+    data.save((err, updatedProduct) => {
       if (err) console.log('Error when add review', err);
-      res.json(updatedPerson)
+      res.json(updatedProduct)
       console.log('Review posted successfully')
+    })
+  }).clone();
+})
+
+router.put('/update-wishlist/:id', (req, res, next) => {
+  ProductModel.findById(req.params.id, (error, data) => {
+    if (error) return next(error);
+    data.isWishlisted = !data.isWishlisted;
+
+    data.save((err, updatedProduct) => {
+      if (err) console.log('Error when update wishlist', err);
+      res.json(updatedProduct)
+      console.log('Wishlist updated successfully')
     })
   }).clone();
 })

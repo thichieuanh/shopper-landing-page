@@ -1,31 +1,20 @@
 import { random, round } from 'lodash'
 import messages from '@/assets/data/notiMessages';
+import Api from '@/api';
 
 export default {
   namespaced: true,
 
   state: () => ({
-    // wishlist: [],
-    wishlist: [1, 10, 20, 5, 12],
     cart: [],
     isCouponApplied: false,
     discountRateForCoupon: 0,
-    coupon: ''
+    coupon: '',
+    wishlist: [],
+    product: null
   }),
 
   mutations: {
-    appendWishlist: (state, productId) => {
-      if (!state.wishlist.includes(productId)) {
-        state.wishlist = [...state.wishlist, productId]
-      }
-    },
-
-    detachWishlist: (state, productId) => {
-      if (state.wishlist.includes(productId)) {
-        state.wishlist = state.wishlist.filter(id => id !== productId)
-      }
-    },
-
     appendCart: (state, payload) => {
       state.cart = [...state.cart, payload]
     },
@@ -53,14 +42,38 @@ export default {
     removeCoupon: (state) => {
       state.isCouponApplied = false;
       state.discountRateForCoupon = 0;
+    },
+
+    wishlist: (state, payload) => {
+      state.wishlist = payload;
+    },
+
+    setProductDetail: (state, payload) => {
+      state.product = payload;
     }
   },
 
   actions: {
-    updateWishList: ({ commit, getters }, productId) => {
-      getters.isWishlisted(productId)
-        ? commit('detachWishlist', productId)
-        : commit('appendWishlist', productId)
+    async getProduct({ commit }, productId) {
+      const currentProduct = await Api.getProduct(productId);
+      commit('setProductDetail', currentProduct)
+    },
+
+    async getWishlistedProducts({ commit }) {
+      const products = await Api.getProducts();
+      const wishlist = products.filter(product => product.isWishlisted === true);
+      commit('wishlist', wishlist)
+    },
+
+    async updateProductWishlistState({ getters, commit, dispatch }, productId) {
+      commit('notification/loading', true, { root: true })
+      await Api.updateProductWishlistState(productId);
+      await dispatch('getWishlistedProducts');
+
+      commit('notification/loading', false, { root: true })
+      dispatch('notification/showNotification',
+        getters.isWishlisted(productId) ? messages.addedToWishlist : messages.removedFromWishlist,
+        { root: true })
     },
 
     updateCart: ({ dispatch, commit, state, getters, }, { isUpdatingCart, itemIndexToUpdate, productPayload, }) => {
@@ -113,8 +126,10 @@ export default {
   },
 
   getters: {
+    wishlist: ({ wishlist }) => wishlist,
+
     isWishlisted: (state) => (productId) => {
-      return state.wishlist.includes(productId);
+      return state.wishlist.some(product => product._id === productId);
     },
 
     itemIndexInCart: (state) => (variantColor, sizeName) => {
@@ -122,7 +137,6 @@ export default {
     },
 
     isProductIdInCart: (state) => (id) => {
-      return state.cart.find(item => item.productId === id)
     },
 
     discountRateForCoupon: (state) => state.isCouponApplied ? round(random(0.1, 0.7), 2) : 0,

@@ -24,6 +24,9 @@
       <div>{{ notificationMessage }}</div>
     </v-snackbar>
 
+    <!-- LOADING -->
+    <Loading v-show="loading" />
+
     <!-- PRODUCT DIALOG -->
     <ProductDialog :isOpen="isDialogOpen"></ProductDialog>
 
@@ -45,7 +48,6 @@
 </template>
 
 <script>
-
 import { mapGetters } from 'vuex';
 import { Icon } from '@iconify/vue2';
 import ProductDialog from '@/components/HomePage/Product/ProductDialog.vue';
@@ -54,6 +56,7 @@ import NavBars from '@/components/NavBars';
 import SearchDrawer from '@/components/HomePage/SearchDrawer';
 import CartDrawer from '@/components/HomePage/CartDrawer';
 import HomeFooter from '@/components/HomePage/HomeFooter.vue';
+import Loading from '@/components/Loading';
 
 export default {
   name: 'App',
@@ -66,6 +69,7 @@ export default {
     SearchDrawer,
     CartDrawer,
     SizeChart,
+    Loading,
   },
 
   data: () => ({
@@ -83,9 +87,9 @@ export default {
       'notificationMessage',
     ]),
 
-    ...mapGetters({
-      getProductById: 'products/getProductById',
-    }),
+    loading() {
+      return this.$store.state.notification.loading;
+    },
 
     notiIcon() {
       return this.isError
@@ -169,6 +173,7 @@ export default {
       'cartClicked',
       () => (this.isShowCartDrawer = !this.isShowCartDrawer)
     );
+
     this.eventHub.$on('closeCart', () => (this.isShowCartDrawer = false));
 
     this.eventHub.$on(
@@ -190,6 +195,7 @@ export default {
   mounted() {
     this.$store.dispatch('products/getProducts');
     this.$store.dispatch('orders/getOrders');
+    this.$store.dispatch('productPrivateStore/getWishlistedProducts');
   },
 };
 </script>

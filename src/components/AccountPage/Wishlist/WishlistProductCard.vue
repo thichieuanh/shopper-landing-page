@@ -10,8 +10,8 @@
       <button
         class="product-button card-action card-action-right"
         @click="
-          $store.commit(
-            'productPrivateStore/detachWishlist',
+          $store.dispatch(
+            'productPrivateStore/updateProductWishlistState',
             productDetails._id
           )
         "

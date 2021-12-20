@@ -151,7 +151,7 @@
       <!-- Wishlist button -->
       <v-col
         :class="['col-12 px-0', isRenderedInModal ? 'col-lg-5' : 'col-lg-6']"
-        @click="updateWishList(productId)"
+        @click="wishlistClicked(productId)"
       >
         <button class="btn btn-block btn-outline-dark">
           {{ wishlistButtonInfo.text }}
@@ -164,7 +164,7 @@
 
 <script>
 import getVariantStock from '@/utils/getVariantStock';
-import { mapGetters, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import { Icon } from '@iconify/vue2';
 
 export default {
@@ -191,9 +191,15 @@ export default {
   }),
 
   computed: {
-    ...mapGetters({
-      isWishlisted: 'productPrivateStore/isWishlisted',
-    }),
+    wishlist() {
+      return this.$store.state.productPrivateStore.wishlist;
+    },
+
+    isWishlisted() {
+      return this.$store.state.productPrivateStore.wishlist.some(
+        (product) => product._id === this.productId
+      );
+    },
 
     selectedVariant: {
       get() {
@@ -226,7 +232,7 @@ export default {
     },
 
     wishlistButtonInfo() {
-      return this.isWishlisted(this.productId)
+      return this.isWishlisted
         ? { text: 'Remove from wishlist', icon: 'mdi:heart-minus-outline' }
         : { text: 'Add to wishlist', icon: 'ph:heart-straight' };
     },
@@ -252,7 +258,6 @@ export default {
 
   methods: {
     ...mapActions({
-      updateWishList: 'productPrivateStore/updateWishList',
       showNotification: 'notification/showNotification',
     }),
 
@@ -362,11 +367,23 @@ export default {
         this.selectedQuantity = quantity;
       }
     },
+
+    wishlistClicked(productId) {
+      this.$store.commit('notification/loading', true);
+
+      this.$store.dispatch(
+        'productPrivateStore/updateProductWishlistState',
+        productId
+      );
+    },
   },
 
-  created() {
+  async created() {
     this.eventHub.$on('showProductDialog', this.onShowProductDialog);
     this.eventHub.$on('closeProductDialog', this.onCloseProductDialog);
+    this.$store.dispatch('productPrivateStore/getProduct', this.productId);
   },
+
+  mounted() {},
 };
 </script>

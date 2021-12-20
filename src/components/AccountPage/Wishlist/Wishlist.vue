@@ -5,19 +5,17 @@
       <v-col
         cols="6"
         sm="4"
-        v-for="(productId, productIndex) in wishlist"
+        v-for="(product, productIndex) in wishlist"
         :key="productIndex"
       >
-        <WishlistProductCard
-          :productDetails="getProductById(productId)"
-        ></WishlistProductCard>
+        <WishlistProductCard :productDetails="product"></WishlistProductCard>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import WishlistProductCard from '@/components/AccountPage/Wishlist/WishlistProductCard';
 
 export default {
@@ -27,7 +25,6 @@ export default {
 
   computed: {
     ...mapState('productPrivateStore', ['wishlist']),
-    ...mapGetters('products', ['getProductById']),
   },
 };
 </script>

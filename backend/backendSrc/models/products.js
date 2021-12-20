@@ -11,6 +11,7 @@ export const productSchema = new Schema({
   category: String,
   name: String,
   isNewProduct: Boolean,
+  isWishlisted: Boolean,
   pricing: {
     price: Number,
     discount: Number,

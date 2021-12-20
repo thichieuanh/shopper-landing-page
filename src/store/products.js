@@ -41,5 +41,10 @@ export default {
     getProductById: (_state, getters) => (id) => {
       return getters.getAllProducts.find(product => product._id === id);
     },
+
+    // isWishlisted: (state) => async (productId) => {
+    //   const currentProduct = await Api.getProduct(productId)
+    //   return currentProduct.isWishlisted;
+    // },
   },
 }

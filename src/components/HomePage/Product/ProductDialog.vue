@@ -88,7 +88,6 @@ export default {
 
   methods: {
     ...mapActions({
-      updateWishList: 'productPrivateStore/updateWishList',
       showNotification: 'notification/showNotification',
     }),
 

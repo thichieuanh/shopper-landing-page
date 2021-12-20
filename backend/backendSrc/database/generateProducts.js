@@ -135,7 +135,6 @@ function createProductData(group, product, index) {
   productData.productGroup = group;
   productData.category = category;
   productData.name = product.productName;
-  productData.isNewProduct = productStatus.isNewProduct;
   productData.pricing = {
     price: productStatus.price,
     discount: productStatus.discountVal,
@@ -143,6 +142,8 @@ function createProductData(group, product, index) {
   };
   productData.variants = variants;
   productData.reviews = getReviews();
+  productData.isNewProduct = productStatus.isNewProduct;
+  productData.isWishlisted = false;
   return productData;
 }
 
