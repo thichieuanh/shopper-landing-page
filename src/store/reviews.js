@@ -1,5 +1,5 @@
 import messages from '@/assets/data/notiMessages';
-import Api from '@/api';
+import API from '@/api';
 
 export default {
   namespaced: true,
@@ -22,7 +22,7 @@ export default {
   actions: {
     async getReviews({ commit }, productId) {
       try {
-        const productReviews = await Api.getReviews(productId);
+        const productReviews = await API.getReviews(productId);
         commit('getProductReviewList', productReviews)
       } catch (e) {
         console.error(e);
@@ -33,7 +33,7 @@ export default {
     async addReview({ commit, dispatch }, payload) {
       commit('appendReview', payload.reviewDetails)
       dispatch('notification/showNotification', messages.reviewPosted, { root: true })
-      await Api.addReview(payload);
+      await API.addReview(payload);
     },
   },
 

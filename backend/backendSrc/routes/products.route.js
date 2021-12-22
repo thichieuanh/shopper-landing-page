@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { ProductModel } from '../models/products.js'
+import { ProductModel } from '../models/product.js'
 const router = Router();
 
 // router.route('/').get((req, res) => {
@@ -54,7 +54,7 @@ router.post('/add-review/:id', (req, res) => {
       res.json(updatedProduct)
       console.log('Review posted successfully')
     })
-  }).clone();
+  });
 })
 
 router.put('/update-wishlist/:id', (req, res, next) => {
@@ -67,7 +67,14 @@ router.put('/update-wishlist/:id', (req, res, next) => {
       res.json(updatedProduct)
       console.log('Wishlist updated successfully')
     })
-  }).clone();
+  });
+})
+
+router.get('/item-stock/:id', async (req, res) => {
+  const products = await ProductModel.find({});
+  const getStockById = (id) => products.flatMap(it => it.variants).flatMap(it => it.stock).find(it => it._id == id);
+  const stock = getStockById(req.params.id);
+  res.json(stock)
 })
 
 export { router }

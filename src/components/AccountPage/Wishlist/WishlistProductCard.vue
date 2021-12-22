@@ -24,7 +24,6 @@
         @click="
           eventHub.$emit('showProductDialog', {
             productId: productDetails._id,
-            isUpdatingCart: false,
           })
         "
       >

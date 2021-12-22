@@ -58,7 +58,9 @@
             <div class="text-muted font-size-xs">
               Color: {{ item.variantColor }}
             </div>
-            <div class="text-muted font-size-xs">Size: {{ item.sizeName }}</div>
+            <div class="text-muted font-size-xs">
+              Size: {{ item.size.sizeName }}
+            </div>
           </router-link>
 
           <div class="d-flex w-100 justify-space-between">
@@ -69,7 +71,7 @@
               @change="changeQuantity(item, $event)"
             >
               <option
-                v-for="n in item.sizeStock"
+                v-for="n in item.size.sizeStock"
                 :value="n"
                 :key="n"
                 :selected="n === item.quantity"
@@ -80,7 +82,7 @@
 
             <button
               class="d-flex align-center font-size-xs update-cart-btn"
-              @click="editCart(item, index)"
+              @click="editCart(item)"
             >
               <Icon
                 icon="grommet-icons:edit"
@@ -144,6 +146,7 @@
 <script>
 import { Icon } from '@iconify/vue2';
 import { mapGetters } from 'vuex';
+import API from '@/api';
 
 export default {
   props: {
@@ -158,10 +161,13 @@ export default {
   computed: {
     ...mapGetters({
       getProductById: 'products/getProductById',
-      cart: 'productPrivateStore/cart',
       itemIndexInCart: 'productPrivateStore/itemIndexInCart',
       cartSubtotal: 'productPrivateStore/cartSubtotal',
     }),
+
+    cart() {
+      return this.$store.state.productPrivateStore.cart;
+    },
 
     checkoutButtonClass() {
       return ['btn btn-dark btn-block', { disableBtn: !this.cart.length }];
@@ -173,33 +179,38 @@ export default {
       if (product.pricing.discount) return true;
     },
 
-    changeQuantity(item, event) {
+    async changeQuantity(item, event) {
       const updatedQuantity = +event.target.value;
-      const index = this.itemIndexInCart(item.variantColor, item.sizeName);
+      const productPayload = { ...item };
+      productPayload.quantity = updatedQuantity;
 
-      this.$store.commit('productPrivateStore/changeQtyItemExistedInCart', {
-        updatedQty: updatedQuantity,
-        itemIndex: index,
+      await API.editCart({
+        id: item._id,
+        replacedProduct: productPayload,
       });
+
+      this.$store.dispatch('productPrivateStore/getCart');
     },
 
-    editCart(item, index) {
+    editCart(item) {
       this.eventHub.$emit('showProductDialog', {
-        isUpdatingCart: true,
-        itemIndexToUpdate: index,
         productId: item.productId,
-        variantColor: item.variantColor,
-        sizeName: item.sizeName,
-        quantity: item.quantity,
       });
+
+      const payload = {
+        isEditingCart: true,
+        updatingItemInCart: {
+          id: item._id,
+          variantColor: item.variantColor,
+          sizeName: item.size.sizeName,
+          quantity: item.quantity,
+        },
+      };
+      this.$store.commit('productPrivateStore/toggleEditCart', payload);
     },
 
-    removeCart(index) {
-      this.$store.commit('productPrivateStore/detachCart', index);
-      this.$store.commit('notification/showNotification', {
-        type: 'success',
-        message: 'Product removed from cart',
-      });
+    removeCart(item) {
+      this.$store.dispatch('productPrivateStore/removeFromCart', item._id);
     },
 
     close() {

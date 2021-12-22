@@ -5,7 +5,7 @@ import fakerPkg from 'faker';
 const { name: _name, date: _date, lorem } = fakerPkg;
 
 import { productInfo } from './productInfo.js';
-import { ProductModel } from '../models/products.js'
+import { ProductModel } from '../models/product.js'
 
 let controlVariantId = 0;
 
@@ -70,8 +70,8 @@ function getSizes(category) {
 function getStock(sizeList) {
   return sizeList.reduce((stockArray, size) => {
     stockArray.push({
-      size: size,
-      stock: random(0, 5)
+      sizeName: size,
+      sizeStock: random(0, 5)
     })
     return stockArray;
   }, [])

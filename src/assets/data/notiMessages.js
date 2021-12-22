@@ -5,7 +5,7 @@ const messages = {
   },
   notEnoughStockRemaining: {
     type: 'error',
-    message: 'Sorry, there is not enough stock remaining for this size',
+    message: 'Sorry, there is not enough stock remaining. Please check your cart',
   },
   duplicatedItem: {
     type: 'error',
@@ -15,9 +15,9 @@ const messages = {
     type: 'success',
     message: 'Cart updated',
   },
-  productRemoved: {
+  removedFromCart: {
     type: 'success',
-    message: 'Product removed from your cart',
+    message: 'Product removed from cart',
   },
   addedToWishlist: {
     type: 'success',

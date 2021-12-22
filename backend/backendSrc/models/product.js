@@ -24,8 +24,8 @@ export const productSchema = new Schema({
       variantImages: [String],
       stock: [
         {
-          size: String,
-          stock: Number
+          sizeName: String,
+          sizeStock: Number
         }
       ]
     }

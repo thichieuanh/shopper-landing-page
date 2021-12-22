@@ -120,7 +120,6 @@ export default {
         case 1:
           this.eventHub.$emit('showProductDialog', {
             productId: this.productDetails._id,
-            isUpdatingCart: false,
           });
           break;
         case 2:

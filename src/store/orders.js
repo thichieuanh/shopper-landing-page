@@ -1,4 +1,4 @@
-import Api from '@/api';
+import API from '@/api';
 import getShippedDate from '@/utils/fakeShippedDate';
 
 export default {
@@ -15,7 +15,7 @@ export default {
   actions: {
     async getOrders({ commit }) {
       try {
-        const orderData = await Api.getOrders();
+        const orderData = await API.getOrders();
 
         // Add shipped date to each order
         const orders = orderData.reduce((array, order) => {
@@ -30,7 +30,7 @@ export default {
         commit('orders', orders);
       } catch (error) {
         console.error(error);
-        throw new Error('Something went wrong!!', error);
+        throw new Error('Error when fetching order from db', error);
       }
     },
   },

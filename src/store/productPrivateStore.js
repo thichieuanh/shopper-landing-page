@@ -1,12 +1,14 @@
 import { random, round } from 'lodash'
 import messages from '@/assets/data/notiMessages';
-import Api from '@/api';
+import API from '@/api';
 
 export default {
   namespaced: true,
 
   state: () => ({
     cart: [],
+    isEditingCart: null,
+    updatingItemInCart: {},
     isCouponApplied: false,
     discountRateForCoupon: 0,
     coupon: '',
@@ -15,23 +17,20 @@ export default {
   }),
 
   mutations: {
-    appendCart: (state, payload) => {
-      state.cart = [...state.cart, payload]
+    cart: (state, payload) => {
+      state.cart = payload;
     },
 
-    changeQtyItemExistedInCart: (state, { updatedQty, itemIndex }) => {
-      state.cart[itemIndex].quantity = updatedQty;
+    toggleEditCart: (state, payload) => {
+      state.isEditingCart = payload.isEditingCart;
+      state.updatingItemInCart = payload.updatingItemInCart;
     },
 
-    detachCart: (state, itemIndexToUpdate) => {
-      state.cart.splice(itemIndexToUpdate, 1)
-    },
-
-    replaceItemInCart: (state, { itemIndexToUpdate, replacingItem }) => {
-      state.cart.splice(itemIndexToUpdate, 1, ...[replacingItem].filter(Boolean));
-      // Rest parameter syntax, the last param is optional, make it as undefined in case of just removing the product
-      // then use .filter(Boolean) to remove that falsy value
-    },
+    // replaceItemInCart: (state, { itemIndexToUpdate, replacingItem }) => {
+    //   state.cart.splice(itemIndexToUpdate, 1, ...[replacingItem].filter(Boolean));
+    //   // Rest parameter syntax, the last param is optional, make it as undefined in case of just removing the product
+    //   // then use .filter(Boolean) to remove that falsy value
+    // },
 
     applyCoupon: (state, text) => {
       state.isCouponApplied = true;
@@ -55,19 +54,19 @@ export default {
 
   actions: {
     async getProduct({ commit }, productId) {
-      const currentProduct = await Api.getProduct(productId);
+      const currentProduct = await API.getProduct(productId);
       commit('setProductDetail', currentProduct)
     },
 
     async getWishlistedProducts({ commit }) {
-      const products = await Api.getProducts();
+      const products = await API.getProducts();
       const wishlist = products.filter(product => product.isWishlisted === true);
       commit('wishlist', wishlist)
     },
 
     async updateProductWishlistState({ getters, commit, dispatch }, productId) {
       commit('notification/loading', true, { root: true })
-      await Api.updateProductWishlistState(productId);
+      await API.updateProductWishlistState(productId);
       await dispatch('getWishlistedProducts');
 
       commit('notification/loading', false, { root: true })
@@ -76,53 +75,40 @@ export default {
         { root: true })
     },
 
-    updateCart: ({ dispatch, commit, state, getters, }, { isUpdatingCart, itemIndexToUpdate, productPayload, }) => {
-      /*
-      - itemIndexToUpdate: the item being edited
-      - indexOfPayload: check if the selected product (payload) existed in cart or not
-      */
-      const { variantColor, quantity, sizeName, sizeStock } = productPayload;
-      const indexOfPayload = getters.itemIndexInCart(variantColor, sizeName)
-      const isItemExistedInCart = indexOfPayload !== -1;
-      let updatedQuantity = isItemExistedInCart ? state.cart[indexOfPayload].quantity + quantity : undefined;
+    async getCart({ commit }) {
+      const database = await API.getCart();
+      commit('cart', database)
+    },
 
-      if (isUpdatingCart) { // Case 1: editing cart
-        const updatingItem = state.cart[itemIndexToUpdate];
-        let replacingItem = productPayload;
+    async updateCart({ dispatch, state, }, productPayload) {
+      if (state.isEditingCart) {
+        const res = await API.editCart({
+          id: state.updatingItemInCart.id,
+          replacedProduct: productPayload
+        });
 
-        const isUpdatingAndNewItemsIdentical = (updatingItem.sizeName === replacingItem.sizeName) && (updatingItem.variantColor === replacingItem.variantColor) && (updatingItem.quantity === replacingItem.quantity)
-
-        if (isUpdatingAndNewItemsIdentical) {
+        if (res.status === 'Duplicated item') {
           dispatch('notification/showNotification', messages.duplicatedItem, { root: true })
         } else {
-          if (isItemExistedInCart) {
-            /* Replace current item to other item already existed in cart:
-            Increase the existing item's quantity and delete editing item
-            */
-            if (updatedQuantity > sizeStock) {
-              updatedQuantity = sizeStock
-            }
-            if (itemIndexToUpdate !== indexOfPayload) replacingItem = undefined;
-            commit('changeQtyItemExistedInCart', { updatedQty: updatedQuantity, itemIndex: indexOfPayload })
-          }
-
-          commit('replaceItemInCart', { itemIndexToUpdate: itemIndexToUpdate, replacingItem: replacingItem })
+          dispatch('getCart');
           dispatch('notification/showNotification', messages.replacedItem, { root: true })
         }
-      } else { // Case 2: add new item to cart
-        if (isItemExistedInCart) { // If existed, check stock then increase quantity in cart
-          if (updatedQuantity > sizeStock) {
-            dispatch('notification/showNotification', messages.notEnoughStockRemaining, { root: true })
-          } else {
-            commit('changeQtyItemExistedInCart', { updatedQty: updatedQuantity, itemIndex: indexOfPayload })
-            dispatch('notification/showNotification', messages.addedToCart, { root: true })
-          }
-        } else { // If not existed then add product to cart
-          commit('appendCart', productPayload)
+      } else {
+        const res = await API.addToCart(productPayload);
+        if (res.status === 'Not enough stock remaining') {
+          dispatch('notification/showNotification', messages.notEnoughStockRemaining, { root: true })
+        } else {
+          dispatch('getCart');
           dispatch('notification/showNotification', messages.addedToCart, { root: true })
         }
       }
     },
+
+    async removeFromCart({ commit, dispatch }, id) {
+      await API.removeFromCart(id);
+      dispatch('getCart');
+      commit('notification/showNotification', messages.removedFromCart, { root: true });
+    }
   },
 
   getters: {
@@ -141,7 +127,7 @@ export default {
 
     discountRateForCoupon: (state) => state.isCouponApplied ? round(random(0.1, 0.7), 2) : 0,
 
-    cart: ({ cart }) => cart.sort((a, b) => a.productId - b.productId),
+    cart: ({ cart }) => cart,
 
     cartLength: ({ cart }) => cart.length,
 

@@ -313,7 +313,7 @@
 </template>
 
 <script>
-import Api from '@/api';
+import API from '@/api';
 import toggleCollapsibleElement from '@/utils/toggleCollapsibleElement';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
@@ -480,7 +480,7 @@ export default {
 
     async init() {
       this.productId = this.$route.params.id;
-      const data = await Api.getProduct(this.productId);
+      const data = await API.getProduct(this.productId);
       this.productDetails = data;
 
       if (data) {

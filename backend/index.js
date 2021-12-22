@@ -28,7 +28,9 @@ app.use(express.json());
 
 // API
 import { router as productsAPI } from './backendSrc/routes/products.route.js'
+import { router as cartAPI } from './backendSrc/routes/cart.route.js'
 app.use('/', productsAPI)
+app.use('/cart', cartAPI)
 
 // Create port
 const port = process.env.PORT || 5000;

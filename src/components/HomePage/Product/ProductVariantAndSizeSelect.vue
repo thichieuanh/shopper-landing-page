@@ -46,7 +46,7 @@
             'product-thumb',
             { 'active-thumb': selectedVariant === index },
           ]"
-          @click="selectedVariant = index"
+          @click="selectVariant(index)"
         >
           <img :src="variant.variantImages[0]" alt="product thumb" />
         </v-avatar>
@@ -78,7 +78,7 @@
             :class="sizeClass(size)"
             @click="selectSize(size)"
           >
-            {{ size.size }}
+            {{ size.sizeName }}
           </li>
         </ul>
       </div>
@@ -168,6 +168,8 @@ import { mapActions } from 'vuex';
 import { Icon } from '@iconify/vue2';
 
 export default {
+  name: 'ProductVariantAndSizeSelect',
+
   props: {
     productDetails: { type: Object, default: () => ({}) },
     productId: { type: String },
@@ -181,9 +183,8 @@ export default {
   data: () => ({
     selectedSize: undefined,
     selectedQuantity: undefined,
-    isUpdatingCart: undefined,
+    isEditingCart: null,
     updatingItemInCart: {
-      itemIndexToUpdate: undefined,
       sizeName: undefined,
       variantColor: undefined,
       quantity: undefined,
@@ -226,7 +227,7 @@ export default {
     },
 
     cartButtonInfo() {
-      return this.isUpdatingCart
+      return this.isEditingCart
         ? { text: 'Update cart', icon: 'bi:cart' }
         : { text: 'Add to cart', icon: 'bi:cart' };
     },
@@ -246,11 +247,11 @@ export default {
     },
 
     selectedSizeName() {
-      return this.selectedSize ? this.selectedSize.size : undefined;
+      return this.selectedSize ? this.selectedSize.sizeName : undefined;
     },
 
     selectedSizeStock() {
-      return this.selectedSize ? this.selectedSize.stock : undefined;
+      return this.selectedSize ? this.selectedSize.sizeStock : undefined;
     },
   },
 
@@ -262,7 +263,7 @@ export default {
     }),
 
     isSizeOutOfStock(item) {
-      return item.stock === 0;
+      return item.sizeStock === 0;
     },
 
     isSale(product) {
@@ -272,8 +273,8 @@ export default {
     selectSize(item) {
       let quantity = 1; // for case add new item to cart
 
-      if (this.isUpdatingCart) {
-        const newSizeStock = item.stock;
+      if (this.isEditingCart) {
+        const newSizeStock = item.sizeStock;
         quantity =
           this.selectedQuantity < newSizeStock
             ? this.selectedQuantity
@@ -283,6 +284,11 @@ export default {
         this.selectedSize = item;
         this.selectedQuantity = quantity;
       }
+    },
+
+    selectVariant(index) {
+      this.selectedVariant = index;
+      this.selectedSize = undefined;
     },
 
     sizeClass(size) {
@@ -297,9 +303,8 @@ export default {
     onUpdateCart() {
       const {
         productDetails,
-        selectedSizeName,
+        selectedSize,
         selectedQuantity,
-        selectedSizeStock,
         selectedVariant,
         productId,
       } = this;
@@ -310,45 +315,17 @@ export default {
           image: productDetails.variants[selectedVariant].variantImages[0],
           name: productDetails.name,
           variantColor: productDetails.variants[selectedVariant].variantColor,
-          sizeName: selectedSizeName,
+          size: selectedSize,
           quantity: selectedQuantity,
-          sizeStock: selectedSizeStock,
           price: productDetails.pricing.priceAfterDiscount,
         };
 
-        this.$store.dispatch('productPrivateStore/updateCart', {
-          isUpdatingCart: this.isUpdatingCart,
-          itemIndexToUpdate: this.updatingItemInCart.itemIndexToUpdate,
-          productPayload: payload,
-        });
+        this.$store.dispatch('productPrivateStore/updateCart', payload);
       }
-    },
-
-    onShowProductDialog({
-      isUpdatingCart,
-      variantColor,
-      sizeName,
-      quantity,
-      itemIndexToUpdate,
-    }) {
-      this.isUpdatingCart = isUpdatingCart;
-      if (isUpdatingCart) {
-        this.updatingItemInCart.variantColor = variantColor;
-        this.updatingItemInCart.sizeName = sizeName;
-        this.updatingItemInCart.quantity = quantity;
-        this.updatingItemInCart.itemIndexToUpdate = itemIndexToUpdate;
-        this.$nextTick(this.getDefaultItemInDialog());
-      }
-    },
-
-    onCloseProductDialog() {
-      this.selectedVariant = 0;
-      this.selectedSize = undefined;
-      this.isUpdatingCart = false;
     },
 
     getDefaultItemInDialog() {
-      if (this.isUpdatingCart) {
+      if (this.isEditingCart) {
         const {
           updatingItemInCart: { sizeName, variantColor, quantity },
           productDetails,
@@ -360,7 +337,7 @@ export default {
 
         const updatingSize = productDetails.variants[
           updatingVariantIdx
-        ].stock.find((item) => item.size === sizeName);
+        ].stock.find((item) => item.sizeName === sizeName);
 
         this.selectedVariant = updatingVariantIdx;
         this.selectedSize = updatingSize;
@@ -378,12 +355,25 @@ export default {
     },
   },
 
-  async created() {
-    this.eventHub.$on('showProductDialog', this.onShowProductDialog);
-    this.eventHub.$on('closeProductDialog', this.onCloseProductDialog);
+  created() {
     this.$store.dispatch('productPrivateStore/getProduct', this.productId);
   },
 
-  mounted() {},
+  mounted() {
+    this.isEditingCart = this.$store.state.productPrivateStore.isEditingCart;
+    this.updatingItemInCart =
+      this.$store.state.productPrivateStore.updatingItemInCart;
+    this.getDefaultItemInDialog();
+  },
+
+  beforeDestroy() {
+    const payload = {
+      isEditingCart: false,
+      updatingItemInCart: {},
+    };
+    this.$store.commit('productPrivateStore/toggleEditCart', payload);
+    this.selectedVariant = 0;
+    this.selectedSize = undefined;
+  },
 };
 </script>

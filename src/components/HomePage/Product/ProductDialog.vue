@@ -4,7 +4,7 @@
       <div
         class="modal-overlay"
         id="product-modal-overlay"
-        v-show="isOpen"
+        v-if="isOpen"
         @click="close"
       >
         <transition name="slide-fade" appear>

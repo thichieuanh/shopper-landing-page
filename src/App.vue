@@ -39,7 +39,7 @@
 
     <CartDrawer
       v-model="isShowCartDrawer"
-      :isHiddenWhenDialogShown="isUpdatingCart"
+      :isHiddenWhenDialogShown="isEditingCart"
     ></CartDrawer>
     <!-- Docs: https://vuejs.org/v2/guide/components.html#Using-v-model-on-Components -->
 
@@ -75,7 +75,7 @@ export default {
   data: () => ({
     isDialogOpen: false,
     isSizeChartOpen: false,
-    isUpdatingCart: false,
+    // isEditingCart: false,
     isShowSearchDrawer: false,
     isShowCartDrawer: false,
   }),
@@ -99,6 +99,10 @@ export default {
 
     isError() {
       return this.notificationType === 'error';
+    },
+
+    isEditingCart() {
+      return this.$store.state.productPrivateStore.isEditingCart;
     },
   },
 
@@ -157,15 +161,13 @@ export default {
   },
 
   created() {
-    this.eventHub.$on('showProductDialog', ({ isUpdatingCart }) => {
+    this.eventHub.$on('showProductDialog', () => {
       this.isDialogOpen = true;
-      this.isUpdatingCart = isUpdatingCart;
       this.styleHandlingWhenShowingModal('product-modal-overlay');
     });
 
     this.eventHub.$on('closeProductDialog', () => {
       this.isDialogOpen = false;
-      this.isUpdatingCart = false;
       this.styleHandlingWhenClosingModal('product-modal-overlay');
     });
 
@@ -196,6 +198,7 @@ export default {
     this.$store.dispatch('products/getProducts');
     this.$store.dispatch('orders/getOrders');
     this.$store.dispatch('productPrivateStore/getWishlistedProducts');
+    this.$store.dispatch('productPrivateStore/getCart');
   },
 };
 </script>
