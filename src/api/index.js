@@ -24,5 +24,11 @@ const API = {
   getOrders: () => requester.get('/orders'),
 
   getOrder: orderNo => requester.get(`/orders/${orderNo}`),
+
+  getFullAccountInfo: () => requester.get('/account'),
+
+  getPersonalInfo: () => requester.get('/account/personal-info'),
+
+  updatePersonalInfo: newPersonalInfo => requester.put('/account/update-personal-info', newPersonalInfo),
 }
 export default API;

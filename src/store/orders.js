@@ -20,11 +20,10 @@ export default {
 
         // Sort orders by newest to oldest
         orders.sort((a, b) => b.shippedDate - a.shippedDate)
-
         commit('orders', orders);
       } catch (error) {
         console.error(error);
-        throw new Error('Error when fetching order from db', error);
+        throw new Error('Error when fetching orders from db', error);
       }
     },
 

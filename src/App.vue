@@ -199,6 +199,7 @@ export default {
     this.$store.dispatch('orders/getOrders');
     this.$store.dispatch('productPrivateStore/getWishlistedProducts');
     this.$store.dispatch('productPrivateStore/getCart');
+    this.$store.dispatch('accountInfo/getFullAccountInfo');
   },
 };
 </script>

@@ -114,3 +114,40 @@ export const orderSchema = new Schema({
 });
 
 export const OrderModel = model('Order', orderSchema)
+
+// Account info
+export const userSchema = new Schema({
+  personalInfo: {
+    firstName: String,
+    lastName: String,
+    email: String,
+    password: String,
+    dateOfBirth: Date,
+    gender: String
+  },
+  addresses: [
+    {
+      firstName: String,
+      lastName: String,
+      email: String,
+      addressLine1: String,
+      addressLine2: String,
+      city: String,
+      zipCode: String,
+      country: String,
+      phone: String,
+      companyName: String
+    }
+  ],
+  paymentCards: [
+    {
+      cardNumber: String,
+      expiryDate: Date,
+      nameOnCard: String,
+    }
+  ],
+}, {
+  collection: 'userData'
+});
+
+export const UserModel = model('User', userSchema)

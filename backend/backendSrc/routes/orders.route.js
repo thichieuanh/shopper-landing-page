@@ -3,7 +3,7 @@ import { OrderModel } from '../models/models.js'
 
 const router = Router();
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   OrderModel.find((error, data) => {
     if (error) {
       return next(error)

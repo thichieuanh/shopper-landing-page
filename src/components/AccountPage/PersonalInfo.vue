@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div v-if="personalInfo">
     <form
       @submit.prevent="personalInfoUpdated"
       @keyup.enter="personalInfoUpdated"
     >
       <v-row>
         <v-col
-          v-for="(info, personalInfoIndex) in personalInfos"
+          v-for="(info, personalInfoIndex) in infoFields"
           :key="personalInfoIndex"
           cols="12"
           :md="info.mdWidth"
@@ -82,14 +82,12 @@
 </template>
 
 <script>
-// import { mapState } from 'vuex';
-
 export default {
   data: () => ({
     dateFormatted: '',
     isShownDateMenu: false,
     genders: ['Male', 'Female'],
-    personalInfos: [
+    infoFields: [
       {
         label: 'First Name *',
         type: 'text',
@@ -131,13 +129,19 @@ export default {
   }),
 
   computed: {
-    // ...mapState('accountInfo', ['personalInfo']),
     personalInfo() {
       return this.$store.state.accountInfo.personalInfo;
     },
   },
 
   watch: {
+    personalInfo: {
+      immediate: true,
+      handler() {
+        this.fetchData();
+      },
+    },
+
     'formData.dateOfBirth': function () {
       this.dateFormatted = this.formatDate(this.formData.dateOfBirth);
     },
@@ -160,7 +164,8 @@ export default {
       }
     },
 
-    init() {
+    fetchData() {
+      if (!this.personalInfo) return;
       const { firstName, lastName, email, dateOfBirth, gender } =
         this.personalInfo;
 
@@ -180,8 +185,9 @@ export default {
 
     formatDate(date) {
       if (!date) return null;
+      const dateString = new Date(date).toISOString().slice(0, 10);
 
-      const [year, month, day] = date.split('-');
+      const [year, month, day] = dateString.split('-');
       return `${day}/${month}/${year}`;
     },
 
@@ -203,8 +209,6 @@ export default {
         newPassword,
         newPasswordRepeat,
       } = this.formData;
-
-      const [year, month, day] = dateOfBirth.split('-');
 
       // check password
       if (currentPassword !== this.personalInfo.password) {
@@ -231,13 +235,13 @@ export default {
             firstName,
             lastName,
             email,
-            dateOfBirth: new Date(year, month - 1, day - 1)
-              .toISOString()
-              .substr(0, 10),
+            dateOfBirth: dateOfBirth,
             gender,
             password: newPassword !== '' ? newPassword : currentPassword,
           };
-          this.$store.commit('accountInfo/updatePersonalInfo', payload);
+          this.$store.commit('accountInfo/personalInfo', payload);
+          this.$store.dispatch('accountInfo/updatePersonalInfo', payload);
+
           this.$store.dispatch(
             'notification/showNotification',
             {
@@ -254,8 +258,6 @@ export default {
     },
   },
 
-  mounted() {
-    this.init();
-  },
+  mounted() {},
 };
 </script>

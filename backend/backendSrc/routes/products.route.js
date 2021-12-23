@@ -3,17 +3,7 @@ import { Router } from 'express';
 import { ProductModel } from '../models/models.js'
 const router = Router();
 
-// router.route('/').get((req, res) => {
-//   ProductModel.find((error, data) => {
-//     if (error) {
-//       return next(error)
-//     } else {
-//       res.json(data)
-//     }
-//   })
-// })
-
-router.get('/products', async (req, res) => {
+router.get('/products', async (req, res, next) => {
   ProductModel.find((error, data) => {
     if (error) {
       return next(error)
@@ -23,7 +13,7 @@ router.get('/products', async (req, res) => {
   })
 })
 
-router.get('/product/:id', (req, res) => {
+router.get('/product/:id', (req, res, next) => {
   ProductModel.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error)
@@ -33,7 +23,7 @@ router.get('/product/:id', (req, res) => {
   });
 })
 
-router.get('/product-reviews/:id', (req, res) => {
+router.get('/product-reviews/:id', (req, res, next) => {
   ProductModel.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error)
@@ -43,7 +33,7 @@ router.get('/product-reviews/:id', (req, res) => {
   });
 })
 
-router.post('/add-review/:id', (req, res) => {
+router.post('/add-review/:id', (req, res, next) => {
   ProductModel.findById(req.params.id, (error, data) => {
     if (error) return next(error);
     data.reviews.push(req.body);
@@ -70,7 +60,7 @@ router.put('/update-wishlist/:id', (req, res, next) => {
   });
 })
 
-router.get('/item-stock/:id', async (req, res) => {
+router.get('/item-stock/:id', async (req, res, next) => {
   const products = await ProductModel.find({});
   const getStockById = (id) => products.flatMap(it => it.variants).flatMap(it => it.stock).find(it => it._id == id);
   const stock = getStockById(req.params.id);

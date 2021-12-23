@@ -342,11 +342,11 @@ export default {
 
   computed: {
     ...mapGetters({
-      cart: 'productPrivateStore/cart',
       cartSubtotal: 'productPrivateStore/cartSubtotal',
     }),
 
     ...mapState({
+      cart: (state) => state.productPrivateStore.cart,
       isCouponApplied: (state) => state.productPrivateStore.isCouponApplied,
       discountRate: (state) => state.productPrivateStore.discountRateForCoupon,
     }),

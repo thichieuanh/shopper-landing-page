@@ -1,19 +1,13 @@
 import messages from '@/assets/data/notiMessages';
 import faker from 'faker'
+import API from '@/api';
 
 export default {
 
   namespaced: true,
 
   state: () => ({
-    personalInfo: {
-      firstName: 'Daniel',
-      lastName: 'Robinson',
-      email: 'user@email.com',
-      password: 'thixinhxinh',
-      dateOfBirth: new Date(1995, 7, 26).toISOString().substr(0, 10),
-      gender: 'Male'
-    },
+    personalInfo: null,
     addresses: [
       {
         firstName: 'Dale',
@@ -40,7 +34,6 @@ export default {
         companyName: 'Gleason - Ullrich',
       }
     ],
-    defaultAddress: undefined,
     paymentCards: [
       {
         cardNumber: faker.finance.creditCardNumber().split('-').join(' '),
@@ -48,11 +41,13 @@ export default {
         nameOnCard: faker.name.findName(),
       }
     ],
-    defaultPaymentCard: undefined
+    defaultAddress: undefined,
+    defaultPaymentCard: undefined,
+    accountInfo: null
   }),
 
   mutations: {
-    updatePersonalInfo: (state, payload) => state.personalInfo = payload,
+    personalInfo: (state, personalInfo) => state.personalInfo = personalInfo,
 
     appendAddress: (state, address) => state.addresses = [...state.addresses, address],
 
@@ -72,6 +67,27 @@ export default {
   },
 
   actions: {
+    async getFullAccountInfo({ commit }) {
+      try {
+        const data = await API.getFullAccountInfo();
+
+        commit('personalInfo', data[0].personalInfo)
+      } catch (error) {
+        console.error(error);
+        throw new Error('Error when fetching accountInfo from db', error);
+      }
+    },
+
+    async getPersonalInfo({ commit }) {
+      const data = await API.getPersonalInfo();
+      commit('personalInfo', data)
+    },
+
+    async updatePersonalInfo({ dispatch }, payload) {
+      await API.updatePersonalInfo(payload);
+      dispatch('getPersonalInfo');
+    },
+
     addAddress: ({ commit, dispatch }, payload) => {
       commit('appendAddress', payload)
       dispatch('notification/showNotification', messages.addedNewAddress, { root: true })

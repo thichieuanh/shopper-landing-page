@@ -3,7 +3,7 @@ import { ProductModel, CartModel } from '../models/models.js'
 
 const router = Router();
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   CartModel.find((error, data) => {
     if (error) {
       return next(error)
@@ -125,7 +125,6 @@ router.put('/edit-cart/:id', async (req, res, next) => {
     })
   }
 })
-
 
 router.delete('/remove-from-cart/:id', (req, res, next) => {
   CartModel.findByIdAndRemove(req.params.id, (error, data) => {
