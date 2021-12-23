@@ -343,7 +343,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      getProductById: 'products/getProductById',
       getAllProducts: 'products/getAllProducts',
     }),
 

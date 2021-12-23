@@ -7,7 +7,7 @@
 
     <v-col cols="6" md="3">
       <h6 class="heading-xxxs text-muted">SHIPPED DATE:</h6>
-      <p>{{ order.shippedDate.toDateString().slice(4) }}</p>
+      <p>{{ shippedDate(order.shippedDate) }}</p>
     </v-col>
 
     <v-col cols="6" md="3">
@@ -31,6 +31,12 @@ export default {
     },
     orderAmount: {
       type: Function,
+    },
+  },
+
+  methods: {
+    shippedDate(date) {
+      return new Date(date).toDateString().slice(4);
     },
   },
 };

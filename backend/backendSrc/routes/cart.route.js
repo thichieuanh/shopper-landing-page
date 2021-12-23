@@ -1,7 +1,5 @@
 import { Router } from 'express';
-
-import { CartModel } from '../models/cart.js'
-import { ProductModel } from '../models/product.js'
+import { ProductModel, CartModel } from '../models/models.js'
 
 const router = Router();
 
@@ -30,7 +28,7 @@ router.post('/add-to-cart', async (req, res, next) => {
   const queryConditions = {
     productId: req.body.productId,
     variantColor: req.body.variantColor,
-    size: req.body.size.size
+    sizeId: req.body.size._id
   }
   const query = await CartModel.findOne(queryConditions).exec();
 
@@ -90,7 +88,7 @@ router.put('/edit-cart/:id', async (req, res, next) => {
   const queryConditions = {
     productId: req.body.productId,
     variantColor: req.body.variantColor,
-    size: req.body.size
+    sizeId: req.body.size._id
   }
   const query = await CartModel.findOne(queryConditions).exec();
 

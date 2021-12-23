@@ -1,28 +1,22 @@
 import API from '@/api';
-import getShippedDate from '@/utils/fakeShippedDate';
 
 export default {
   namespaced: true,
 
   state: () => ({
     orders: [],
+    order: null
   }),
 
   mutations: {
     orders: (state, orders) => state.orders = orders,
+    order: (state, order) => state.order = order
   },
 
   actions: {
     async getOrders({ commit }) {
       try {
-        const orderData = await API.getOrders();
-
-        // Add shipped date to each order
-        const orders = orderData.reduce((array, order) => {
-          order.shippedDate = getShippedDate(order.status);
-          array.push(order)
-          return array;
-        }, [])
+        const orders = await API.getOrders();
 
         // Sort orders by newest to oldest
         orders.sort((a, b) => b.shippedDate - a.shippedDate)
@@ -32,6 +26,11 @@ export default {
         console.error(error);
         throw new Error('Error when fetching order from db', error);
       }
+    },
+
+    async getOrder({ commit }, orderNo) {
+      const data = await API.getOrder(orderNo);
+      commit('order', data)
     },
   },
 

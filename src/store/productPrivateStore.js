@@ -123,11 +123,12 @@ export default {
     },
 
     isProductIdInCart: (state) => (id) => {
+      return state.cart.find(item => item.productId === id)
     },
 
     discountRateForCoupon: (state) => state.isCouponApplied ? round(random(0.1, 0.7), 2) : 0,
 
-    cart: ({ cart }) => cart,
+    // cart: ({ cart }) => cart,
 
     cartLength: ({ cart }) => cart.length,
 

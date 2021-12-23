@@ -8,7 +8,7 @@
 
       <!-- Items list -->
       <div class="pt-7">
-        <h6 class="pb-7 ma-0">Order Item ({{ order.items.length }})</h6>
+        <!-- <h6 class="pb-7 ma-0">Order Item ({{ order.items.length }})</h6> -->
 
         <div class="list-group list-group-lg list-group-flush-x">
           <v-row
@@ -45,7 +45,7 @@
               </div>
 
               <div class="text-muted d-flex flex-column justify-end w-100">
-                <div>Size: {{ item.sizeName }}</div>
+                <div>Size: {{ item.size.sizeName }}</div>
                 <div>Color: {{ item.variantColor }}</div>
               </div>
             </v-col>
@@ -139,37 +139,20 @@ export default {
 
   data: () => ({
     orderNo: undefined,
-    order: undefined,
   }),
 
   computed: {
     ...mapGetters('orders', ['getOrderByOrderNo']),
-    ...mapState('orders', ['orders']),
+    ...mapState('orders', ['orders', 'order']),
 
     subtotal() {
       return this.orderAmount(this.order).slice(1).replace(/,/g, '');
     },
   },
 
-  watch: {
-    $route() {
-      // window.scrollTo(0, 0);
-      this.orderNo = this.$route.params.orderNo;
-      this.order = this.getOrderByOrderNo(this.orderNo);
-    },
-
-    orders() {
-      this.order = this.getOrderByOrderNo(this.orderNo);
-    },
-
-    orderNo() {
-      if (!this.getOrderByOrderNo(this.orderNo)) return;
-      this.order = this.getOrderByOrderNo(this.orderNo);
-    },
-  },
-
   methods: {
     orderAmount(order) {
+      if (!order) return;
       const result = order.items.reduce(
         (sum, item) => (sum += item.price * item.quantity),
         0
@@ -199,8 +182,9 @@ export default {
     },
   },
 
-  mounted() {
+  async mounted() {
     this.orderNo = this.$route.params.orderNo;
+    this.$store.dispatch('orders/getOrder', this.orderNo);
   },
 };
 </script>

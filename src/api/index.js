@@ -5,9 +5,6 @@ const API = {
 
   getProduct: productId => requester.get(`/product/${productId}`),
 
-  // getOrders: () => requester.get('/orders.json'),
-  getOrders: () => requester.get('/products'),
-
   getReviews: productId => requester.get(`/product-reviews/${productId}`),
 
   addReview: ({ productId, reviewDetails }) => requester.post(`/add-review/${productId}`, reviewDetails),
@@ -23,5 +20,9 @@ const API = {
   removeFromCart: id => requester.delete(`/cart/remove-from-cart/${id}`),
 
   getItemStock: id => requester.get(`/item-stock/${id}`),
+
+  getOrders: () => requester.get('/orders'),
+
+  getOrder: orderNo => requester.get(`/orders/${orderNo}`),
 }
 export default API;

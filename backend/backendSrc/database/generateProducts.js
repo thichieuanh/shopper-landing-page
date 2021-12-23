@@ -5,7 +5,7 @@ import fakerPkg from 'faker';
 const { name: _name, date: _date, lorem } = fakerPkg;
 
 import { productInfo } from './productInfo.js';
-import { ProductModel } from '../models/product.js'
+import { ProductModel } from '../models/models.js'
 
 let controlVariantId = 0;
 

@@ -8,10 +8,12 @@ export default {
     womenProducts: [],
     menProducts: [],
     kidsProducts: [],
+    products: [],
     reviews
   }),
 
   mutations: {
+    products: (state, products) => state.womenProducts = products,
     womenProducts: (state, womenProducts) => state.womenProducts = womenProducts,
     menProducts: (state, menProducts) => state.menProducts = menProducts,
     kidsProducts: (state, kidsProducts) => state.kidsProducts = kidsProducts,
@@ -25,6 +27,7 @@ export default {
         const menProducts = products.filter(product => product.productGroup === 'men');
         const kidsProducts = products.filter(product => product.productGroup === 'kids');
 
+        commit('products', products);
         commit('womenProducts', womenProducts);
         commit('menProducts', menProducts);
         commit('kidsProducts', kidsProducts);
@@ -36,7 +39,7 @@ export default {
   },
 
   getters: {
-    getAllProducts: state => [...state.womenProducts, ...state.menProducts, ...state.kidsProducts],
+    getAllProducts: ({ products }) => products,
 
     getProductById: (_state, getters) => (id) => {
       return getters.getAllProducts.find(product => product._id === id);
