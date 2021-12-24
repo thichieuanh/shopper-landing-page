@@ -10,7 +10,7 @@
         <div class="card bg-light pa-7 mb-8">
           <h6 class="mb-6">
             Address {{ addressIndex + 1 }}
-            <span class="font-size-xxs" v-if="defaultAddress === addressIndex">
+            <span class="font-size-xxs" v-if="defaultAddress == address._id">
               (Default)
             </span>
           </h6>
@@ -25,7 +25,7 @@
 
           <div class="card-action card-action-right">
             <router-link
-              :to="{ name: 'EditAddress', params: { index: addressIndex } }"
+              :to="{ name: 'EditAddress', params: { id: address._id } }"
             >
               <button class="product-button mr-2">
                 <Icon icon="clarity:edit-line" :inline="true" />
@@ -86,6 +86,11 @@ export default {
         country,
       };
     },
+  },
+
+  mounted() {
+    this.$store.dispatch('accountInfo/getAddresses');
+    this.$store.dispatch('accountInfo/getDefaultAddress');
   },
 };
 </script>

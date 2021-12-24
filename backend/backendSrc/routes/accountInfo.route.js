@@ -91,4 +91,55 @@ router.put('/update-personal-info', (req, res, next) => {
   });
 })
 
+router.get('/addresses', (req, res, next) => {
+  UserModel.findOne({}).select('addresses').exec((error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data.addresses)
+    }
+  })
+})
+
+router.get('/addresses/:id', (req, res, next) => {
+  UserModel.findOne({}).select('addresses').exec((error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      let responseData = data.addresses.find(item => item._id == req.params.id)
+      res.json(responseData)
+    }
+  })
+})
+
+router.get('/default-address', (req, res, next) => {
+  UserModel.findOne({}).exec((error, data) => {
+    if (error) return next(error);
+    let responseData = data.defaultAddressID;
+    res.json(responseData)
+  })
+})
+
+router.put('/add-address', (req, res, next) => {
+  console.log(req.body)
+  UserModel.findOne({}).select('addresses').exec((error, data) => {
+    if (error) return next(error);
+    data.addresses.push(req.body.data);
+    data.markModified('addresses');
+
+    if (req.body.isDefault) {
+      const lastIndex = data.addresses.length - 1;
+      data.defaultAddressID = data.addresses[lastIndex]._id;
+    }
+
+    data.save((err, updatedProduct) => {
+      if (err) console.log('Error when add new address', err);
+      res.json({
+        status: 'New address added successfully',
+        data: updatedProduct
+      })
+    })
+  })
+})
+
 export { router }

@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <h6 class="mb-7">{{ isEditting ? 'Edit' : 'Add' }} Address</h6>
+    <h6 class="mb-7">{{ isEditing ? 'Edit' : 'Add' }} Address</h6>
     <v-row class="custom-row mb-9">
       <v-col
         v-for="(inputField, inputFieldIndex) in inputFields"
@@ -33,7 +33,7 @@
       </v-col>
       <v-col>
         <button class="btn btn-dark">
-          {{ isEditting ? 'Save changes' : 'Add Address' }}
+          {{ isEditing ? 'Save changes' : 'Add Address' }}
         </button>
       </v-col>
     </v-row>
@@ -46,81 +46,102 @@ import { mapState } from 'vuex';
 
 export default {
   data: () => ({
-    isEditting: undefined,
+    isEditing: undefined,
     inputFields: addressInputForm,
-    addressIndex: undefined,
+    addressId: undefined,
     isDefault: undefined,
     isDefaultSinceInit: true,
     formData: {},
   }),
 
   computed: {
-    ...mapState('accountInfo', ['addresses', 'defaultAddress']),
+    ...mapState('accountInfo', ['address', 'defaultAddress']),
+  },
+
+  watch: {
+    address: {
+      immediate: true,
+      handler() {
+        this.fillData();
+      },
+    },
   },
 
   methods: {
     init() {
-      if (this.$route.path.includes('edit')) this.isEditting = true;
+      if (this.$route.path.includes('edit')) this.isEditing = true;
 
-      if (this.isEditting) {
-        this.addressIndex = +this.$route.params.index;
-        this.isDefault = this.defaultAddress === this.addressIndex;
+      if (this.isEditing) {
+        this.addressId = this.$route.params.id;
+        this.isDefault = this.defaultAddress === this.addressId;
         this.isDefaultSinceInit = this.isDefault;
 
-        if (!this.addresses[this.addressIndex]) return;
-        const {
-          firstName,
-          lastName,
-          email,
-          addressLine1,
-          addressLine2,
-          city,
-          zipCode,
-          country,
-          phone,
-          companyName,
-        } = this.addresses[this.addressIndex];
-
-        this.formData = {
-          firstName,
-          lastName,
-          email,
-          addressLine1,
-          addressLine2,
-          city,
-          zipCode,
-          country,
-          phone,
-          companyName,
-        };
+        this.$store.dispatch('accountInfo/getAddress', this.addressId);
+        this.$store.dispatch('accountInfo/getDefaultAddress');
       }
     },
 
+    fillData() {
+      if (!this.address) return;
+
+      const {
+        firstName,
+        lastName,
+        email,
+        addressLine1,
+        addressLine2,
+        city,
+        zipCode,
+        country,
+        phone,
+        companyName,
+      } = this.address;
+
+      this.formData = {
+        firstName,
+        lastName,
+        email,
+        addressLine1,
+        addressLine2,
+        city,
+        zipCode,
+        country,
+        phone,
+        companyName,
+      };
+    },
+
     handleSubmit() {
-      if (this.isEditting) {
+      if (this.isEditing) {
         const defaultStateRemoved = this.isDefaultSinceInit !== this.isDefault;
         if (defaultStateRemoved) {
           this.$store.commit('accountInfo/setDefaultAddress', undefined);
         }
         this.$store.dispatch('accountInfo/updateAddress', {
-          index: this.addressIndex,
+          index: this.addressId,
           address: this.formData,
         });
       } else {
-        this.$store.dispatch('accountInfo/addAddress', this.formData);
-        this.addressIndex = this.addresses.length - 1;
+        this.$store.dispatch('accountInfo/addAddress', {
+          isDefault: this.isDefault,
+          data: this.formData,
+        });
         this.formData = {};
         this.$router.push('/account/addresses');
       }
 
-      if (this.isDefault) {
-        this.$store.commit('accountInfo/setDefaultAddress', this.addressIndex);
-      }
+      // if (this.isDefault) {
+      //   this.$store.commit('accountInfo/setDefaultAddress', true);
+      // }
     },
   },
 
   mounted() {
     this.init();
+  },
+
+  beforeDestroy() {
+    this.$store.commit('accountInfo/address', null);
   },
 };
 </script>

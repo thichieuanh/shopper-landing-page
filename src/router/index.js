@@ -92,7 +92,7 @@ const routes = [
             component: EditAddress,
           },
           {
-            path: 'edit/:index',
+            path: 'edit/:id',
             name: 'EditAddress',
             component: EditAddress,
           },
@@ -113,7 +113,7 @@ const routes = [
             component: EditPayment,
           },
           {
-            path: 'edit/:index',
+            path: 'edit/:id',
             name: 'EditPayMent',
             component: EditPayment,
           },

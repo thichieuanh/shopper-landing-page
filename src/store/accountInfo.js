@@ -8,32 +8,8 @@ export default {
 
   state: () => ({
     personalInfo: null,
-    addresses: [
-      {
-        firstName: 'Dale',
-        lastName: 'Morissette',
-        email: 'foo@gmail.com',
-        addressLine1: '98608 Balistreri Turnpike',
-        addressLine2: '29790 Devon Park',
-        city: 'West Friedaborough',
-        zipCode: '31224-0072',
-        country: 'Saint Lucia',
-        phone: '1-388-349-5393',
-        companyName: 'Spinka, Ondricka and Morar',
-      },
-      {
-        firstName: 'Elenora',
-        lastName: 'Grimes',
-        email: 'bar@gmail.com',
-        addressLine1: '55440 Devyn Hills',
-        addressLine2: '4062 Fay Drives',
-        city: 'Phoebeberg',
-        zipCode: '95649-2128',
-        country: 'French Polynesia',
-        phone: '1-817-437-4228 x472',
-        companyName: 'Gleason - Ullrich',
-      }
-    ],
+    addresses: null,
+    address: null,
     paymentCards: [
       {
         cardNumber: faker.finance.creditCardNumber().split('-').join(' '),
@@ -49,13 +25,19 @@ export default {
   mutations: {
     personalInfo: (state, personalInfo) => state.personalInfo = personalInfo,
 
+    addresses: (state, addresses) => state.addresses = addresses,
+
+    address: (state, address) => state.address = address,
+
+    defaultAddress: (state, addressId) => state.defaultAddress = addressId,
+
     appendAddress: (state, address) => state.addresses = [...state.addresses, address],
 
     removeAddress: (state, index) => state.addresses.splice(index, 1),
 
     editAddress: (state, { index, address }) => state.addresses[index] = address,
 
-    setDefaultAddress: (state, index) => state.defaultAddress = index,
+    setDefaultAddress: (state, id) => state.defaultAddress = id,
 
     appendPayment: (state, payment) => state.paymentCards = [...state.paymentCards, payment],
 
@@ -88,9 +70,31 @@ export default {
       dispatch('getPersonalInfo');
     },
 
-    addAddress: ({ commit, dispatch }, payload) => {
-      commit('appendAddress', payload)
+    async getAddresses({ commit }) {
+      const data = await API.getAddresses();
+      commit('addresses', data)
+    },
+
+    async getAddress({ commit }, addressId) {
+      const data = await API.getAddress(addressId);
+      commit('address', data)
+    },
+
+    async getDefaultAddress({ commit }) {
+      const data = await API.getDefaultAddress();
+      commit('defaultAddress', data)
+    },
+
+    async setDefaultAddress({ commit }) {
+      const data = await API.setDefaultAddress();
+      commit('address', data)
+    },
+
+    async addAddress({ commit, dispatch }, payload) {
+      await API.addAddress(payload);
       dispatch('notification/showNotification', messages.addedNewAddress, { root: true })
+      dispatch('getAddresses');
+      dispatch('getDefaultAddress');
     },
 
     updateAddress: ({ commit, dispatch }, payload) => {

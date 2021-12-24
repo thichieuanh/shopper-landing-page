@@ -139,6 +139,7 @@ export const userSchema = new Schema({
       companyName: String
     }
   ],
+  defaultAddressID: String,
   paymentCards: [
     {
       cardNumber: String,

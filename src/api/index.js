@@ -30,5 +30,15 @@ const API = {
   getPersonalInfo: () => requester.get('/account/personal-info'),
 
   updatePersonalInfo: newPersonalInfo => requester.put('/account/update-personal-info', newPersonalInfo),
+
+  getAddresses: () => requester.get('/account/addresses'),
+
+  getAddress: id => requester.get(`/account/addresses/${id}`),
+
+  getDefaultAddress: () => requester.get('/account/default-address'),
+
+  updateAddress: ({ id, newAddress }) => requester.put(`/account/update-address/${id}`, newAddress),
+
+  addAddress: newAddress => requester.put('/account/add-address', newAddress),
 }
 export default API;

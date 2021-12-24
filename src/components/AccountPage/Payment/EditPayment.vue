@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="handleSubmit">
-    <h6 class="mb-7">{{ isEditting ? 'Edit' : 'Add' }} Debit / Credit Card</h6>
+    <h6 class="mb-7">{{ isEditing ? 'Edit' : 'Add' }} Debit / Credit Card</h6>
 
     <v-row class="custom-row mb-9">
       <v-col cols="12" md="6" class="form-group">
@@ -110,7 +110,7 @@
       </v-col>
       <v-col>
         <button class="btn btn-dark">
-          {{ isEditting ? 'Save changes' : 'Add Card' }}
+          {{ isEditing ? 'Save changes' : 'Add Card' }}
         </button>
       </v-col>
     </v-row>
@@ -127,7 +127,7 @@ export default {
   },
 
   data: () => ({
-    isEditting: undefined,
+    isEditing: undefined,
     dateFormatted: '',
     isShownDateMenu: false,
     paymentIndex: undefined,
@@ -149,9 +149,9 @@ export default {
 
   methods: {
     init() {
-      if (this.$route.path.includes('edit')) this.isEditting = true;
+      if (this.$route.path.includes('edit')) this.isEditing = true;
 
-      if (this.isEditting) {
+      if (this.isEditing) {
         this.paymentIndex = +this.$route.params.index;
         this.isDefault = this.defaultPaymentCard === this.paymentIndex;
         this.isDefaultSinceInit = this.isDefault;
@@ -179,7 +179,7 @@ export default {
     },
 
     handleSubmit() {
-      if (this.isEditting) {
+      if (this.isEditing) {
         const defaultStateRemoved = this.isDefaultSinceInit !== this.isDefault;
         if (defaultStateRemoved) {
           this.$store.commit('accountInfo/setDefaultPayment', undefined);
