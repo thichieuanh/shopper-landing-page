@@ -29,7 +29,6 @@
 
     <!-- PRODUCT DIALOG -->
     <ProductDialog
-      v-if="productId"
       :isOpen="isDialogOpen"
       :productId="productId"
     ></ProductDialog>
@@ -172,6 +171,7 @@ export default {
     });
 
     this.eventHub.$on('closeProductDialog', () => {
+      this.productId = null;
       this.isDialogOpen = false;
       this.styleHandlingWhenClosingModal('product-modal-overlay');
     });

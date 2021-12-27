@@ -563,6 +563,14 @@ export default {
       this.mainImageIndex = 0;
     },
   },
+
+  mounted() {
+    console.log('product page mounted');
+  },
+
+  beforeDestroy() {
+    console.log('product page destroyed');
+  },
 };
 </script>
 

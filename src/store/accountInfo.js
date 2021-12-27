@@ -91,8 +91,10 @@ export default {
       dispatch('getDefaultAddress');
     },
 
-    async editAddress({ dispatch }, payload) {
+    async editAddress({ commit, dispatch }, payload) {
+      commit('notification/loading', true, { root: true })
       await API.editAddress(payload)
+      commit('notification/loading', false, { root: true })
       dispatch('notification/showNotification', messages.editAddress, { root: true })
       dispatch('getAddresses');
       dispatch('getDefaultAddress');

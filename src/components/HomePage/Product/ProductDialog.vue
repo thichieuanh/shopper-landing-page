@@ -7,7 +7,7 @@
         v-show="isOpen"
         @click="close"
       >
-        <transition name="slide-fade" appear>
+        <transition name="slide-fade" appear v-if="productDetails">
           <div
             class="modal-dialog modal-xl"
             v-if="productDetails"
@@ -118,8 +118,24 @@ export default {
     };
   },
 
+  watch: {
+    productId: {
+      immediate: true,
+      handler() {
+        if (this.productId) {
+          this.$store.dispatch(
+            'productPrivateStore/getProduct',
+            this.productId
+          );
+        } else {
+          this.$store.commit('productPrivateStore/product', null);
+        }
+      },
+    },
+  },
+
   mounted() {
-    this.$store.dispatch('productPrivateStore/getProduct', this.productId);
+    console.log('mounted');
   },
 
   beforeDestroy() {

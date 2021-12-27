@@ -47,7 +47,7 @@ export default {
       state.wishlist = payload;
     },
 
-    setProductDetail: (state, payload) => {
+    product: (state, payload) => {
       state.product = payload;
     }
   },
@@ -55,7 +55,7 @@ export default {
   actions: {
     async getProduct({ commit }, productId) {
       const currentProduct = await API.getProduct(productId);
-      commit('setProductDetail', currentProduct)
+      commit('product', currentProduct)
     },
 
     async getWishlistedProducts({ commit }) {

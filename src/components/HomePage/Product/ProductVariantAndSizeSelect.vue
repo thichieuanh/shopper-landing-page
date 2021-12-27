@@ -355,9 +355,9 @@ export default {
     },
   },
 
-  created() {
-    this.$store.dispatch('productPrivateStore/getProduct', this.productId);
-  },
+  // created() {
+  //   this.$store.dispatch('productPrivateStore/getProduct', this.productId);
+  // },
 
   mounted() {
     this.isEditingCart = this.$store.state.productPrivateStore.isEditingCart;
