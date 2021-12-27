@@ -101,7 +101,7 @@ router.get('/addresses', (req, res, next) => {
   })
 })
 
-router.get('/addresses/:id', (req, res, next) => {
+router.get('/address/:id', (req, res, next) => {
   UserModel.findOne({}).select('addresses').exec((error, data) => {
     if (error) {
       return next(error)
@@ -121,8 +121,7 @@ router.get('/default-address', (req, res, next) => {
 })
 
 router.put('/add-address', (req, res, next) => {
-  console.log(req.body)
-  UserModel.findOne({}).select('addresses').exec((error, data) => {
+  UserModel.findOne({}).exec((error, data) => {
     if (error) return next(error);
     data.addresses.push(req.body.data);
     data.markModified('addresses');
@@ -136,6 +135,54 @@ router.put('/add-address', (req, res, next) => {
       if (err) console.log('Error when add new address', err);
       res.json({
         status: 'New address added successfully',
+        data: updatedProduct
+      })
+    })
+  })
+})
+
+router.put('/delete-address', (req, res, next) => {
+  UserModel.findOne({}).exec((error, data) => {
+    if (error) return next(error);
+    data.addresses = data.addresses.filter(address => address._id != req.body.id);
+    data.markModified('addresses');
+
+    if (data.defaultAddressID === req.body.id) {
+      data.defaultAddressID = undefined
+    }
+
+    data.save((err, updatedProduct) => {
+      if (err) console.log('Error when delete address', err);
+      res.json({
+        status: 'Address deleted successfully',
+        data: updatedProduct
+      })
+    })
+  })
+})
+
+router.put('/edit-address/:id', (req, res, next) => {
+  UserModel.findOne({}).exec((error, data) => {
+    if (error) return next(error);
+    const index = data.addresses.findIndex(address => address._id == req.params.id);
+    const isDefaultSinceInit = data.defaultAddressID === req.params.id
+    const defaultStateRemoved = isDefaultSinceInit && !req.body.isDefault;
+
+    data.addresses[index] = req.body.data;
+    data.markModified('addresses');
+
+    if (req.body.isDefault) {
+      data.defaultAddressID = req.params.id;
+    }
+
+    if (defaultStateRemoved) {
+      data.defaultAddressID = undefined;
+    }
+
+    data.save((err, updatedProduct) => {
+      if (err) console.log('Error when delete address', err);
+      res.json({
+        status: 'Address edited successfully',
         data: updatedProduct
       })
     })

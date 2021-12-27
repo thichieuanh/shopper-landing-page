@@ -33,12 +33,14 @@ const API = {
 
   getAddresses: () => requester.get('/account/addresses'),
 
-  getAddress: id => requester.get(`/account/addresses/${id}`),
+  getAddress: id => requester.get(`/account/address/${id}`),
 
   getDefaultAddress: () => requester.get('/account/default-address'),
 
-  updateAddress: ({ id, newAddress }) => requester.put(`/account/update-address/${id}`, newAddress),
-
   addAddress: newAddress => requester.put('/account/add-address', newAddress),
+
+  deleteAddress: id => requester.put('/account/delete-address', id),
+
+  editAddress: ({ id, newAddress }) => requester.put(`/account/edit-address/${id}`, newAddress),
 }
 export default API;

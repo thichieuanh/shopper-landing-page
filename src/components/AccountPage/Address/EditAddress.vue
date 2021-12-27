@@ -50,7 +50,6 @@ export default {
     inputFields: addressInputForm,
     addressId: undefined,
     isDefault: undefined,
-    isDefaultSinceInit: true,
     formData: {},
   }),
 
@@ -73,11 +72,10 @@ export default {
 
       if (this.isEditing) {
         this.addressId = this.$route.params.id;
-        this.isDefault = this.defaultAddress === this.addressId;
-        this.isDefaultSinceInit = this.isDefault;
-
         this.$store.dispatch('accountInfo/getAddress', this.addressId);
         this.$store.dispatch('accountInfo/getDefaultAddress');
+
+        this.isDefault = this.defaultAddress === this.addressId;
       }
     },
 
@@ -113,26 +111,22 @@ export default {
 
     handleSubmit() {
       if (this.isEditing) {
-        const defaultStateRemoved = this.isDefaultSinceInit !== this.isDefault;
-        if (defaultStateRemoved) {
-          this.$store.commit('accountInfo/setDefaultAddress', undefined);
-        }
-        this.$store.dispatch('accountInfo/updateAddress', {
-          index: this.addressId,
-          address: this.formData,
+        this.formData._id = this.addressId;
+        this.$store.dispatch('accountInfo/editAddress', {
+          id: this.addressId,
+          newAddress: {
+            isDefault: this.isDefault,
+            data: this.formData,
+          },
         });
       } else {
         this.$store.dispatch('accountInfo/addAddress', {
           isDefault: this.isDefault,
           data: this.formData,
         });
-        this.formData = {};
-        this.$router.push('/account/addresses');
       }
-
-      // if (this.isDefault) {
-      //   this.$store.commit('accountInfo/setDefaultAddress', true);
-      // }
+      this.formData = {};
+      this.$router.push('/account/addresses');
     },
   },
 

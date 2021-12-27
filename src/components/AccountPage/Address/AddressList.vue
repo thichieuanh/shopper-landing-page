@@ -8,14 +8,16 @@
         :key="addressIndex"
       >
         <div class="card bg-light pa-7 mb-8">
-          <h6 class="mb-6">
-            Address {{ addressIndex + 1 }}
-            <span class="font-size-xxs" v-if="defaultAddress == address._id">
+          <div class="mb-6">
+            <h6 class="mb-2">Address {{ addressIndex + 1 }}</h6>
+            <div class="font-size-xxs" v-if="defaultAddress == address._id">
               (Default)
-            </span>
-          </h6>
+            </div>
+          </div>
+
           <ul class="pl-0 text-muted">
             <li
+              class="address-details"
               v-for="(value, _key, index) in addressMainInfo(address)"
               :key="index"
             >
@@ -33,7 +35,7 @@
             </router-link>
             <button
               class="product-button"
-              @click="$store.commit('accountInfo/removeAddress', addressIndex)"
+              @click="$store.dispatch('accountInfo/deleteAddress', address._id)"
             >
               <Icon icon="uim:multiply" :inline="true" />
             </button>
@@ -94,3 +96,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.address-details {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

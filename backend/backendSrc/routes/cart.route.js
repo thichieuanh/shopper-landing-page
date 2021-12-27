@@ -28,7 +28,7 @@ router.post('/add-to-cart', async (req, res, next) => {
   const queryConditions = {
     productId: req.body.productId,
     variantColor: req.body.variantColor,
-    sizeId: req.body.size._id
+    "size._id": req.body.size._id
   }
   const query = await CartModel.findOne(queryConditions).exec();
 
@@ -88,7 +88,7 @@ router.put('/edit-cart/:id', async (req, res, next) => {
   const queryConditions = {
     productId: req.body.productId,
     variantColor: req.body.variantColor,
-    sizeId: req.body.size._id
+    "size._id": req.body.size._id
   }
   const query = await CartModel.findOne(queryConditions).exec();
 

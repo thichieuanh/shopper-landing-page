@@ -39,6 +39,10 @@ const messages = {
     type: 'success',
     message: 'New address added successfully',
   },
+  deleteAddress: {
+    type: 'success',
+    message: 'Address deleted successfully',
+  },
   editAddress: {
     type: 'success',
     message: 'Address updated successfully',

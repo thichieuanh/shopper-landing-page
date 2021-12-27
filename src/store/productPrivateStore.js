@@ -95,6 +95,7 @@ export default {
         }
       } else {
         const res = await API.addToCart(productPayload);
+        console.log('res', res)
         if (res.status === 'Not enough stock remaining') {
           dispatch('notification/showNotification', messages.notEnoughStockRemaining, { root: true })
         } else {
@@ -105,7 +106,9 @@ export default {
     },
 
     async removeFromCart({ commit, dispatch }, id) {
+      commit('notification/loading', true, { root: true })
       await API.removeFromCart(id);
+      commit('notification/loading', false, { root: true })
       dispatch('getCart');
       commit('notification/showNotification', messages.removedFromCart, { root: true });
     }

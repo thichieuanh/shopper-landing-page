@@ -31,14 +31,6 @@ export default {
 
     defaultAddress: (state, addressId) => state.defaultAddress = addressId,
 
-    appendAddress: (state, address) => state.addresses = [...state.addresses, address],
-
-    removeAddress: (state, index) => state.addresses.splice(index, 1),
-
-    editAddress: (state, { index, address }) => state.addresses[index] = address,
-
-    setDefaultAddress: (state, id) => state.defaultAddress = id,
-
     appendPayment: (state, payment) => state.paymentCards = [...state.paymentCards, payment],
 
     removePayment: (state, index) => state.paymentCards.splice(index, 1),
@@ -85,21 +77,25 @@ export default {
       commit('defaultAddress', data)
     },
 
-    async setDefaultAddress({ commit }) {
-      const data = await API.setDefaultAddress();
-      commit('address', data)
-    },
-
-    async addAddress({ commit, dispatch }, payload) {
+    async addAddress({ dispatch }, payload) {
       await API.addAddress(payload);
       dispatch('notification/showNotification', messages.addedNewAddress, { root: true })
       dispatch('getAddresses');
       dispatch('getDefaultAddress');
     },
 
-    updateAddress: ({ commit, dispatch }, payload) => {
-      commit('editAddress', payload)
+    async deleteAddress({ dispatch }, addressId) {
+      await API.deleteAddress({ id: addressId });
+      dispatch('notification/showNotification', messages.deleteAddress, { root: true })
+      dispatch('getAddresses');
+      dispatch('getDefaultAddress');
+    },
+
+    async editAddress({ dispatch }, payload) {
+      await API.editAddress(payload)
       dispatch('notification/showNotification', messages.editAddress, { root: true })
+      dispatch('getAddresses');
+      dispatch('getDefaultAddress');
     },
 
     addPayment: ({ commit, dispatch }, payload) => {
