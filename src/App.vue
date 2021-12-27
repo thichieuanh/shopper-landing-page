@@ -28,7 +28,11 @@
     <Loading v-show="loading" />
 
     <!-- PRODUCT DIALOG -->
-    <ProductDialog :isOpen="isDialogOpen"></ProductDialog>
+    <ProductDialog
+      v-if="productId"
+      :isOpen="isDialogOpen"
+      :productId="productId"
+    ></ProductDialog>
 
     <!-- SIZE CHART -->
     <SizeChart :isOpen="isSizeChartOpen"></SizeChart>
@@ -75,9 +79,9 @@ export default {
   data: () => ({
     isDialogOpen: false,
     isSizeChartOpen: false,
-    // isEditingCart: false,
     isShowSearchDrawer: false,
     isShowCartDrawer: false,
+    productId: null,
   }),
 
   computed: {
@@ -161,7 +165,8 @@ export default {
   },
 
   created() {
-    this.eventHub.$on('showProductDialog', () => {
+    this.eventHub.$on('showProductDialog', ({ productId }) => {
+      this.productId = productId;
       this.isDialogOpen = true;
       this.styleHandlingWhenShowingModal('product-modal-overlay');
     });

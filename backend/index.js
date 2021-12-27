@@ -39,7 +39,7 @@ app.use('/account', accountAPI)
 // Create port
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  console.log(`Listening on port ${port}, http://localhost:${port}/ `);
 })
 
 // Find 404

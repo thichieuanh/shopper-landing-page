@@ -1,14 +1,18 @@
 <template>
-  <div v-if="productId" class="productDialog">
+  <div class="productDialog">
     <transition name="modal-fade" appear>
       <div
         class="modal-overlay"
         id="product-modal-overlay"
-        v-if="isOpen"
+        v-show="isOpen"
         @click="close"
       >
         <transition name="slide-fade" appear>
-          <div class="modal-dialog modal-xl" v-show="isOpen" @click.stop="">
+          <div
+            class="modal-dialog modal-xl"
+            v-if="productDetails"
+            @click.stop=""
+          >
             <button class="close" @click="close">
               <Icon icon="clarity:close-line" width="27" :inline="true" />
             </button>
@@ -66,23 +70,22 @@ export default {
   components: { Icon, ProductVariantAndSizeSelect },
   props: {
     isOpen: { type: Boolean, default: false },
+    productId: { type: String },
   },
 
   data: () => ({
     selectedVariant: 0,
-    productId: undefined,
   }),
 
   computed: {
     ...mapState('productPrivateStore', ['cart']),
 
     ...mapGetters({
-      getProductById: 'products/getProductById',
       isWishlisted: 'productPrivateStore/isWishlisted',
     }),
 
     productDetails() {
-      return this.getProductById(this.productId);
+      return this.$store.state.productPrivateStore.product;
     },
   },
 
@@ -115,8 +118,12 @@ export default {
     };
   },
 
-  created() {
-    this.eventHub.$on('showProductDialog', this.onShowProductDialog);
+  mounted() {
+    this.$store.dispatch('productPrivateStore/getProduct', this.productId);
+  },
+
+  beforeDestroy() {
+    console.log('destroy');
   },
 };
 </script>
