@@ -3,16 +3,17 @@
     <v-row class="custom-row">
       <v-col
         cols="12"
-        md="6"
         v-for="(address, addressIndex) in addresses"
         :key="addressIndex"
       >
         <div class="card bg-light pa-7 mb-8">
           <div class="mb-6">
-            <h6 class="mb-2">Address {{ addressIndex + 1 }}</h6>
-            <div class="font-size-xxs" v-if="defaultAddress == address._id">
-              (Default)
-            </div>
+            <h6 class="mb-2">
+              Address {{ addressIndex + 1 }}
+              <span class="font-size-xxs" v-if="defaultAddress == address._id">
+                (Default)
+              </span>
+            </h6>
           </div>
 
           <ul class="pl-0 text-muted">

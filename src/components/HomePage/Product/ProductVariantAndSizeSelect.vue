@@ -171,8 +171,7 @@ export default {
   name: 'ProductVariantAndSizeSelect',
 
   props: {
-    productDetails: { type: Object, default: () => ({}) },
-    productId: { type: String },
+    productDetails: { type: Object },
     isRenderedInModal: { type: Boolean, default: true },
   },
 
@@ -192,6 +191,10 @@ export default {
   }),
 
   computed: {
+    productId() {
+      return this.productDetails._id;
+    },
+
     wishlist() {
       return this.$store.state.productPrivateStore.wishlist;
     },
@@ -354,10 +357,6 @@ export default {
       );
     },
   },
-
-  // created() {
-  //   this.$store.dispatch('productPrivateStore/getProduct', this.productId);
-  // },
 
   mounted() {
     this.isEditingCart = this.$store.state.productPrivateStore.isEditingCart;

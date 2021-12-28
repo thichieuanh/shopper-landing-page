@@ -95,7 +95,6 @@ export default {
         }
       } else {
         const res = await API.addToCart(productPayload);
-        console.log('res', res)
         if (res.status === 'Not enough stock remaining') {
           dispatch('notification/showNotification', messages.notEnoughStockRemaining, { root: true })
         } else {

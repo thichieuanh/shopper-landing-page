@@ -69,9 +69,7 @@
           </div>
 
           <ProductVariantAndSizeSelect
-            v-if="productId"
             :productDetails="productDetails"
-            :productId="productId"
             :isRenderedInModal="false"
           ></ProductVariantAndSizeSelect>
 
@@ -350,6 +348,7 @@ export default {
       womenProducts: (state) => state.products.womenProducts,
       menProducts: (state) => state.products.menProducts,
       kidsProducts: (state) => state.products.kidsProducts,
+      products: (state) => state.products.products,
       reviews: (state) => state.reviews.reviews,
     }),
 
@@ -371,8 +370,9 @@ export default {
     },
 
     recommendedProducts() {
-      const indexes = [];
+      const Ids = [];
       let index;
+      let randomId;
       let filteringArray;
       let result;
 
@@ -389,16 +389,20 @@ export default {
             break;
         }
 
-        while (indexes.length < 4) {
-          index = random(0, 7);
-          if (!indexes.includes(index) & (index !== this.productId - 1)) {
-            indexes.push(index);
+        const totalProduct = filteringArray.length;
+        if (totalProduct === 0) return;
+
+        const arrayId = filteringArray.map((product) => product._id);
+
+        while (Ids.length < 4) {
+          index = random(0, totalProduct - 1);
+          randomId = arrayId[index];
+          if (!Ids.includes(randomId) & (randomId !== this.productId)) {
+            Ids.push(randomId);
           }
         }
 
-        result = filteringArray.filter((_product, index) =>
-          indexes.includes(index)
-        );
+        result = filteringArray.filter((product) => Ids.includes(product._id));
       }
 
       return result;
@@ -562,14 +566,6 @@ export default {
     selectedVariant() {
       this.mainImageIndex = 0;
     },
-  },
-
-  mounted() {
-    console.log('product page mounted');
-  },
-
-  beforeDestroy() {
-    console.log('product page destroyed');
   },
 };
 </script>

@@ -48,7 +48,6 @@
               <!-- Product info -->
               <v-col cols="12" md="6" lg="7" class="px-md-9 py-9 text-left">
                 <ProductVariantAndSizeSelect
-                  v-if="productId"
                   :productDetails="productDetails"
                   :productId="productId"
                 ></ProductVariantAndSizeSelect>
@@ -132,14 +131,6 @@ export default {
         }
       },
     },
-  },
-
-  mounted() {
-    console.log('mounted');
-  },
-
-  beforeDestroy() {
-    console.log('destroy');
   },
 };
 </script>
