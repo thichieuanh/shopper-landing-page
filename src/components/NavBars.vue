@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- TOP NAV -->
-    <nav class="top-navbar d-flex justify-center">
-      <div class="container-control d-flex align-center">
+    <nav class="navbar navbar-topbar navbar-expand-xl bg-light">
+      <div class="container-control">
         <!-- PROMO -->
         <div class="promo">
           <Icon
@@ -11,155 +11,174 @@
             :inline="true"
             class="mr-3"
           />
-          <span class="nav-heading heading-xxxs">FREE SHIPPING WORLDWIDE</span>
+          <span class="heading-xxxs">FREE SHIPPING WORLDWIDE</span>
         </div>
 
-        <div class="collasped d-flex align-center justify-space-between">
+        <!-- Navbar Toggler -->
+        <div
+          class="navbar-toggler"
+          @click="toggleCollapsedNavbar"
+          v-show="isLgAndDownViewport"
+        >
+          <Icon class="navbar-toggler-icon" icon="octicon:three-bars-16" />
+        </div>
+
+        <div
+          :class="['navbar-collapse', { collapsible: isLgAndDownViewport }]"
+          id="collapsedNavbar"
+        >
           <!-- DROPDOWN -->
-          <div style="width: 50%">
-            <ul class="dropdown px-0 d-flex">
-              <li
-                class="dropdown-link d-flex font-weight-medium"
-                v-for="(dropdownVal, dropdownKey) in dropdownOptions"
-                :key="dropdownKey"
+          <ul class="nav navbar-nav nav-divided mr-auto px-0">
+            <li
+              :class="[
+                'dropdown font-weight-medium',
+                { 'nav-item': !isLgAndDownViewport },
+              ]"
+              v-for="(dropdownVal, dropdownKey) in dropdownOptions"
+              :key="dropdownKey"
+            >
+              <v-menu
+                transition="scroll-y-reverse-transition"
+                offset-y
+                :open-on-hover="!isLgAndDownViewport"
+                content-class="dropdown-content"
+                :nudge-bottom="!isLgAndDownViewport ? 10 : undefined"
+                close-delay="100"
               >
-                <v-menu
-                  transition="scroll-y-reverse-transition"
-                  offset-y
-                  open-on-hover
-                  content-class="dropdown-content"
-                  :nudge-bottom="10"
-                  close-delay="100"
-                >
-                  <template v-slot:activator="{ on, attrs }" elevation="0">
-                    <a v-bind="attrs" v-on="on" class="d-flex align-center">
+                <template v-slot:activator="{ on, attrs }" elevation="0">
+                  <a v-bind="attrs" v-on="on" class="nav-link dropdown-toggle">
+                    <img
+                      v-if="dropdownKey === 'countries'"
+                      src="/img/flags/usa.svg"
+                      alt="usa flag"
+                      class="mr-1"
+                    />
+                    {{ dropdownVal[0].title }}
+                    <Icon
+                      icon="jam:chevron-down"
+                      :inline="true"
+                      class="dropdown-toggle-icon"
+                    />
+                  </a>
+                </template>
+
+                <v-list class="pa-0">
+                  <v-list-item
+                    link
+                    class="border-top dropdown-item"
+                    v-for="(country, countryIdx) in dropdownVal"
+                    :key="countryIdx"
+                  >
+                    <a href="" class="d-flex align-center font-weight-regular">
                       <img
                         v-if="dropdownKey === 'countries'"
-                        src="/img/flags/usa.svg"
-                        alt="usa flag"
-                        class="mr-2"
+                        :src="country.imgUrl"
+                        alt="flag image"
+                        class="ma-2"
                       />
-                      {{ dropdownVal[0].title }}
-                      <Icon
-                        icon="jam:chevron-down"
-                        width="18"
-                        :inline="true"
-                        class="ml-1"
-                      />
+                      {{ country.title }}
                     </a>
-                  </template>
-
-                  <v-list class="pa-0">
-                    <v-list-item
-                      link
-                      class="border-top dropdown-item"
-                      v-for="(country, countryIdx) in dropdownVal"
-                      :key="countryIdx"
-                    >
-                      <a
-                        href=""
-                        class="d-flex align-center font-weight-regular"
-                      >
-                        <img
-                          v-if="dropdownKey === 'countries'"
-                          :src="country.imgUrl"
-                          alt="flag image"
-                          class="ma-2"
-                        />
-                        {{ country.title }}
-                      </a>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
-                <v-divider
-                  vertical
-                  class="ml-5"
-                  v-if="dropdownKey !== 'languagues'"
-                ></v-divider>
-              </li>
-            </ul>
-          </div>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </li>
+          </ul>
 
           <!-- INFO -->
-          <ul class="d-flex">
+          <ul class="nav navbar-nav mr-8">
             <li
               v-for="(info, infoIdx) in infos"
               :key="infoIdx"
-              class="font-weight-medium px-4"
+              class="font-weight-medium"
             >
-              <a :href="info.href">
+              <a :href="info.href" class="nav-link">
                 {{ info.text }}
               </a>
             </li>
           </ul>
 
           <!-- CONTACT -->
-          <div>
-            <ul class="d-flex pa-0">
-              <li
-                v-for="(icon, socialIconsIdx) in socialIcons"
-                :key="socialIconsIdx"
-              >
-                <a href="" class="social-link nav-link py-0">
-                  <Icon :icon="icon.spec" width="16" :inline="true" />
-                </a>
-              </li>
-            </ul>
-          </div>
+          <ul class="nav navbar-nav d-flex flex-row">
+            <li
+              class="nav-item"
+              v-for="(icon, socialIconsIdx) in socialIcons"
+              :key="socialIconsIdx"
+            >
+              <a href="" class="social-link">
+                <Icon :icon="icon.spec" :inline="true" />
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
 
-    <!-- BREADCRUMS -->
-    <div class="px-4 py-6 border-bottom">
+    <!-- Breadcrumbs -->
+    <div class="navbar navbar-expand-lg border-bottom">
       <div class="container-control">
         <!-- Brand name -->
-        <div class="d-flex justify-space-between align-center">
-          <router-link :to="{ name: 'Home' }" class="brand">
-            Pineapple
-          </router-link>
 
-          <!-- Middle breadcrums -->
-          <div class="main-breadcrumbs d-flex align-center justify-center">
-            <ul class="d-flex pa-0">
+        <router-link :to="{ name: 'Home' }" class="brand">
+          Pineapple
+        </router-link>
+
+        <!-- Breadcrumb Toggler -->
+        <div
+          class="navbar-toggler"
+          @click="toggleCollapsedBreadcrumb"
+          v-show="isMdAndDownViewport"
+        >
+          <Icon class="navbar-toggler-icon" icon="octicon:three-bars-16" />
+        </div>
+
+        <!-- Middle Breadcrumbs -->
+        <div
+          :class="['navbar-collapse', { collapsible: isMdAndDownViewport }]"
+          id="collapsedBreadcrumb"
+        >
+          <!-- Breadcrumbs header -->
+          <div class="navbar-nav mx-auto">
+            <ul
+              :class="['d-flex pa-0', { 'flex-column': isMdAndDownViewport }]"
+            >
               <li
-                v-for="(breadcrumb, breadcrumbIdx) in breadcrumbs"
-                :key="breadcrumbIdx"
-                class="mx-2"
+                v-for="(Breadcrumbb, BreadcrumbbIdx) in Breadcrumbbs"
+                :key="BreadcrumbbIdx"
+                class="nav-item dropdown"
               >
                 <v-menu
-                  :nudge-left="breadcrumb === 'Shop' ? '250' : 0"
+                  :nudge-left="Breadcrumbb === 'Shop' ? '250' : 0"
                   transition="scroll-y-reverse-transition"
                   offset-y
-                  open-on-hover
+                  :open-on-hover="!isMdAndDownViewport"
                   :close-on-content-click="false"
-                  :close-delay="breadcrumb === 'Catalog' ? '100' : undefined"
+                  :close-delay="Breadcrumbb === 'Catalog' ? '100' : undefined"
                   :content-class="
-                    breadcrumb === 'Catalog' ? 'catalog-control' : undefined
+                    Breadcrumbb === 'Catalog' ? 'catalog-control' : undefined
                   "
                 >
                   <template v-slot:activator="{ on, attrs }" elevation="0">
                     <div
                       v-bind="attrs"
                       v-on="on"
-                      class="font-weight-medium px-4 py-2 red-hover-btn"
+                      class="nav-link font-weight-medium red-hover-btn"
                     >
-                      {{ breadcrumb }}
+                      {{ Breadcrumbb }}
                     </div>
                   </template>
 
-                  <component :is="currentMenu(breadcrumb)" />
+                  <component :is="currentMenu(Breadcrumbb)" />
                 </v-menu>
               </li>
             </ul>
 
-            <a href="" class="font-weight-medium px-4 py-2 red-hover-btn">
+            <a href="" class="font-weight-medium nav-link red-hover-btn">
               Docs
             </a>
           </div>
 
           <!-- Functional icons -->
-          <div class="d-flex">
+          <div class="navbar-nav flex-row">
             <!-- Search -->
             <a class="functional-icon" @click="eventHub.$emit('searchClicked')">
               <Icon
@@ -170,7 +189,7 @@
               />
             </a>
 
-            <!-- Acount -->
+            <!-- Account -->
             <router-link :to="'/account'" class="functional-icon">
               <Icon
                 icon="feather:user"
@@ -223,6 +242,8 @@ import ShopMenu from '@/components/HomePage/BreadcrumbMenu/ShopMenu';
 import { Icon } from '@iconify/vue2';
 import { mapGetters } from 'vuex';
 
+import toggleCollapsibleElement from '@/utils/toggleCollapsibleElement';
+
 export default {
   name: 'NavBars',
   components: {
@@ -235,6 +256,11 @@ export default {
   },
 
   data: () => ({
+    isLgAndDownViewport: null,
+    isMdAndDownViewport: null,
+    isShownCollapsedNavbar: null,
+    isShownCollapsedBreadcrumb: null,
+    windowWidth: null,
     dropdownOptions: {
       countries: [
         {
@@ -290,15 +316,17 @@ export default {
         spec: ['far', 'heart'],
       },
     ],
-    breadcrumbs: ['Home', 'Catalog', 'Shop', 'Pages', 'Blog'],
+    Breadcrumbbs: ['Home', 'Catalog', 'Shop', 'Pages', 'Blog'],
     items: [
       { title: 'Home', icon: 'mdi-view-dashboard' },
       { title: 'About', icon: 'mdi-forum' },
     ],
   }),
+
   computed: {
     ...mapGetters('productPrivateStore', ['cartLength']),
   },
+
   methods: {
     currentMenu(key) {
       switch (key) {
@@ -316,40 +344,224 @@ export default {
           return 'HomeMenu';
       }
     },
+
+    checkScreen() {
+      this.windowWidth = window.innerWidth;
+      const navbarElement = document.getElementById('collapsedNavbar');
+      const breadcrumbElement = document.getElementById('collapsedBreadcrumb');
+
+      if (this.windowWidth < 992) {
+        this.isLgAndDownViewport = true;
+        this.isMdAndDownViewport = true;
+        if (navbarElement) {
+          document.getElementById('collapsedNavbar').style.height = '0px';
+        }
+        if (breadcrumbElement) {
+          document.getElementById('collapsedBreadcrumb').style.height = '0px';
+        }
+        return;
+      }
+
+      if (this.windowWidth < 1200) {
+        this.isLgAndDownViewport = true;
+        this.isMdAndDownViewport = false;
+        if (navbarElement) {
+          document.getElementById('collapsedNavbar').style.height = '0px';
+        }
+        if (breadcrumbElement) {
+          document.getElementById('collapsedBreadcrumb').style.height = '0px';
+        }
+        return;
+      }
+
+      this.isMdAndDownViewport = false;
+      this.isLgAndDownViewport = false;
+      this.isShownCollapsedNavbar = false;
+      this.isShownCollapsedBreadcrumb = false;
+      if (navbarElement) {
+        document.getElementById('collapsedNavbar').style.height = 'auto';
+      }
+      if (breadcrumbElement) {
+        document.getElementById('collapsedBreadcrumb').style.height = 'auto';
+      }
+    },
+
+    toggleCollapsedNavbar() {
+      this.isShownCollapsedNavbar = !this.isShownCollapsedNavbar;
+      toggleCollapsibleElement(!this.isShownCollapsedNavbar, 'collapsedNavbar');
+    },
+
+    toggleCollapsedBreadcrumb() {
+      this.isShownCollapsedBreadcrumb = !this.isShownCollapsedBreadcrumb;
+      toggleCollapsibleElement(
+        !this.isShownCollapsedBreadcrumb,
+        'collapsedBreadcrumb'
+      );
+    },
+  },
+
+  created() {
+    window.addEventListener('resize', this.checkScreen);
+    this.checkScreen();
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.top-navbar {
-  width: 100%;
-  background: var(--main-grey);
+.navbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1rem;
+
+  .container-control {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.navbar-topbar {
   font-size: 0.875rem;
-  padding: 0.25rem 1rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
-.dropdown {
-  display: flex;
+.navbar-collapse {
+  flex-basis: 100%;
+  flex-grow: 1;
   align-items: center;
-  justify-items: center;
-  .dropdown-link {
-    padding: 9px;
+}
+
+.social-link {
+  font-size: 1rem;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-expand-lg {
+    .navbar-collapse {
+      &::before {
+        content: '';
+        display: block;
+        margin-top: 0.5rem;
+      }
+    }
+    .container-control {
+      padding-right: 0;
+      padding-left: 0;
+    }
   }
 }
 
-.dropdown-content {
+@media (min-width: 992px) {
+  .navbar-expand-lg {
+    .navbar-collapse {
+      display: flex !important;
+      flex-basis: auto;
+    }
+
+    .navbar-nav {
+      flex-direction: row;
+      .nav-link {
+        padding-right: 1rem;
+        padding-left: 1rem;
+      }
+    }
+  }
 }
 
-.promo {
-  width: 25%;
+@media (max-width: 1199.98px) {
+  .navbar.navbar-expand-xl {
+    .navbar-collapse {
+      &::before {
+        content: '';
+        display: block;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+
+  .navbar-expand-xl > .container-control {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .nav-item:not(.dropdown) {
+    &:first-child {
+      margin-left: -0.25rem;
+    }
+
+    &:not(:first-child) {
+      margin-left: 1rem;
+    }
+  }
+
+  .social-link {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
 }
 
-.collasped {
-  height: 100%;
-  width: 100%;
+@media (min-width: 1200px) {
+  .promo {
+    margin-right: 2.5rem;
+    white-space: nowrap;
+  }
+  .navbar-expand-xl {
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+
+    > .container-control {
+      flex-wrap: nowrap;
+    }
+
+    .navbar-collapse {
+      display: flex !important;
+      flex-basis: auto;
+    }
+
+    .navbar-nav {
+      flex-direction: row;
+
+      .nav-link {
+        padding-right: 1rem;
+        padding-left: 1rem;
+      }
+
+      .social-link {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+      }
+    }
+  }
 }
 
-.v-breadcrumbs__item {
+.dropdown {
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  overflow: hidden;
+}
+.dropdown-toggle-icon {
+  float: right;
+  margin-left: 0.25rem;
+}
+
+.navbar-toggler {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0.25rem 0;
+  .navbar-toggler-icon {
+    font-size: 1.5rem;
+  }
+}
+
+.v-Breadcrumbbs__item {
   color: black !important;
 }
 
@@ -371,6 +583,9 @@ export default {
 
 .functional-icon {
   padding: 0.5rem;
+  &:first-child {
+    padding-left: 0;
+  }
 }
 
 .shopping-cart {
@@ -399,9 +614,5 @@ export default {
   left: 0px !important;
   min-width: 100vw !important;
   max-width: 100vw !important;
-}
-
-.nav-link {
-  padding: 0.5rem;
 }
 </style>
