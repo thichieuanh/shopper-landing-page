@@ -49,7 +49,7 @@
       </div>
 
       <v-card-subtitle class="pa-0 mt-4 mb-0">
-        <a href="" class="grey--text text--darken-2">
+        <a href="" class="text-muted">
           {{ productDetails.category }}
         </a>
       </v-card-subtitle>
@@ -63,7 +63,7 @@
         class="pa-0 mt-1 mb-0 font-weight-medium"
         style="font-size: 1rem"
       >
-        <span :class="{ 'old-price': isSale(productDetails) }">
+        <span :class="['text-muted', { 'old-price': isSale(productDetails) }]">
           {{ productDetails.pricing.price | currencyFormatter }}
         </span>
         <span v-if="isSale(productDetails)" class="text-primary">

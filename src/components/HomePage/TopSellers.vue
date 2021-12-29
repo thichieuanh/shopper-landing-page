@@ -1,5 +1,5 @@
 <template>
-  <section id="top-sellers">
+  <section id="top-sellers" class="py-12">
     <div class="container-control">
       <!-- HEADING -->
       <v-row class="flex-column align-center justify-center">
@@ -7,7 +7,7 @@
       </v-row>
 
       <!-- TABS -->
-      <div class="text-center mb-10">
+      <div class="text-center mb-10 font-weight-medium">
         <span
           v-for="(tab, tabIndex) in tabItems"
           :key="tabIndex"
@@ -27,8 +27,9 @@
           <v-col
             v-for="(product, productIdx) in productGroup"
             :key="productIdx"
-            cols="12"
-            md="3"
+            cols="6"
+            md="4"
+            lg="3"
             class="px-4 py-0 mb-7"
           >
             <Product :productDetails="product"></Product>
@@ -37,10 +38,14 @@
       </div>
 
       <!-- DISCOVER MORE -->
-      <div class="text-center underline-wrapper mt-7">
-        <a class="link-underline" href="#!">Discover more</a>
-        <div class="line"></div>
-      </div>
+      <v-row>
+        <v-col>
+          <div class="text-center underline-wrapper mt-7">
+            <a class="link-underline" href="#!"> Discover more </a>
+            <div class="line"></div>
+          </div>
+        </v-col>
+      </v-row>
     </div>
   </section>
 </template>
@@ -101,9 +106,14 @@ export default {
 
 .underline-wrapper {
   position: relative;
-  width: 15%;
+  width: 30%;
   text-align: center;
   margin: auto;
+  white-space: nowrap;
+
+  @media (min-width: 960px) {
+    width: 15%;
+  }
 
   .link-underline {
     font-weight: 500;
