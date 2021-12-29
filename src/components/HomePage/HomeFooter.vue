@@ -46,11 +46,12 @@
               <v-col
                 v-for="(content, idx) in contactDetails"
                 :key="idx"
-                cols="3"
+                cols="6"
+                sm="3"
                 class="pa-0"
               >
                 <h6 class="mb-4 heading-xxs">{{ content.title }}</h6>
-                <ul class="pa-0">
+                <ul class="pa-0 mb-7 mb-sm-0">
                   <li
                     :key="detailIdx"
                     v-for="(detail, detailIdx) in content.details"
@@ -68,6 +69,23 @@
     </div>
 
     <!-- FOOTER BOTTOM -->
+    <!-- <div class="py-6">
+      <div class="container-control">
+        <v-row>
+          <v-col class="pa-0">
+            <p class="my-auto font-size-xxs text-muted">
+              © 2019 All rights reserved. Designed by Unvab.
+            </p>
+          </v-col>
+          <v-col class="pa-0">
+            <ul class="pa-0 d-flex justify-end">
+              <li v-for="n in 6" :key="n" class="mx-1">
+                <img :src="`/img/payments/payment${n}.svg`" alt="payment" />
+              </li>
+            </ul>
+          </v-col>
+        </v-row>
+      </div> -->
     <div class="py-6 mx-0 container-control">
       <v-row class="justify-space-between align-center">
         <v-col class="pa-0">
