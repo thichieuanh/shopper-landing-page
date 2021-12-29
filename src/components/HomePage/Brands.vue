@@ -2,60 +2,55 @@
   <section id="brands" class="py-12">
     <div class="container-control">
       <!-- HEADING -->
-      <v-row class="flex-column align-center justify-center">
+      <v-row class="flex-column align-center justify-center text-center">
         <h2 class="mb-4">@pineapple</h2>
-        <p class="grey--text text--darken-3 mb-10">
+        <p class="text-gray-500 mb-10 font-size-lg">
           Appear, dry there darkness they're seas, dry waters.
         </p>
       </v-row>
 
-      <!-- PHOTOS -->
-      <article>
-        <v-container fluid pa-0>
-          <!-- Pics -->
-          <v-row class="mb-10">
-            <v-col v-for="n in 6" :key="n" cols="2">
-              <v-hover v-slot="{ hover }">
-                <v-card tile :class="[{ 'on-hover': hover }]">
-                  <v-img
-                    :src="`/img/brands/brandPictures/brand${n}.jpeg`"
-                    aspect-ratio="1"
-                  >
-                    <v-row class="fill-height flex-column" justify="center">
-                      <a href="" class="img-overlay">
-                        <div class="white--text font-size-xxs mr-4">
-                          <v-icon color="white" class="mr-2">
-                            mdi-heart-outline
-                          </v-icon>
-                          {{ likeCount }}
-                        </div>
+      <!-- PICS -->
+      <v-row class="mb-10 mx-n1">
+        <v-col v-for="n in 6" :key="n" cols="6" sm="4" md="2" class="px-1">
+          <v-hover v-slot="{ hover }">
+            <v-card tile :class="[{ 'on-hover': hover }, 'mb-2']">
+              <v-img
+                :src="`/img/brands/brandPictures/brand${n}.jpeg`"
+                aspect-ratio="1"
+              >
+                <v-row class="fill-height flex-column" justify="center">
+                  <a href="" class="img-overlay">
+                    <div class="white--text font-size-xxs mr-4">
+                      <v-icon color="white" class="mr-2">
+                        mdi-heart-outline
+                      </v-icon>
+                      {{ likeCount }}
+                    </div>
 
-                        <div class="white--text font-size-xxs">
-                          <v-icon color="white" class="mr-2">
-                            mdi-message-outline
-                          </v-icon>
-                          {{ commentCount }}
-                        </div>
-                      </a>
-                    </v-row>
-                  </v-img>
-                </v-card>
-              </v-hover>
-            </v-col>
-          </v-row>
+                    <div class="white--text font-size-xxs">
+                      <v-icon color="white" class="mr-2">
+                        mdi-message-outline
+                      </v-icon>
+                      {{ commentCount }}
+                    </div>
+                  </a>
+                </v-row>
+              </v-img>
+            </v-card>
+          </v-hover>
+        </v-col>
+      </v-row>
 
-          <!-- Logos -->
-          <v-row>
-            <v-col
-              v-for="img in brandLogos"
-              :key="img"
-              class="col-4 col-sm-3 col-md text-center"
-            >
-              <img :src="img" class="img-fluid" />
-            </v-col>
-          </v-row>
-        </v-container>
-      </article>
+      <!-- LOGOS -->
+      <v-row>
+        <v-col
+          v-for="img in brandLogos"
+          :key="img"
+          class="col-4 col-sm-3 col-md text-center mb-7 mb-md-0"
+        >
+          <img :src="img" class="img-fluid" />
+        </v-col>
+      </v-row>
     </div>
   </section>
 </template>

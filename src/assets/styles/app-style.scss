@@ -36,6 +36,12 @@ html {
   overflow: initial;
 }
 
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
 body {
   font-family: var(--main-font);
   font-size: 1rem;
@@ -151,10 +157,6 @@ ul {
     max-width: 1140px;
   }
 }
-
-// section + section {
-//   padding: 3rem 0;
-// }
 
 .row {
   margin: 0 !important;
