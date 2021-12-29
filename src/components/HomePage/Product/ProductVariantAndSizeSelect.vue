@@ -112,7 +112,7 @@
           <!-- Qty dropdown -->
           <v-col
             :class="[
-              'col-12 px-md-0 mb-2',
+              'col-12 px-sm-0 mb-2',
               isRenderedInModal ? 'col-lg-4' : 'col-lg-3',
             ]"
           >

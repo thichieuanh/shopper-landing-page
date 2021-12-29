@@ -66,11 +66,11 @@ export default {
   methods: {},
   filters: {
     formatTitle(string) {
-      const reg = /(?<=[a-z])[A-Z](?=[a-z])/g;
-      const capitalizeFirstLetter =
-        string.charAt().toUpperCase() + string.substring(1);
-      const stringWithSpaces = capitalizeFirstLetter.replace(reg, ' ' + '$&');
-      return stringWithSpaces;
+      // const reg = /(?<=[a-z])[A-Z](?=[a-z])/g;
+      // const capitalizeFirstLetter =
+      //   string.charAt().toUpperCase() + string.substring(1);
+      // const stringWithSpaces = capitalizeFirstLetter.replace(reg, ' ' + '$&');
+      // return stringWithSpaces;
     },
   },
 };

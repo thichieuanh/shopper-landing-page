@@ -18,7 +18,7 @@
             </button>
 
             <!-- Modal content -->
-            <div class="px-4 px-lg-0">
+            <div>
               <v-row class="product-dialog-content align-center">
                 <!-- Image -->
                 <v-col
@@ -47,7 +47,7 @@
                 </v-col>
 
                 <!-- Product info -->
-                <v-col cols="12" md="6" lg="7" class="px-md-9 py-9 text-left">
+                <v-col cols="12" md="6" lg="7" class="py-9 px-sm-9 text-left">
                   <ProductVariantAndSizeSelect
                     :productDetails="productDetails"
                     :productId="productId"
