@@ -45,13 +45,13 @@ export default {
 <style lang="scss" scoped>
 #count-down {
   margin-top: 3rem;
-  min-height: 95vh;
+  min-height: 70vh;
   background-image: url('/img/covers/countdown.jpeg');
   background-size: cover;
   background-position: center;
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1264px) {
   #count-down {
     min-height: 60vh;
   }

@@ -3,7 +3,7 @@
     <div class="container-control">
       <!-- HEADING -->
       <v-row class="flex-column align-center justify-center">
-        <h6 class="grey--text mb-3">WHAT BUYERS SAY</h6>
+        <h6 class="text-gray-400 heading-xxs mb-3">WHAT BUYERS SAY</h6>
         <h2 class="mb-10">Latest buyers Reviews</h2>
       </v-row>
 
@@ -83,6 +83,14 @@ export default {
       gap: '1.2rem',
       arrows: false,
       type: 'loop',
+      breakpoints: {
+        600: {
+          perPage: 1,
+        },
+        990: {
+          perPage: 2,
+        },
+      },
     },
   }),
   computed: {
