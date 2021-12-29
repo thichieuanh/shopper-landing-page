@@ -1219,11 +1219,15 @@ tbody tr {
   margin: 1.75rem auto;
   background: #fff;
   width: auto;
-  max-width: 90vw;
-  height: auto;
+  // max-width: 90vw;
+  // height: auto;
   text-align: center;
   box-sizing: border-box;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+
+  @media (min-width: 576px) {
+    margin: 1.5rem auto;
+  }
 }
 
 .modal-body {
@@ -1235,21 +1239,28 @@ tbody tr {
   margin-right: 15px;
 }
 
-@media (min-width: 992px) {
-  .modal-lg,
-  .modal-xl {
+.modal-xl {
+  @media (min-width: 992px) {
     max-width: 800px;
   }
-}
-
-@media (min-width: 1200px) {
-  .modal-xl {
+  @media (min-width: 1200px) {
     max-width: 1140px;
   }
 }
 
-/* TRANSITIONS */
+.modal-lg {
+  @media (min-width: 992px) {
+    max-width: 800px;
+  }
+}
 
+.modal-dialog-centered {
+  @media (min-width: 576px) {
+    min-height: calc(100% - 3.5rem);
+  }
+}
+
+/* TRANSITIONS */
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.4s ease-in-out;

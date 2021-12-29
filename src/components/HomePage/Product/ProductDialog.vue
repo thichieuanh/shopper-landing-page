@@ -9,7 +9,7 @@
       >
         <transition name="slide-fade" appear v-if="productDetails">
           <div
-            class="modal-dialog modal-xl"
+            class="modal-dialog modal-dialog-centered modal-xl"
             v-if="productDetails"
             @click.stop=""
           >
@@ -18,41 +18,43 @@
             </button>
 
             <!-- Modal content -->
-            <v-row class="product-dialog-content">
-              <!-- Image -->
-              <v-col
-                cols="12"
-                md="6"
-                lg="5"
-                class="px-0 py-5 text-left"
-                style="max-height: 100%"
-              >
-                <img
-                  class="product-dialog-img"
-                  :src="
-                    productDetails.variants[selectedVariant].variantImages[0]
-                  "
-                />
-                <button class="btn btn-block btn-primary" @click="close">
-                  <router-link :to="`/product/${productDetails._id}`">
-                    More Product Info
-                    <Icon
-                      icon="ant-design:info-circle-outlined"
-                      width="18"
-                      :inline="true"
-                    />
-                  </router-link>
-                </button>
-              </v-col>
+            <div class="px-4 px-lg-0">
+              <v-row class="product-dialog-content align-center">
+                <!-- Image -->
+                <v-col
+                  cols="12"
+                  md="6"
+                  lg="5"
+                  class="px-lg-0 py-4 py-lg-0 text-left"
+                  style="max-height: 100%"
+                >
+                  <img
+                    class="product-dialog-img"
+                    :src="
+                      productDetails.variants[selectedVariant].variantImages[0]
+                    "
+                  />
+                  <button class="btn btn-block btn-primary" @click="close">
+                    <router-link :to="`/product/${productDetails._id}`">
+                      More Product Info
+                      <Icon
+                        icon="ant-design:info-circle-outlined"
+                        width="18"
+                        :inline="true"
+                      />
+                    </router-link>
+                  </button>
+                </v-col>
 
-              <!-- Product info -->
-              <v-col cols="12" md="6" lg="7" class="px-md-9 py-9 text-left">
-                <ProductVariantAndSizeSelect
-                  :productDetails="productDetails"
-                  :productId="productId"
-                ></ProductVariantAndSizeSelect>
-              </v-col>
-            </v-row>
+                <!-- Product info -->
+                <v-col cols="12" md="6" lg="7" class="px-md-9 py-9 text-left">
+                  <!-- <ProductVariantAndSizeSelect
+                    :productDetails="productDetails"
+                    :productId="productId"
+                  ></ProductVariantAndSizeSelect> -->
+                </v-col>
+              </v-row>
+            </div>
           </div>
         </transition>
       </div>
@@ -63,10 +65,14 @@
 <script>
 import { Icon } from '@iconify/vue2';
 import { mapGetters, mapActions, mapState } from 'vuex';
-import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
+// import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
 
 export default {
-  components: { Icon, ProductVariantAndSizeSelect },
+  components: {
+    Icon,
+    // ProductVariantAndSizeSelect,
+  },
+
   props: {
     isOpen: { type: Boolean, default: false },
     productId: { type: String },
@@ -141,7 +147,8 @@ export default {
 }
 
 .product-dialog-img {
-  max-height: 100%;
+  // max-height: 100%;
+  height: auto;
   max-width: 100%;
   margin-bottom: -1rem;
 }
