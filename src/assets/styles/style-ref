@@ -5,4 +5,10 @@ Small	          sm	    Small to medium tablet	        600px > < 960px
 Medium	        md	    Large tablet to laptop	        960px > < 1264px*
 Large	          lg	    Desktop	                        1264px > < 1904px*
 Extra large	    xl	    4k and ultra-wide	            > 1904px*
+
+-breakpoint-xs: 0;
+--breakpoint-sm: 576px;
+--breakpoint-md: 768px;
+--breakpoint-lg: 992px;
+--breakpoint-xl: 1200px;
 */

@@ -1,26 +1,29 @@
 <template>
-  <section id="best-picks">
+  <section class="pt-12" id="best-picks">
     <div class="container-control">
       <!-- HEADING -->
-      <v-row class="flex-column align-center justify-center">
-        <h6 class="grey--text mb-3">NEW COLLECTION</h6>
-        <h2 class="mb-4">Best Picks 2021</h2>
-        <p class="grey--text text--darken-3 mb-10">
-          Appear, dry there darkness they're seas, dry waters thing fly midst.
-          Beast, above fly brought Very green.
-        </p>
+      <v-row class="custom-row justify-center">
+        <v-col cols="12" sm="10" md="8" lg="6" class="text-center">
+          <h6 class="heading-xxs text-gray-400 mb-3">NEW COLLECTION</h6>
+          <h2 class="mb-4">Best Picks 2021</h2>
+          <p class="text-gray-500 mb-10">
+            Appear, dry there darkness they're seas, dry waters thing fly midst.
+            Beast, above fly brought Very green.
+          </p>
+        </v-col>
       </v-row>
 
       <!-- COLLECTIONS -->
       <v-row>
         <v-col
+          class="px-md-4"
           v-for="n in 4"
           :key="n"
           cols="12"
           :md="n === 2 || n === 3 ? 7 : 5"
           :lg="n === 2 || n === 3 ? 8 : 4"
         >
-          <div class="card bg-hover mb-7">
+          <div class="card bg-hover mb-7 d-flex flex-column align-center">
             <!-- Card background -->
             <div
               class="card-bg"
@@ -34,18 +37,18 @@
             ></div>
 
             <!-- Card body -->
-            <v-row class="fill-height flex-column card-body" justify="center">
-              <div
-                :class="
-                  textColor(n) + ' text-center font-weight-medium px-md-10'
-                "
-              >
-                <div style="font-size: 2rem">
-                  {{ coverTitles[n - 1] }}
-                </div>
+            <v-row
+              class="card-body my-auto text-center h-100 w-100 px-0 px-md-10"
+              justify="center"
+              align="center"
+            >
+              <div :class="textColor(n) + ' w-100'">
+                <h4 class>{{ coverTitles[n - 1] }}</h4>
 
                 <div class="pa-0 shop-button" style="font-size: 1.125rem">
-                  <a href=""> Shop Now </a>
+                  <router-link :to="{ name: 'Shop' }" class="stretched-link">
+                    Shop Now
+                  </router-link>
                   <v-icon class="shop-icon ml-3" size="1.125rem">
                     mdi-arrow-right
                   </v-icon>
@@ -124,7 +127,8 @@ export default {
 
 .card-body {
   position: absolute;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .bg-hover {

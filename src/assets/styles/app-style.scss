@@ -149,9 +149,9 @@ ul {
   }
 }
 
-section + section {
-  padding: 3rem 0;
-}
+// section + section {
+//   padding: 3rem 0;
+// }
 
 .row {
   margin: 0 !important;
@@ -414,9 +414,11 @@ section + section {
     padding: 3rem !important;
   }
 
-  .pl-md-10,
-  .px-md-10 {
-    padding-left: 4rem !important;
+  @media (min-width: 960px) {
+    .pl-md-10,
+    .px-md-10 {
+      padding-left: 4rem !important;
+    }
   }
 
   .pa-10 {

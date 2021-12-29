@@ -1,9 +1,15 @@
 <template>
   <!-- FEATURES -->
   <div class="mx-auto px-0 container-control">
-    <v-row class="feature-row">
-      <v-col v-for="(item, index) in features" :key="index" cols="3">
-        <div class="d-flex">
+    <v-row>
+      <v-col
+        v-for="(item, index) in features"
+        :key="index"
+        cols="12"
+        sm="6"
+        md="3"
+      >
+        <div :class="['d-flex', { 'mb-6 mb-md-0': index !== 3 }]">
           <Icon
             :icon="item.icon"
             width="20.25"

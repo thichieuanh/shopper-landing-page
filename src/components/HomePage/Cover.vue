@@ -10,10 +10,11 @@
         >
       </v-row>
     </div>
+
     <!-- COVER -->
     <article>
       <v-row no-gutters>
-        <v-col v-for="n in 3" :key="n" cols="4">
+        <v-col v-for="n in 3" :key="n" cols="12" md="6" lg="4">
           <v-card tile>
             <v-img
               :src="`/img/covers/cover${n}.jpeg`"
@@ -28,7 +29,7 @@
                 {{ coverTitles[n - 1] }}
               </v-card-text>
               <a
-                href="https://vuejs.org/v2/api/#transition"
+                href="#"
                 target="_blank"
                 class="shop-button white-button mt-16 stretched-link"
               >
@@ -56,28 +57,6 @@ export default {
 
   data: () => ({
     coverTitles: ['Women', 'Men', 'Kids'],
-    features: [
-      {
-        icon: 'feather:truck',
-        title: 'FREE SHIPPING',
-        text: 'From all orders over $100',
-      },
-      {
-        icon: 'akar-icons:arrow-repeat',
-        title: 'FREE RETURNS',
-        text: 'Return money within 30 days',
-      },
-      {
-        icon: 'feather:lock',
-        title: 'SECURE SHOPPING',
-        text: "You're in safe hands",
-      },
-      {
-        icon: 'akar-icons:tag',
-        title: 'OVER 10,000 STYLES',
-        text: 'We have everything you need',
-      },
-    ],
   }),
 };
 </script>
@@ -102,17 +81,5 @@ export default {
 
 .row {
   margin: 0;
-}
-
-.feature-row {
-  border-bottom: 1px rgb(229, 229, 229) solid;
-}
-
-.feature-cards {
-  display: flex !important;
-  & .v-icon {
-    vertical-align: baseline !important;
-    line-height: inherit;
-  }
 }
 </style>
