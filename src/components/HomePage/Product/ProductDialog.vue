@@ -48,10 +48,10 @@
 
                 <!-- Product info -->
                 <v-col cols="12" md="6" lg="7" class="px-md-9 py-9 text-left">
-                  <!-- <ProductVariantAndSizeSelect
+                  <ProductVariantAndSizeSelect
                     :productDetails="productDetails"
                     :productId="productId"
-                  ></ProductVariantAndSizeSelect> -->
+                  ></ProductVariantAndSizeSelect>
                 </v-col>
               </v-row>
             </div>
@@ -65,12 +65,12 @@
 <script>
 import { Icon } from '@iconify/vue2';
 import { mapGetters, mapActions, mapState } from 'vuex';
-// import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
+import ProductVariantAndSizeSelect from '@/components/HomePage/Product/ProductVariantAndSizeSelect';
 
 export default {
   components: {
     Icon,
-    // ProductVariantAndSizeSelect,
+    ProductVariantAndSizeSelect,
   },
 
   props: {
