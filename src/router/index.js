@@ -114,7 +114,7 @@ const routes = [
           },
           {
             path: 'edit/:id',
-            name: 'EditPayMent',
+            name: 'EditPayment',
             component: EditPayment,
           },
         ]

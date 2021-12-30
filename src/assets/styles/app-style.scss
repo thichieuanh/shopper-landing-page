@@ -34,6 +34,10 @@ span {
 html {
   font-size: 18px;
   overflow: initial;
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+  }
 }
 
 *,

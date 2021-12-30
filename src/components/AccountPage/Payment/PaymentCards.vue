@@ -22,9 +22,8 @@
           </ul>
 
           <div class="card-action card-action-right">
-            <router-link
-              :to="{ name: 'EditPayMent', params: { index: cardIndex } }"
-            >
+            <router-link :to="{ name: 'EditPayment', params: { id: 0 } }">
+              <!-- fix here to get cardID router -->
               <button class="product-button mr-2">
                 <Icon icon="clarity:edit-line" :inline="true" />
               </button>
@@ -66,6 +65,7 @@ export default {
   methods: {},
   filters: {
     formatTitle(string) {
+      return string;
       // const reg = /(?<=[a-z])[A-Z](?=[a-z])/g;
       // const capitalizeFirstLetter =
       //   string.charAt().toUpperCase() + string.substring(1);
