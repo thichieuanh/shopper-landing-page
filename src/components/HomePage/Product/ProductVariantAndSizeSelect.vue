@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h4 class="mb-3">{{ productDetails.name }}</h4>
+    <h4 v-if="isRenderedInModal" class="mb-3">{{ productDetails.name }}</h4>
+    <h3 v-else class="mb-3">{{ productDetails.name }}</h3>
+
     <div
       :class="[
         'mb-7 d-flex align-baseline',
@@ -34,22 +36,29 @@
         >
       </p>
 
-      <div class="d-flex mb-8">
-        <v-avatar
-          v-for="(variant, index) in productDetails.variants"
-          :key="index"
-          tile
-          height="6vh"
-          width="5vh"
-          :class="[
-            'mr-3',
-            'product-thumb',
-            { 'active-thumb': selectedVariant === index },
-          ]"
-          @click="selectVariant(index)"
-        >
-          <img :src="variant.variantImages[0]" alt="product thumb" />
-        </v-avatar>
+      <div class="d-flex mb-8 ml-n1">
+        <v-row>
+          <v-col
+            v-for="(variant, index) in productDetails.variants"
+            :key="index"
+            cols="3"
+            class="px-1"
+          >
+            <v-avatar
+              tile
+              height="auto"
+              width="100%"
+              :class="[
+                'mr-3',
+                'product-thumb',
+                { 'active-thumb': selectedVariant === index },
+              ]"
+              @click="selectVariant(index)"
+            >
+              <img :src="variant.variantImages[0]" alt="product thumb" />
+            </v-avatar>
+          </v-col>
+        </v-row>
       </div>
     </div>
 
@@ -112,7 +121,7 @@
           <!-- Qty dropdown -->
           <v-col
             :class="[
-              'col-12 px-sm-0 mb-2',
+              'col-12 px-0 mb-2',
               isRenderedInModal ? 'col-lg-4' : 'col-lg-3',
             ]"
           >
@@ -159,6 +168,11 @@
         </button>
       </v-col>
     </v-row>
+
+    <div class="mb-7" v-if="isWaitListNeeded">
+      <span class="text-gray-500"> Is your size/color sold out?</span>
+      <span class="underline-hover ml-2">Join the Wait List! </span>
+    </div>
   </div>
 </template>
 

@@ -1,13 +1,13 @@
 <template>
   <div class="review-body">
     <v-row>
-      <v-col cols="2">
-        <div class="avatar avatar-xxl">
+      <v-col cols="12" md="auto" class="pl-0">
+        <div class="avatar avatar-xxl mb-6 mb-md-0">
           <Icon icon="fa-solid:user" :inline="true" />
         </div>
       </v-col>
 
-      <v-col>
+      <v-col class="px-0 pl-md-4">
         <v-rating :value="review.rating" class="font-size-lg mb-1">
           <template v-slot:item="props">
             <Icon
@@ -29,11 +29,11 @@
         <p class="text-gray-500 mb-7">{{ review.text }}</p>
 
         <v-row class="font-size-sm align-center">
-          <v-col cols="3" class="px-0">
+          <v-col cols="3" class="px-0" v-if="!isLgAndDownViewport">
             <p>Was this review helpful?</p>
           </v-col>
 
-          <v-col class="d-flex align-center mr-auto">
+          <v-col class="d-flex align-center mr-auto pl-0">
             <div
               class="d-flex align-center pointer-cursor"
               @click="likeIncrement"
@@ -59,8 +59,10 @@
             </div>
           </v-col>
 
-          <v-col cols="2">Comments ({{ review.commentCount }}) </v-col>
-          <v-col cols="2" class="text-center">
+          <v-col cols="auto" v-if="!isLgAndDownViewport">
+            Comments ({{ review.commentCount }})
+          </v-col>
+          <v-col cols="auto" class="text-center pr-0">
             <button class="btn btn-xs btn-outline-border">Comment</button>
           </v-col>
         </v-row>
@@ -77,6 +79,10 @@ export default {
   },
 
   components: { Icon },
+
+  data: () => ({
+    isLgAndDownViewport: null,
+  }),
 
   computed: {
     likeCount: {
@@ -101,6 +107,15 @@ export default {
   },
 
   methods: {
+    checkScreen() {
+      this.windowWidth = window.innerWidth;
+      if (this.windowWidth <= 990) {
+        this.isLgAndDownViewport = true;
+        return;
+      }
+      this.isLgAndDownViewport = false;
+    },
+
     likeIncrement() {
       this.likeCount++;
     },
@@ -108,6 +123,11 @@ export default {
     dislikeIncrement() {
       this.dislikeCount++;
     },
+  },
+
+  created() {
+    window.addEventListener('resize', this.checkScreen);
+    this.checkScreen();
   },
 };
 </script>

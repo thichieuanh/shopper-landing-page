@@ -6,15 +6,15 @@
       <!-- PRODUCT DETAILS -->
       <v-row>
         <!-- Image -->
-        <v-col cols="12" sm="6">
-          <v-row class="image-slider-group">
-            <v-col cols="2">
+        <v-col cols="12" md="6" class="px-0">
+          <v-row class="image-slider-group mb-6 mb-sm-10 mb-md-0">
+            <v-col cols="2" class="pl-0 pr-1 pr-sm-2">
               <v-avatar
                 v-for="(image, idx) in productDetails.variants[selectedVariant]
                   .variantImages"
                 :key="idx"
                 tile
-                height="12.5%"
+                height="auto"
                 width="100%"
                 :class="[
                   'product-thumb',
@@ -26,7 +26,7 @@
               </v-avatar>
             </v-col>
 
-            <v-col cols="10" class="thithi">
+            <v-col cols="10" class="px-1 px-sm-2">
               <transition name="fade" mode="out-in">
                 <img
                   ref="mainImage"
@@ -41,7 +41,7 @@
         </v-col>
 
         <!-- Product Infos -->
-        <v-col cols="12" sm="6" class="pl-md-10">
+        <v-col cols="12" md="6" class="pr-0 pl-0 pl-md-8 pl-lg-10">
           <div class="d-flex justify-space-between align-center">
             <span>{{ productDetails.category }}</span>
 
@@ -73,11 +73,6 @@
             :isRenderedInModal="false"
           ></ProductVariantAndSizeSelect>
 
-          <div class="mb-7">
-            <span class="text-gray-500"> Is your size/color sold out?</span>
-            <span class="underline-hover ml-2">Join the Wait List! </span>
-          </div>
-
           <!-- Share -->
           <div class="d-flex">
             <span class="mr-4">Share:</span>
@@ -105,12 +100,12 @@
 
       <!-- TABS -->
       <section class="pt-11">
-        <div class="nav-tabs text-center border-bottom py-4">
+        <div class="nav-tabs text-left text-md-center border-bottom py-4">
           <span
             v-for="(tab, tabIndex) in tabItems"
             :key="tabIndex"
             :class="[
-              'tab-list py-4 px-10 font-weight-medium',
+              'tab-list font-weight-medium',
               { active: selectedTabIndex === tabIndex },
             ]"
             @click="selectedTabIndex = tabIndex"
@@ -119,7 +114,7 @@
           </span>
         </div>
 
-        <v-row class="justify-center py-9">
+        <v-row class="custom-row justify-center py-9">
           <v-col cols="12" md="10" lg="8">
             <transition name="fade" mode="out-in">
               <component :is="currentTab"></component>
@@ -131,12 +126,13 @@
       <!-- RECOMMENDATION -->
       <section>
         <h4 class="mb-10 text-center">You might also like</h4>
-        <v-row>
+        <v-row class="custom-row align-start">
           <v-col
             v-for="(product, productIdx) in recommendedProducts"
             :key="productIdx"
             cols="6"
             md="3"
+            class="mb-7"
           >
             <Product :productDetails="product"></Product>
           </v-col>
@@ -144,13 +140,13 @@
       </section>
 
       <!-- REVIEWS -->
-      <section id="reviews">
+      <section id="reviews" class="pt-9 pb-11">
         <!-- Header -->
         <h4 class="mb-10 text-center">Customer Reviews</h4>
         <v-row class="align-center">
           <v-col v-if="reviews.length" cols="10" class="px-0">
             <v-row>
-              <v-col cols="3" class="px-0">
+              <v-col cols="12" md="3" class="px-0 mb-4 mb-md-0">
                 <v-menu
                   transition="scroll-y-reverse-transition"
                   offset-y
@@ -187,7 +183,11 @@
                 </v-menu>
               </v-col>
 
-              <v-col cols="8" class="d-flex align-center justify-center px-0">
+              <v-col
+                cols="12"
+                md="8"
+                class="d-flex align-center justify-md-center px-0 mb-4 mb-md-0"
+              >
                 <v-rating :value="averageReviewScore" half-increments>
                   <template v-slot:item="props">
                     <Icon
@@ -206,13 +206,15 @@
                   </template>
                 </v-rating>
 
-                <span class="ml-3"> Reviews ({{ reviewCount }}) </span>
+                <span class="ml-3 font-size-sm font-weight-medium">
+                  Reviews ({{ reviewCount }})
+                </span>
               </v-col>
             </v-row>
           </v-col>
 
           <v-col
-            :class="['px-0', reviews.length ? 'text-right' : 'text-center']"
+            :class="['px-0', reviews.length ? 'text-md-right' : 'text-center']"
           >
             <div v-if="!reviews.length">
               <h1 class="mb-6">🙁</h1>
@@ -572,11 +574,22 @@ export default {
 
 <style lang="scss" scoped>
 .image-slider-group {
-  height: 632px; // fixed height for image wrapper to prevent jerky when applying transition
+  min-height: 400px; // fixed height for image wrapper to prevent jerky when applying transition
+
+  @media (min-width: 370px) {
+    min-height: 420px;
+  }
+  @media (min-width: 676px) {
+    min-height: 632px;
+  }
+
+  @media (min-width: 768px) {
+    min-height: 840px;
+  }
 }
 .img-slider {
-  height: 100%;
-  width: 100%;
+  height: auto;
+  max-width: 100%;
 }
 
 .product-thumb + .product-thumb {

@@ -128,7 +128,7 @@ export default {
       (outerWidth = innerWidth (including scrollbar) + devtool) */
 
       const scrollBarWidth = window.innerWidth - document.body.offsetWidth;
-      document.body.classList.add('showing-modal');
+      if (scrollBarWidth) document.body.classList.add('showing-modal');
 
       this.$nextTick(function () {
         document.getElementById(overlayElementId).style.overflow = 'auto';
