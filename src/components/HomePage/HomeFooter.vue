@@ -7,7 +7,7 @@
     class="d-flex flex-column flex-nowrap"
   >
     <!-- FOOTER TOP -->
-    <div class="py-12 mx-0 footer-top container-control">
+    <div class="py-12 mx-0 footer-top container">
       <v-card flat style="background: transparent">
         <v-row class="justify-center align-center flex-column text-center">
           <v-col cols="12" sm="12" md="7" lg="6" class="pa-0">
@@ -69,7 +69,7 @@
     </div>
 
     <!-- FOOTER BOTTOM -->
-    <div class="py-6 mx-0 container-control">
+    <div class="py-6 mx-0 container">
       <v-row class="justify-space-between align-center">
         <v-col class="pa-0">
           <p class="my-auto font-size-xxs text-muted">

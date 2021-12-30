@@ -1,6 +1,6 @@
 <template>
   <section class="pt-12" id="best-picks">
-    <div class="container-control">
+    <div class="container">
       <!-- HEADING -->
       <v-row class="custom-row justify-center">
         <v-col cols="12" sm="10" md="8" lg="6" class="text-center">

@@ -1,6 +1,6 @@
 <template>
   <section id="reviews" class="py-12">
-    <div class="container-control">
+    <div class="container">
       <!-- HEADING -->
       <v-row class="flex-column align-center justify-center">
         <h6 class="text-gray-400 heading-xxs mb-3">WHAT BUYERS SAY</h6>

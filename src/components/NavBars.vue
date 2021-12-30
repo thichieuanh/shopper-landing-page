@@ -2,7 +2,7 @@
   <div>
     <!-- TOP NAV -->
     <nav class="navbar navbar-topbar navbar-expand-xl bg-light">
-      <div class="container-control">
+      <div class="container">
         <!-- PROMO -->
         <div class="promo">
           <Icon
@@ -91,9 +91,9 @@
               :key="infoIdx"
               class="font-weight-medium"
             >
-              <a :href="info.href" class="nav-link">
+              <router-link :to="{ name: info.name }" class="nav-link">
                 {{ info.text }}
-              </a>
+              </router-link>
             </li>
           </ul>
 
@@ -115,7 +115,7 @@
 
     <!-- Breadcrumbs -->
     <div class="navbar navbar-expand-lg border-bottom">
-      <div class="container-control">
+      <div class="container">
         <!-- Brand name -->
 
         <router-link :to="{ name: 'Home' }" class="brand">
@@ -284,7 +284,7 @@ export default {
       ],
     },
     infos: [
-      { text: 'Shipping', href: '#' },
+      { text: 'Shipping', name: 'ShippingAndReturns' },
       { text: 'FAQ', href: '#' },
       { text: 'Contact', href: '#' },
     ],
@@ -416,7 +416,7 @@ export default {
   justify-content: space-between;
   padding: 1.5rem 1rem;
 
-  .container-control {
+  .container {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -448,7 +448,7 @@ export default {
         margin-top: 0.5rem;
       }
     }
-    .container-control {
+    .container {
       padding-right: 0;
       padding-left: 0;
     }
@@ -483,7 +483,7 @@ export default {
     }
   }
 
-  .navbar-expand-xl > .container-control {
+  .navbar-expand-xl > .container {
     padding-right: 0;
     padding-left: 0;
   }
@@ -513,7 +513,7 @@ export default {
     flex-flow: row nowrap;
     justify-content: flex-start;
 
-    > .container-control {
+    > .container {
       flex-wrap: nowrap;
     }
 

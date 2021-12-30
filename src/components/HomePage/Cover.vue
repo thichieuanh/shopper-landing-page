@@ -42,7 +42,7 @@
       </v-row>
     </article>
 
-    <div class="py-7 container-control border-bottom">
+    <div class="py-7 container border-bottom">
       <Features></Features>
     </div>
   </section>

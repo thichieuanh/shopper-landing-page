@@ -50,7 +50,7 @@ export default {
         {
           title: 'Support',
           list: [
-            'Shopping Cart',
+            'ShoppingCart',
             'Checkout',
             'Order Completed',
             'Shipping & Returns',
@@ -83,7 +83,7 @@ export default {
             'Newsletter: Vertical',
             'Product',
             'Search',
-            'Shopping Cart',
+            'ShoppingCart',
             'Size Chart',
             'Wait List',
           ],

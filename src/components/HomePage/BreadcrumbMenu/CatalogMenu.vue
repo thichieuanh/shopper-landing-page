@@ -1,7 +1,7 @@
 <template>
   <!-- TABS -->
   <v-tabs color="red accent-2">
-    <div class="container-control d-flex">
+    <div class="container d-flex">
       <v-tab v-for="item in tabItems" :key="item">
         {{ item }}
       </v-tab>
@@ -14,7 +14,7 @@
     >
       <v-divider></v-divider>
       <v-row class="py-8">
-        <div class="container-control d-flex justify-center align-center">
+        <div class="container d-flex justify-center align-center">
           <v-col cols="8" class="pa-0">
             <v-row>
               <v-col

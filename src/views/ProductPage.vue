@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container-control" v-if="productDetails">
+    <div class="container" v-if="productDetails">
       <Breadcrumbs></Breadcrumbs>
 
       <!-- PRODUCT DETAILS -->

@@ -6,6 +6,8 @@ import Shop from '../views/Shop.vue'
 import ProductPage from '../views/ProductPage.vue'
 import Checkout from '../views/Checkout.vue'
 import ShoppingCart from '../views/ShoppingCart.vue'
+import ShippingAndReturns from '../views/Shipping.vue'
+
 import Orders from '@/components/AccountPage/Orders/Orders.vue'
 import OrderDetails from '@/components/AccountPage/Orders/OrderDetails.vue'
 import Wishlist from '@/components/AccountPage/Wishlist/Wishlist.vue'
@@ -45,8 +47,13 @@ const routes = [
   },
   {
     path: '/shopping-cart',
-    name: 'Shopping Cart',
+    name: 'ShoppingCart',
     component: ShoppingCart
+  },
+  {
+    path: '/shipping-and-returns',
+    name: 'ShippingAndReturns',
+    component: ShippingAndReturns
   },
   {
     path: '/account',

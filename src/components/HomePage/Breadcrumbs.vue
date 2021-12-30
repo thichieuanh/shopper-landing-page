@@ -1,5 +1,5 @@
 <template>
-  <div class="container-control">
+  <div class="container">
     <v-breadcrumbs :items="breadList" class="px-0" large>
       <template v-slot:divider>
         <v-icon>mdi-chevron-right</v-icon>

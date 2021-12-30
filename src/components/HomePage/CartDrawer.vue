@@ -137,7 +137,7 @@
       </router-link>
 
       <button class="btn btn-outline-dark btn-block mt-3">
-        <router-link :to="{ name: 'Shopping Cart' }"> View Cart </router-link>
+        <router-link :to="{ name: 'ShoppingCart' }"> View Cart </router-link>
       </button>
     </div>
   </v-navigation-drawer>

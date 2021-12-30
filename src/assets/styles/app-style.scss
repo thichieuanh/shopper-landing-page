@@ -135,7 +135,7 @@ ul {
   --animate-duration: 0.3s;
 }
 
-.container-control {
+.container {
   margin: auto;
   width: 100%;
   padding-right: 1rem;
@@ -233,6 +233,11 @@ ul {
 
 .btn-xxs {
   height: calc(1.40625rem + 0.375rem + 2px);
+}
+
+.btn-group-lg > .btn,
+.btn-lg {
+  height: calc(1.5rem + 2.125rem + 2px);
 }
 
 .btn:hover {
@@ -914,6 +919,10 @@ textarea.form-control {
   display: block;
 }
 
+.text-body {
+  color: #111;
+}
+
 .text-primary {
   color: #ff5252 !important;
 }
@@ -932,6 +941,10 @@ textarea.form-control {
 
 .text-gray-500 {
   color: #525252 !important;
+}
+
+.text-decoration-underline {
+  text-decoration: underline !important;
 }
 
 .img-fluid {

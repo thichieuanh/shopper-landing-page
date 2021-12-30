@@ -1,6 +1,6 @@
 <template>
   <!-- FEATURES -->
-  <div class="mx-auto px-0 container-control">
+  <div class="mx-auto px-0 container">
     <v-row>
       <v-col
         v-for="(item, index) in features"

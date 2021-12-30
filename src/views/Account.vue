@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container-control">
+    <div class="container">
       <Breadcrumbs></Breadcrumbs>
       <section class="pt-7 pb-12">
         <!-- Heading -->

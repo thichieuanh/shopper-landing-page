@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container-control">
+    <div class="container">
       <Breadcrumbs></Breadcrumbs>
 
       <!-- Header -->

@@ -1,6 +1,6 @@
 <template>
   <section id="top-sellers" class="py-12">
-    <div class="container-control">
+    <div class="container">
       <!-- HEADING -->
       <v-row class="flex-column align-center justify-center">
         <h2 class="mb-4">Top month Sellers</h2>
